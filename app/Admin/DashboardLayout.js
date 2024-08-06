@@ -64,68 +64,68 @@ const DashboardLayout = ({ children }) => {
 
   const menu = [
     {
-      name: "Usuarios",
-      link: "/Admin/Usuarios",
+      name: "Garden",
+      link: "/Admin/Garden",
       icon: <Users className="w-6 h-6 text-white" />,
-      hidden: claims?.Rol?.includes("Admin") ? false : true,
+      // hidden: claims?.Rol?.includes("Admin") ? false : true,
     },
-    {
-      name: "Carrousel",
-      link: "/Admin/Carrousel",
-      icon: <GalleryHorizontal className="w-6 h-6 text-white" />,
-      hidden: claims?.Rol?.includes("Admin") ? false : true,
-    },
+    // {
+    //   name: "Carrousel",
+    //   link: "/Admin/Carrousel",
+    //   icon: <GalleryHorizontal className="w-6 h-6 text-white" />,
+    //    hidden: claims?.Rol?.includes("Admin") ? false : true,
+    // },
 
-    {
-      name: "Restaurantes",
-      link: "/Admin/Restaurantes",
-      icon: <Utensils className="w-6 h-6 text-white" />,
-      hidden: claims?.Rol?.includes("Admin") ? false : true,
-    },
-    {
-      name: "Categorias",
-      link: "/Admin/Categorias",
-      icon: <BrickWall className="w-6 h-6 text-white" />,
-      hidden: claims?.Rol?.includes("Admin") ? false : true,
-    },
-    {
-      name: "Productos",
-      link: "/Admin/Productos",
-      icon: <Beef className="w-6 h-6 text-white" />,
-      hidden: claims?.Rol?.includes("Admin") ? false : true,
-    },
-    {
-      name: "Reservas Pendientes",
-      link: `${
-        claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
-          ? `/Admin/Reservas/${claims?.IdRestaurante}`
-          : "/Admin/Reservas"
-      }`,
-      icon: <CalendarClock className="w-6 h-6 text-white" />,
-      Cant: true,
-    },
-    {
-      name: "Reservas para Hoy",
-      link: `${
-        claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
-          ? `/Admin/MesasHoy/${claims?.IdRestaurante}`
-          : "/Admin/MesasHoy"
-      }`,
-      icon: <CalendarCheck className="w-6 h-6 text-white" />,
-    },
-    ,
-    {
-      name: "Realizar Pago",
-      link: `/Admin/Checkout`,
+    // {
+    //   name: "Restaurantes",
+    //   link: "/Admin/Restaurantes",
+    //   icon: <Utensils className="w-6 h-6 text-white" />,
+    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
+    // },
+    // {
+    //   name: "Categorias",
+    //   link: "/Admin/Categorias",
+    //   icon: <BrickWall className="w-6 h-6 text-white" />,
+    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
+    // },
+    // {
+    //   name: "Productos",
+    //   link: "/Admin/Productos",
+    //   icon: <Beef className="w-6 h-6 text-white" />,
+    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
+    // },
+    // {
+    //   name: "Reservas Pendientes",
+    //   link: `${
+    //     claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
+    //       ? `/Admin/Reservas/${claims?.IdRestaurante}`
+    //       : "/Admin/Reservas"
+    //   }`,
+    //   icon: <CalendarClock className="w-6 h-6 text-white" />,
+    //   Cant: true,
+    // },
+    // {
+    //   name: "Reservas para Hoy",
+    //   link: `${
+    //     claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
+    //       ? `/Admin/MesasHoy/${claims?.IdRestaurante}`
+    //       : "/Admin/MesasHoy"
+    //   }`,
+    //   icon: <CalendarCheck className="w-6 h-6 text-white" />,
+    // },
+    // ,
+    // {
+    //   name: "Realizar Pago",
+    //   link: `/Admin/Checkout`,
 
-      icon: <CircleDollarSign className="w-6 h-6 text-white" />,
-    },
-    {
-      name: "Historial Compras",
-      link: `/Admin/HistorialCompras`,
+    //   icon: <CircleDollarSign className="w-6 h-6 text-white" />,
+    // },
+    // {
+    //   name: "Historial Compras",
+    //   link: `/Admin/HistorialCompras`,
 
-      icon: <HistoryIcon className="w-6 h-6 text-white" />,
-    },
+    //   icon: <HistoryIcon className="w-6 h-6 text-white" />,
+    // },
   ];
 
   menu.find((men) => {
@@ -137,7 +137,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <div>
       <div className="min-h-screen flex flex-col flex-auto flex-shrink-0 antialiased bg-gray-50  text-black ">
-        <div className="fixed flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-granjaSecondary h-full text-white transition-all duration-300 border-none z-10 sidebar">
+        <div className="fixed flex flex-col left-0 w-14 hover:w-64 md:w-64 bg-black  h-full text-white transition-all duration-300 border-none z-10 sidebar">
           <div className="overflow-y-auto overflow-x-hidden flex flex-col justify-between flex-grow">
             <ul className="flex flex-col py-4 space-y-1">
               <li>

@@ -18,50 +18,52 @@ const Footer = () => {
       <footer className="border-t   py-6 px-4 lg:px-0 bg-Tertiary text-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 justify-center gap-4 items-center sm:items-start">
           <div className=" lg:mx-auto  ">
-            <h1 className="font-semibold mb-2 text-xl">Páginas de interés </h1>
+            <h1 className="font-semibold mb-2 text-xl text-Secundario">
+              Páginas de interés{" "}
+            </h1>
             <hr className="mb-2" />
             <div className="space-y-2">
               <div className="flex space-x-2 items-center ">
                 <ul>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Nosotros"}>Preguntas frecuentes</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Nutricion"}>Dónde comprar</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Nutricion"}>
                       Nuestro compromiso con la sociedad
                     </Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Nutricion"}>Garantía de productos</Link>
                   </li>
-                  <li></li>
+                  <li className="hover:text-Secundario"></li>
                 </ul>
               </div>
             </div>
           </div>
           <div className=" lg:mx-auto  ">
-            <h1 className="font-semibold mb-2 text-xl uppercase">
+            <h1 className="font-semibold mb-2 text-xl uppercase text-Secundario">
               Sobre nosotros
             </h1>
             <hr className="mb-2" />
             <div className="space-y-2">
               <div className="flex space-x-2 items-center ">
                 <ul>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Delivery"}>Trabaja con nosotros</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Reservas"}>Contacto</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Reservas"}>
                       ¿Quieres colaborar con nosotros?
                     </Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Reservas"}>Aviso Legal</Link>
                   </li>
                 </ul>
@@ -77,20 +79,20 @@ const Footer = () => {
             <div className="space-y-2">
               <div className="flex space-x-2 items-center ">
                 <ul>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/Delivery"}>Términos y Condiciones</Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/PoliticasPrivacidad"}>
                       Políticas de privacidad
                     </Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/TerminosCondiciones"}>
                       Términos y Condiciones
                     </Link>
                   </li>
-                  <li>
+                  <li className="hover:text-Secundario">
                     <Link href={"/PromocionesComerciales"}>
                       Promociones Comerciales
                     </Link>
@@ -100,7 +102,7 @@ const Footer = () => {
             </div>
           </div> */}
           <div className=" lg:mx-auto  ">
-            <h1 className="font-semibold mb-2 text-xl uppercase">
+            <h1 className="font-semibold mb-2 text-xl uppercase text-Secundario">
               CONTÁCTANOS
             </h1>
             <hr className="mb-2" />
@@ -112,7 +114,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className=""
                 >
-                  <FacebookIcon className="text-white hover:text-[#ffd33a] w-8 h-8" />
+                  <FacebookIcon className="text-white hover:text-Secundario w-8 h-8" />
                 </a>
 
                 <a
@@ -120,7 +122,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <InstagramIcon className="text-white w-8 h-8 hover:text-[#ffd33a]" />
+                  <InstagramIcon className="text-white w-8 h-8 hover:text-Secundario" />
                 </a>
                 {/* s */}
 
@@ -129,7 +131,7 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <PhoneCallIcon className="text-white w-8 h-8 hover:text-[#ffd33a]" />
+                  <PhoneCallIcon className="text-white w-8 h-8 hover:text-Secundario" />
                 </a>
               </div>
             </div>
@@ -140,7 +142,7 @@ const Footer = () => {
               <hr className=" py-2 border-gray-300" />
               <div className="flex  flex-wrap items-center md:justify-between justify-center">
                 <div className="w-full  px-4 mx-auto text-center">
-                  <div className="text-sm font-semibold text-white ">
+                  <div className="text-sm font-semibold text-Secundario ">
                     Copyright ©{" "}
                     <span id="get-current-year">
                       {new Date().getFullYear()}

@@ -55,7 +55,7 @@ const Login = () => {
     });
   };
   return (
-    <main className="bg-white ">
+    <main className="bg-black  ">
       <div className="flex justify-center h-screen">
         <div
           className="hidden bg-cover lg:block lg:w-2/3"
@@ -78,11 +78,11 @@ const Login = () => {
           </div>
         </div>
         <div className="flex items-center w-full max-w-md px-6 mx-auto lg:w-2/6">
-          <div className="flex-1  ">
+          <div className="flex-1 text-white ">
             <div className="text-center">
-              {/* <span className=" my-2 md:w-full md:h-full md:flex md:justify-center  md:mx-auto mr-2 rounded-md overflow-hidden">
+              <figure className=" my-2 md:w-full md:h-full md:flex md:justify-center  md:mx-auto mr-2 rounded-md overflow-hidden">
                 <Image
-                  src={`/Logo.webp`}
+                  src={`/LogoNego.svg`}
                   width={250}
                   height={250}
                   alt="Inicio"
@@ -91,21 +91,16 @@ const Login = () => {
                     objectFit: "cover",
                   }}
                 />
-              </span> */}
-              {/* <h2 className="text-3xñ sm:text-4xl font-bold text-center text-gray-900 ">
-                ¡ Bienvenido !
-              </h2> */}
-              <p className="mt-3 text-gray-700 ">
-                Inicia sesión para acceder a tu cuenta{" "}
-              </p>
+              </figure>
+              <h2 className="text-3xñ sm:text-4xl font-bold text-center  ">
+                ¡ Bienvenido(a) !
+              </h2>
+              <p className="mt-3 ">Inicia sesión para acceder a tu cuenta </p>
             </div>
             <div className="mt-4">
               <form onSubmit={onSubmit}>
                 <div>
-                  <label
-                    htmlFor="Correo"
-                    className="block mb-2 text-sm text-gray-700 "
-                  >
+                  <label htmlFor="Correo" className="block mb-2 text-sm ">
                     Correo
                   </label>
                   <input
@@ -115,7 +110,7 @@ const Login = () => {
                     name="Usuario"
                     id="Correo"
                     placeholder="example@example.com"
-                    className="block w-full px-4 py-2 mt-2 text-gray-900 placeholder-gray-400 bg-white border border-gray-200 rounded-md   focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                    className="block w-full px-4 py-2 mt-2 placeholder-gray-400 bg-white border border-gray-200 rounded-md   focus:border-blue-400  focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     autoFocus
                     required
                   />
@@ -123,10 +118,7 @@ const Login = () => {
 
                 <div className="mt-6">
                   <div className="flex justify-between mb-2">
-                    <label
-                      htmlFor="Password"
-                      className="text-sm text-gray-700 "
-                    >
+                    <label htmlFor="Password" className="text-sm  ">
                       Contraseña
                     </label>
                     {/* <a
@@ -152,7 +144,7 @@ const Login = () => {
                 <div className="mt-8">
                   <Button
                     type="submit"
-                    className=" bg-[#7d2d04] w-full hover:opacity-90"
+                    className=" bg-Secundario w-full hover:bg-white text-black hover:text-black"
                   >
                     Ingresar{" "}
                   </Button>

@@ -14,7 +14,7 @@ const Main = ({ children }) => {
         <main>
           <MenuPrincipal />
           {children}
-          {/* <Footer /> */}
+          <Footer />
         </main>
       )}
     </>
