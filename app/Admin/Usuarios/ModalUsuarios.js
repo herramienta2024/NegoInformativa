@@ -24,7 +24,6 @@ const ModalUsuarios = ({ OpenModal, setOpenModal }) => {
   const [InputValues, setInputValues] = useState({});
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const [Restaurantes, setRestaurantes] = useState([]);
 
   const Roles = [
     {
@@ -32,13 +31,8 @@ const ModalUsuarios = ({ OpenModal, setOpenModal }) => {
       label: "Admin",
     },
     {
-      value: "Mostrador",
-      label: "Mostrador",
-    },
-
-    {
-      value: "Cliente",
-      label: "Cliente",
+      value: "Editor",
+      label: "Editor",
     },
   ];
 
@@ -118,23 +112,6 @@ const ModalUsuarios = ({ OpenModal, setOpenModal }) => {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    onSnapshot(
-      collection(db, `Restaurantes`),
-      // orderBy("email", "asc"),
-      (snapshot) =>
-        setRestaurantes(
-          snapshot?.docs?.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }))
-        )
-    );
-  }, []);
-
-  console.log(OpenModal);
-
   return (
     <Dialog open={OpenModal?.Visible} onOpenChange={closeModal}>
       <DialogContent className="h-auto  w-[90%] md:w-full max-h-[95vh] overflow-auto   sm:max-w-4xl">
@@ -170,7 +147,8 @@ const ModalUsuarios = ({ OpenModal, setOpenModal }) => {
                 Rol <span className="text-red-600"> (*)</span>
               </Label>
               <Select
-                value={OpenModal?.InfoEditar?.Rol}
+                defaultValue={OpenModal?.InfoEditar?.Rol}
+                value={InputValues.Rol}
                 required
                 onValueChange={(e) => {
                   setInputValues({
@@ -191,38 +169,7 @@ const ModalUsuarios = ({ OpenModal, setOpenModal }) => {
                 </SelectContent>
               </Select>
             </div>
-            {(InputValues?.Rol == "Mostrador" ||
-              OpenModal?.InfoEditar?.Rol == "Mostrador") && (
-              <div className="space-y-2">
-                <Label htmlFor="Restaurante" className="">
-                  Restaurante <span className="text-red-600"> (*)</span>
-                </Label>
-                <Select
-                  value={
-                    InputValues?.IdRestaurante ||
-                    OpenModal?.InfoEditar?.IdRestaurante
-                  }
-                  required
-                  onValueChange={(e) => {
-                    setInputValues({
-                      ...InputValues,
-                      IdRestaurante: e,
-                    });
-                  }}
-                >
-                  <SelectTrigger className="">
-                    <SelectValue placeholder="Define restaurante del Usuario" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Restaurantes?.map((restaurante) => (
-                      <SelectItem key={restaurante.id} value={restaurante.id}>
-                        {restaurante.NombreLocal}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            )}
+
             <div className="space-y-2">
               <Label htmlFor="Correo" className="">
                 Correo <span className="text-red-600"> (*)</span>

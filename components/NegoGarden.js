@@ -160,7 +160,7 @@ const ListItem = forwardRef(
                   <Link
                     className=" py-1  select-none space-y-1 rounded-md  leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground w-full h-full"
                     key={prod.id}
-                    href={`/Producto/${prod.id}?CategoriaId=${Categoria?.id}&ProductoNombre=${prod?.NombreProducto}&CategoriaName=${Categoria?.NombreCategoria}`}
+                    href={`/Producto/${prod.id}?CategoriaId=${Categoria?.id}&ProductoNombre=${prod?.NombreProducto}&CategoriaName=${Categoria?.NombreCategoria}&Empresa=Nego Garden&LinkEmpresa=/Garden`}
                   >
                     <div className="w-full h-full ">{prod?.NombreProducto}</div>
                   </Link>

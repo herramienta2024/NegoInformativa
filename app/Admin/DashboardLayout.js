@@ -6,6 +6,7 @@ import { auth, db } from "@/firebase/firebaseClient";
 import Link from "next/link";
 import {
   Beef,
+  Bold,
   BrickWall,
   CalendarCheck,
   CalendarClock,
@@ -20,42 +21,11 @@ import {
 import { signOut } from "firebase/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 const DashboardLayout = ({ children }) => {
   const [{ user, claims }, loading, error] = useAuthState(auth);
-  const [CantReservas, setCantReservas] = useState(null);
   const pathname = usePathname();
   const router = useRouter();
-
-  useEffect(() => {
-    let qTotalReservas;
-
-    if (claims?.IdRestaurante) {
-      // Consulta para obtener todas las reservas del restaurante especificado en los claims
-      qTotalReservas = query(
-        collection(db, "Reservas"),
-        where("Restaurante", "==", claims.IdRestaurante),
-        where("Estado", "==", "Pendiente")
-      );
-    } else {
-      // Consulta para obtener todas las reservas pendientes sin filtrar por restaurante
-      qTotalReservas = query(
-        collection(db, "Reservas"),
-        where("Estado", "==", "Pendiente")
-      );
-    }
-
-    // Suscripción para las reservas pendientes
-    const unsubscribeTotal = onSnapshot(qTotalReservas, (snapshot) => {
-      setCantReservas(snapshot.size); // Actualizar la cantidad de reservas pendientes
-    });
-
-    // Limpiar las suscripciones al desmontar el componente
-    return () => {
-      unsubscribeTotal();
-    };
-  }, [claims?.IdRestaurante]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>error</p>;
@@ -64,9 +34,15 @@ const DashboardLayout = ({ children }) => {
 
   const menu = [
     {
+      name: "Usuarios",
+      link: "/Admin/Usuarios",
+      icon: <Users className="w-6 h-6 text-white" />,
+      hidden: claims?.Rol?.includes("Admin") ? false : true,
+    },
+    {
       name: "Garden",
       link: "/Admin/Garden",
-      icon: <Users className="w-6 h-6 text-white" />,
+      icon: <Bold className="w-6 h-6 text-white" />,
       // hidden: claims?.Rol?.includes("Admin") ? false : true,
     },
     // {

@@ -193,7 +193,8 @@ export async function PUT(req) {
       uid,
       Habilitar,
       Inhabilitar,
-      IdRestaurante,
+
+      Rol,
     } = await req?.json();
 
     let InfoEditar = {};
@@ -204,8 +205,11 @@ export async function PUT(req) {
       InfoEditar.disabled = true;
     }
 
-    if (IdRestaurante) {
-      InfoEditar.IdRestaurante = IdRestaurante;
+    if (Rol) {
+      InfoEditar.Rol = Rol;
+      await AuthAdmin.setCustomUserClaims(uid, {
+        Rol,
+      });
     }
 
     if (NombreCompleto) {

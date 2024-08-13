@@ -11,14 +11,7 @@ import { Label } from "@/components/ui/label";
 
 import { useToast } from "@/components/ui/use-toast";
 import React, { useState } from "react";
-import FileUploader from "../FileUploader";
-import {
-  deleteObject,
-  getDownloadURL,
-  listAll,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+
 import {
   addDoc,
   collection,
@@ -26,7 +19,10 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db, storage } from "@/firebase/firebaseClient";
+import { db } from "@/firebase/firebaseClient";
+import FileUploader from "@/app/FileUploader";
+import uploadImages from "@/lib/UploadImagenes";
+import DeleteImagenes from "@/lib/DeleteImagenes";
 
 const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
   const [InputValues, setInputValues] = useState({});
@@ -52,7 +48,6 @@ const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
   const HandlerSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
     try {
       if (Object.keys(OpenModalCategoria?.InfoEditar).length > 0) {
         if (Object.keys(InputValues).length > 0) {
@@ -61,18 +56,64 @@ const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
             "Categorias",
             `${OpenModalCategoria?.InfoEditar?.id}`
           );
-
           // Set the "capital" field of the city 'DC'
 
-          if (Object.keys(InputValues).length > 0) {
-            await updateDoc(UpdateRef, {
-              ...InputValues,
-            });
-          }
+          await updateDoc(UpdateRef, {
+            ...InputValues,
+          });
         }
+        if (files?.length > 0) {
+          const NombreArchivo =
+            OpenModalCategoria?.InfoEditar?.NombreCategoria?.replace(
+              /\s+/g,
+              "_"
+            ) || "";
+          const NombreNuevo =
+            InputValues?.NombreCategoria?.replace(/\s+/g, "_") || NombreArchivo;
+
+          await DeleteImagenes(NombreArchivo, "Categorias");
+
+          const ImagesUrl = await uploadImages(
+            files,
+            NombreNuevo,
+            "Categorias"
+          );
+
+          const UpdateRef = doc(
+            db,
+            "Categorias",
+            `${OpenModalCategoria?.InfoEditar?.id}`
+          );
+          await updateDoc(UpdateRef, {
+            Imagenes: ImagesUrl || [],
+          });
+        }
+
+        closeOpenModalCategoria();
+
+        return;
       } else {
+        if (!files?.length > 0) {
+          toast({
+            title: "Alerta",
+            description: "Por favor seleccione una imágen para la categoria",
+          });
+        }
+
+        const NombreCarpeta = InputValues?.NombreCategoria?.replace(
+          /\s+/g,
+          "_"
+        );
+
+        const ImagesUrl = await uploadImages(
+          files,
+          NombreCarpeta,
+          "Categorias"
+        ); // Asegúrate de que la promesa se haya resuelto
+
         const docRef = await addDoc(collection(db, "Categorias"), {
           ...InputValues,
+          Imagenes: ImagesUrl,
           createdAt: serverTimestamp(),
         });
       }
@@ -120,6 +161,17 @@ const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
                 autoComplete="off"
                 autoFocus
                 type="text"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="Imagenes">
+                Imagen Principal <span className="text-red-600"> (*)</span>
+              </Label>
+              <FileUploader
+                setFiles={setFiles}
+                files={files}
+                Modal={OpenModalCategoria}
               />
             </div>
           </div>

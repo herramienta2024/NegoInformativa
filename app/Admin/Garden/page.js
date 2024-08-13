@@ -21,6 +21,7 @@ import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebaseClient";
 import ModalProducto from "./ModalProducto";
 import Image from "next/image";
+import DeleteImagenes from "@/lib/DeleteImagenes";
 
 const Garden = () => {
   const [Categorias, setCategorias] = useState([]);
@@ -109,8 +110,8 @@ const Garden = () => {
             <CardTitle>Bienvenido al módulo de Garden</CardTitle>
 
             <CardDescription>
-              En esta sección, puedes ver y modificar las Categorias y Productos
-              .
+              En esta sección, puedes ver y modificar las Categorias y
+              Productos.
             </CardDescription>
             <div className="flex gap-x-4">
               <Button
@@ -233,6 +234,7 @@ const Garden = () => {
                             `Esta Seguro de eliminar esta Categoria: ${Categoria.NombreCategoria}`
                           );
                           if (Confirm) {
+                            await DeleteImagenes("");
                             await deleteDoc(
                               doc(db, "Categorias", `${Categoria.id}`)
                             );
@@ -343,42 +345,15 @@ const Garden = () => {
                               `Esta Seguro de eliminar el producto: ${producto.NombreProducto}`
                             );
                             if (Confirm) {
-                              const ImgRef = ref(
-                                storage,
-                                `Productos/${producto?.NombreProducto?.replace(
-                                  /\s+/g,
-                                  "_"
-                                )}/`
-                              );
+                              // DeleteImagenes(
+                              //   producto.Imagenes,
+                              //   producto,
+                              //   "Productos"
+                              // );
 
                               await deleteDoc(
-                                doc(db, "Productos", `${producto.id}`)
+                                doc(db, "Categorias", `${Categoria.id}`)
                               );
-
-                              // Lista todos los objetos (archivos) en el directorio
-                              listAll(ImgRef)
-                                .then((res) => {
-                                  res.items.forEach((itemRef) => {
-                                    // Ahora debes borrar cada objeto (archivo)
-                                    deleteObject(itemRef).catch((error) => {
-                                      // Maneja cualquier error
-                                      alert(
-                                        ` Error al eliminar ${itemRef.fullPath}`
-                                      );
-                                      console.log(
-                                        `Error al eliminar ${itemRef.fullPath}`,
-                                        error
-                                      );
-                                    });
-                                  });
-                                })
-                                .catch((error) => {
-                                  // Maneja cualquier error
-                                  console.error(
-                                    "Error al listar los objetos",
-                                    error
-                                  );
-                                });
                             }
                           }}
                           className="bg-red-500 space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:bg-red-600"

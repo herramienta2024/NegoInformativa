@@ -98,7 +98,7 @@ const Login = () => {
               <p className="mt-3 ">Inicia sesión para acceder a tu cuenta </p>
             </div>
             <div className="mt-4">
-              <form onSubmit={onSubmit}>
+              <form onSubmit={onSubmit} className="text-black">
                 <div>
                   <label htmlFor="Correo" className="block mb-2 text-sm ">
                     Correo
