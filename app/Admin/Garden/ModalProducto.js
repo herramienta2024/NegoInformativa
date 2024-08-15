@@ -98,7 +98,7 @@ const ModalProducto = ({
     return {
       url,
       Nombre: variante?.Nombre,
-      key: variante?.id,
+      key: variante?.id || 0,
     };
   };
 
@@ -106,12 +106,18 @@ const ModalProducto = ({
     e.preventDefault();
     setLoading(true);
 
+    debugger;
+
     try {
       if (Object.keys(OpenModalProducto?.InfoEditar).length > 0) {
         const UpdateRef = doc(
           db,
           "Productos",
           `${OpenModalProducto?.InfoEditar?.id}`
+        );
+        console.log(
+          "OpenModalProducto?.InfoEditar?.id",
+          OpenModalProducto?.InfoEditar?.id
         );
 
         // Eliminar de inputValues "TextoOpcion" para no enviarlo a la base de datos , input values es un objeto
@@ -150,13 +156,15 @@ const ModalProducto = ({
                 FilesUpload.push(ImagesUrl);
               }
             } else {
+              console.log("Variante aaa", variante);
+
               FilesUpload.push({
                 ...variante,
               });
             }
           }
 
-          console.log("FilesUpload", FilesUpload);
+          console.log("Ant", FilesUpload);
 
           await updateDoc(UpdateRef, {
             Variantes: FilesUpload || [],
@@ -205,11 +213,10 @@ const ModalProducto = ({
           const docRef = await addDoc(collection(db, "Productos"), {
             ...InputValues,
             Variantes: FilesUpload || InputValues?.Variantes || [],
+            Empresa: "Garden",
           });
 
           closeOpenModalProducto();
-
-          debugger;
         }
       }
     } catch (err) {

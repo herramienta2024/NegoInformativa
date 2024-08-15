@@ -27,8 +27,6 @@ export function NegoGarden() {
   const [productos, setProductos] = useState([]);
   const [data, setData] = useState([]);
 
-  console.log("data", data);
-
   useEffect(() => {
     const unsubscribeCategorias = onSnapshot(
       collection(db, "Categorias"),
@@ -84,11 +82,11 @@ export function NegoGarden() {
             </div>
           </NavigationMenuTrigger>
           <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[650px] lg:grid-cols-[.75fr_1fr_1fr] ">
+            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-auto lg:min-w-[400px] lg:max-w-[650px]  lg:grid-cols-[.75fr_1fr_1fr] ">
               <li className="row-span-3">
                 <NavigationMenuLink asChild>
                   <Link
-                    className="flex h-full w-full select-none flex-col justify-center items-center rounded-md bg-[#F26B37] p-6 no-underline outline-none focus:shadow-md"
+                    className="flex h-full w-full select-none flex-col justify-center items-center rounded-md bg-[#F26B37] p-6 no-underline outline-none focus:shadow-md min-w-[160px] min-h-[118px]"
                     href="/Garden"
                     title="Ir a inicio"
                   >
@@ -160,7 +158,7 @@ const ListItem = forwardRef(
                   <Link
                     className=" py-1  select-none space-y-1 rounded-md  leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground w-full h-full"
                     key={prod.id}
-                    href={`/Producto/${prod.id}?CategoriaId=${Categoria?.id}&ProductoNombre=${prod?.NombreProducto}&CategoriaName=${Categoria?.NombreCategoria}&Empresa=Nego Garden&LinkEmpresa=/Garden`}
+                    href={`/Producto/${prod.id}?CategoriaId=${Categoria?.id}&ProductoNombre=${prod?.NombreProducto}&CategoriaName=${Categoria?.NombreCategoria}&Empresa=Nego Garden&LinkEmpresa=/Garden&ColorEmpresa=Garden`}
                   >
                     <div className="w-full h-full ">{prod?.NombreProducto}</div>
                   </Link>

@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
+        Garden: "#f26b37",
         Primario: "#111214",
         Secundario: "#FFCC29",
         Tertiary: "#000",
