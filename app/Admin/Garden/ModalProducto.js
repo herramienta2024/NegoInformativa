@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 
 import { useToast } from "@/components/ui/use-toast";
 import React, { useState } from "react";
-import FileUploader from "../FileUploader";
 import {
   deleteObject,
   getDownloadURL,
@@ -39,6 +38,7 @@ import dynamic from "next/dynamic";
 import { formats, modules } from "@/lib/QuillConfig";
 
 import "react-quill/dist/quill.snow.css";
+import FileUploaderProductos from "./FileUploaderProductos";
 
 const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -52,10 +52,12 @@ const ModalProducto = ({
 }) => {
   const [InputValues, setInputValues] = useState({
     Variantes: OpenModalProducto?.InfoEditar?.Variantes || [],
+    TextoOpcion: "",
   });
+
   console.log("InputValue", InputValues);
 
-  const [files, setFiles] = useState([]);
+  console.log("OpenModal", OpenModalProducto);
 
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -73,99 +75,142 @@ const ModalProducto = ({
       [e.target.name]: e.target.value,
     });
   };
+  const uploadImages = async (images, NombreCarpeta, variante) => {
+    // Seleccionamos solo la primera imagen de la lista
+    const image = images;
 
-  const uploadImages = async (images, name) => {
-    const urlLinks = await Promise.all(
-      images.map(async (image, index) => {
-        const imageRef = ref(storage, `Productos/${name}/image-${index}.jpg`);
-        await uploadBytes(imageRef, image);
-        const url = await getDownloadURL(imageRef);
-        return url;
-      })
+    if (!image) {
+      return [{}]; // Si no hay imagen, retornamos un array vacío
+    }
+
+    const imageRef = ref(
+      storage,
+      `Productos/${NombreCarpeta}/${variante?.Nombre?.replace(
+        /\s+/g,
+        "_"
+      )}/image.jpg`
     );
-    return urlLinks;
+
+    await uploadBytes(imageRef, image);
+    const url = await getDownloadURL(imageRef);
+
+    // Retornamos un array con un solo objeto que contiene la URL y la información de la variante
+    return {
+      url,
+      Nombre: variante?.Nombre,
+      key: variante?.id,
+    };
   };
+
   const HandlerSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       if (Object.keys(OpenModalProducto?.InfoEditar).length > 0) {
-        if (Object.keys(InputValues).length > 0) {
-          const UpdateRef = doc(
-            db,
-            "Productos",
-            `${OpenModalProducto?.InfoEditar?.id}`
-          );
+        const UpdateRef = doc(
+          db,
+          "Productos",
+          `${OpenModalProducto?.InfoEditar?.id}`
+        );
 
-          // Set the "capital" field of the city 'DC'
+        // Eliminar de inputValues "TextoOpcion" para no enviarlo a la base de datos , input values es un objeto
+
+        if (Object.keys(InputValues).length > 2) {
           await updateDoc(UpdateRef, {
             ...InputValues,
           });
         }
-        if (files?.length > 0) {
-          // Borrar las imágenes antiguas
-          const ImgRef = ref(
-            storage,
-            `Productos/${OpenModalProducto?.InfoEditar?.NombreProducto?.replace(
-              /\s+/g,
-              "_"
-            )}/`
-          );
-          listAll(ImgRef)
-            .then((res) => {
-              res.items.forEach((itemRef) => {
-                // Ahora debes borrar cada objeto (archivo)
-                deleteObject(itemRef).catch((error) => {
-                  // Maneja cualquier error
-                  alert(` Error al eliminar ${itemRef.fullPath}`);
-                  console.log(`Error al eliminar ${itemRef.fullPath}`, error);
-                });
+
+        if (InputValues?.Variantes?.length > 0) {
+          let FilesUpload = [];
+
+          for (const variante of InputValues?.Variantes) {
+            if (variante?.Imagenes?.length > 0) {
+              const ImagenesSubi = variante?.Imagenes?.find(
+                (image) => image instanceof File
+              );
+
+              if (ImagenesSubi) {
+                const NombreCarpeta =
+                  InputValues?.NombreProducto?.replace(/\s+/g, "_") ||
+                  OpenModalProducto?.InfoEditar?.NombreProducto?.replace(
+                    /\s+/g,
+                    "_"
+                  );
+
+                const ImagesUrl = await uploadImages(
+                  ImagenesSubi,
+                  NombreCarpeta,
+                  variante
+                );
+
+                console.log("ImagesUrl", ImagesUrl);
+
+                FilesUpload.push(ImagesUrl);
+              }
+            } else {
+              FilesUpload.push({
+                ...variante,
               });
-            })
-            .catch((error) => {
-              // Maneja cualquier error
-              console.error("Error al listar los objetos", error);
-            });
+            }
+          }
 
-          const NombreCarpeta =
-            InputValues?.NombreProducto?.replace(/\s+/g, "_") ||
-            OpenModalProducto?.InfoEditar?.NombreProducto?.replace(/\s+/g, "_");
+          console.log("FilesUpload", FilesUpload);
 
-          // toca modificar la funcion y enviarle el values para que funcione mejor
-          const ImagesUrl = await uploadImages(files, NombreCarpeta);
-
-          const UpdateRef = doc(
-            db,
-            "Productos",
-            `${OpenModalProducto?.InfoEditar?.id}`
-          );
           await updateDoc(UpdateRef, {
-            Imagenes: ImagesUrl,
+            Variantes: FilesUpload || [],
           });
         }
+
         closeOpenModalProducto();
+        return;
       } else {
-        // if (!files?.length > 0) {
-        //   toast({
-        //     title: "Alerta",
-        //     description: "Por favor seleccione una imágen para el restaurante",
-        //   });
+        if (Object.keys(InputValues).length > 2) {
+          let FilesUpload = [];
+          if (InputValues?.Variantes?.length > 0) {
+            for (const variante of InputValues?.Variantes) {
+              if (variante?.Imagenes?.length > 0) {
+                const ImagenesSubi = variante?.Imagenes?.find(
+                  (image) => image instanceof File
+                );
 
-        //   return;
-        // }
+                if (ImagenesSubi) {
+                  const NombreCarpeta =
+                    InputValues?.NombreProducto?.replace(/\s+/g, "_") ||
+                    OpenModalProducto?.InfoEditar?.NombreProducto?.replace(
+                      /\s+/g,
+                      "_"
+                    );
 
-        const NombreCarpeta = InputValues?.NombreProducto?.replace(/\s+/g, "_");
+                  const ImagesUrl = await uploadImages(
+                    ImagenesSubi,
+                    NombreCarpeta,
+                    variante
+                  );
 
-        const ImagesUrl = await uploadImages(files, NombreCarpeta); // Asegúrate de que la promesa se haya resuelto
+                  console.log("ImagesUrl", ImagesUrl);
 
-        const docRef = await addDoc(collection(db, "Productos"), {
-          ...InputValues,
-          Imagenes: ImagesUrl || [], // Ahora ImagesUrl es una matriz de cadenas de texto
-          createdAt: serverTimestamp(),
-        });
+                  FilesUpload.push(ImagesUrl);
+                }
+              } else {
+                FilesUpload.push({
+                  ...variante,
+                });
+              }
+            }
+          }
 
-        closeOpenModalProducto();
+          // Add a new document with a generated id.
+          const docRef = await addDoc(collection(db, "Productos"), {
+            ...InputValues,
+            Variantes: FilesUpload || InputValues?.Variantes || [],
+          });
+
+          closeOpenModalProducto();
+
+          debugger;
+        }
       }
     } catch (err) {
       console.error("Error:", err);
@@ -295,8 +340,11 @@ const ModalProducto = ({
                       setInputValues({
                         ...InputValues,
                         Variantes: [
-                          ...(InputValues?.Variantes || []),
-                          InputValues?.TextoOpcion,
+                          ...InputValues?.Variantes,
+                          {
+                            id: InputValues?.Variantes.length + 1,
+                            Nombre: InputValues?.TextoOpcion,
+                          },
                         ],
                         TextoOpcion: "",
                       });
@@ -328,40 +376,51 @@ const ModalProducto = ({
                 <ul className="grid lg:grid-cols-2 gap-3">
                   {InputValues?.Variantes?.map((opcion, key) => (
                     <li key={key} className="p-2 rounded-lg">
-                      <div className="flex align-middle flex-row justify-between">
+                      <div className="flex flex-col align-middle justify-between border border-gray-300  rounded-md">
                         <div className="p-2">
-                          <p className="text-lg text-black">{opcion}</p>
+                          <p className="text-lg text-black capitalize">
+                            {opcion?.Nombre || ""}
+                          </p>
+                          <div className="pt-2">
+                            <FileUploaderProductos
+                              setInputValues={setInputValues}
+                              index={key}
+                              InputValues={InputValues}
+                              opcion={opcion}
+                            />
+                          </div>
                         </div>
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setInputValues({
-                              ...InputValues,
-                              Variantes: InputValues?.Variantes.filter(
-                                (item, index) => index !== key
-                              ),
-                            });
-                          }}
-                          className="flex text-red-500 border-2 border-red-500 p-2 rounded-lg"
-                        >
-                          <svg
-                            className="h-6 w-6 text-red-500"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth={2}
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
+                        <div className="flex justify-center items-center gap-x-2 pb-2">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setInputValues({
+                                ...InputValues,
+                                Variantes: InputValues?.Variantes.filter(
+                                  (item, index) => index !== key
+                                ),
+                              });
+                            }}
+                            className="flex text-red-500 border-2 border-red-500 p-2 rounded-lg"
                           >
-                            {" "}
-                            <circle cx={12} cy={12} r={10} />{" "}
-                            <line x1={15} y1={9} x2={9} y2={15} />{" "}
-                            <line x1={9} y1={9} x2={15} y2={15} />
-                          </svg>
-                          <span>Remove</span>
-                        </button>
+                            <svg
+                              className="h-6 w-6 text-red-500"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth={2}
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              {" "}
+                              <circle cx={12} cy={12} r={10} />{" "}
+                              <line x1={15} y1={9} x2={9} y2={15} />{" "}
+                              <line x1={9} y1={9} x2={15} y2={15} />
+                            </svg>
+                            <span>Eliminar Variante</span>
+                          </button>
+                        </div>
                       </div>
-                      <hr className="mt-2" />
                     </li>
                   ))}
                 </ul>

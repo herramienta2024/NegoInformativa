@@ -14,34 +14,34 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
   return (
     <>
       <div className="p-3 lg:p-5 flex flex-col lg:flex-row w-full">
-        <div className="hidden lg:inline space-y-4">
-          {product?.images?.map((image, i) => (
+        {/* <div className="hidden lg:inline space-y-4">
+          {product?.Variantes?.map((image, i) => (
             <Image
-              key={image}
-              src={image}
+              key={image.key}
+              src={image.url}
               alt={product.title}
               width={90}
               height={90}
               className="border rounded-sm"
             />
           ))}
-        </div>
+        </div> */}
 
         <Carousel
           opts={{
             loop: true,
           }}
-          className="w-3/5 mb-10 lg:mb-0 lg:w-full self-start flex items-center max-w-xl mx-auto lg:mx-20
+          className="w-2/4 mb-10 lg:mb-0 lg:w-full self-start flex items-center max-w-xl mx-auto lg:mx-20
         "
         >
           <CarouselContent>
-            {product?.images?.map((image, i) => (
+            {product?.Variantes?.map((image, i) => (
               <CarouselItem key={i}>
                 <div className="p-1">
                   <div className="flex aspect-square items-center justify-center p-2 relative">
                     <Image
-                      key={image}
-                      src={image}
+                      key={image?.key}
+                      src={image?.url}
                       alt={product.title}
                       width={400}
                       height={400}
@@ -55,17 +55,41 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
           <CarouselPrevious />
           <CarouselNext />
         </Carousel>
-        <div className="flex-1 border rounded-md w-full p-5  ">
+        <div className="flex-1 border rounded-md w-full p-5  space-y-2 ">
           <h1 className="font-semibold">
             {product?.NombreProducto || "Title Producto"}
           </h1>
-          <div className=" space-x-2 uppercase">
+          <div className=" space-x-2 capitalize">
             <Badge variant="outline">
               {Empresa || "Empresa no disponible"}
             </Badge>
             <Badge variant="outline">
               {CategoriaName || "Categoria no disponible"}
             </Badge>
+          </div>
+
+          <div className="space-y-2 ">
+            <h1 className="font-semibold text-xl">Variantes</h1>
+            <div className="grid grid-cols-2 gap-4  ">
+              {product?.Variantes?.map((image, i) => (
+                <div
+                  key={i}
+                  className="w-full h-full p-2 cursor-pointer border rounded-md hover:shadow-md hover:scale-105"
+                >
+                  <h1 className="capitalize">{image?.Nombre || ""}</h1>
+                  <Image
+                    src={image.url}
+                    alt={product.title}
+                    width={100}
+                    height={100}
+                    className="border rounded-sm"
+                    style={{
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           <div
             dangerouslySetInnerHTML={{

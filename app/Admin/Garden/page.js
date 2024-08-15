@@ -27,6 +27,8 @@ const Garden = () => {
   const [Categorias, setCategorias] = useState([]);
   const [Productos, setProductos] = useState([]);
 
+  console.log("Productos", Productos);
+
   const [OpenModalCategoria, setOpenModalCategoria] = useState({
     Visible: false,
     InfoEditar: {},
@@ -273,12 +275,12 @@ const Garden = () => {
                     }  border-gray-200 rounded-lg`}
                   >
                     <div className="">
-                      {producto?.Imagenes?.length > 0 && (
+                      {producto?.Variantes?.length > 0 && (
                         <section className="relative w-full h-[200px]">
                           <Image
                             className="rounded-t-lg "
                             fill
-                            src={producto?.Imagenes[0] || ""}
+                            src={producto?.Variantes[0].url || ""}
                             alt="imageCategoria"
                             style={{
                               objectFit: "cover",
@@ -337,22 +339,21 @@ const Garden = () => {
                         </button>
 
                         <button
-                          title="Eliminar producto"
+                          title={`Eliminar Producto ${producto?.NombreProducto}`}
                           onClick={async (e) => {
                             e.preventDefault();
 
                             const Confirm = confirm(
-                              `Esta Seguro de eliminar el producto: ${producto.NombreProducto}`
+                              `Esta Seguro de eliminar el producto: ${producto?.NombreProducto}`
                             );
                             if (Confirm) {
-                              // DeleteImagenes(
-                              //   producto.Imagenes,
-                              //   producto,
-                              //   "Productos"
-                              // );
+                              await DeleteImagenes(
+                                producto?.NombreProducto?.replace(/\s+/g, "_"),
+                                "Productos"
+                              );
 
                               await deleteDoc(
-                                doc(db, "Categorias", `${Categoria.id}`)
+                                doc(db, "Productos", `${producto?.id}`)
                               );
                             }
                           }}
