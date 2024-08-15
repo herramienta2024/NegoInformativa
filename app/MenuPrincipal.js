@@ -75,7 +75,7 @@ const MenuPrincipal = () => {
         </div>
         <div className="flex flex-col  pl-14  ">
           <div
-            className={` text-center  flex flex-col h-screen md:h-auto  md:flex md:flex-row  md:items-center md:justify-start  z-[-1] md:z-auto md:static gap-2 absolute text-white bg-gray-500    md:bg-transparent  w-full left-0 top-full md:w-auto md:py-0  md:pl-0 pl-7 md:opacity-100 opacity-0 right-[-400px] transition-all ease-in   ${
+            className={` text-center  flex flex-col h-screen md:h-auto  md:flex md:flex-row  md:items-center md:justify-start  z-[-1] md:z-auto md:static gap-2 absolute text-white bg-black    md:bg-transparent  w-full left-0 top-full md:w-auto md:py-0  md:pl-0 pl-7 md:opacity-100 opacity-0 right-[-400px] transition-all ease-in   ${
               isOpen ? ` right-0 py-11 opacity-100` : `hidden`
             }`}
           >
@@ -87,12 +87,27 @@ const MenuPrincipal = () => {
             >
               Inicio
             </ItemMenu>
-            <NegoGarden />
+
+            <div className="block lg:hidden">
+              <ItemMenu
+                ruta="/Garden"
+                setIsOpen={setIsOpen}
+                border={pathname == "/Garden" ? true : false}
+              >
+                Garden
+              </ItemMenu>
+            </div>
+
+            <div className="hidden lg:block">
+              <NegoGarden />
+            </div>
           </div>
         </div>
         <div className="hidden lg:flex justify-center items-center gap-x-4">
           <Link href="/QuienesSomos">
-            <Button className="bg-Secundario uppercase text-black hover:bg-white">
+            <Button
+              className={`bg-Secundario uppercase text-black hover:bg-white`}
+            >
               Quienes somos
             </Button>
           </Link>
