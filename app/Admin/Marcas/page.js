@@ -103,7 +103,7 @@ const Marcas = () => {
                           src={Marca?.Imagenes[0] || ""}
                           alt="imageMarca"
                           style={{
-                            objectFit: "cover",
+                            objectFit: "contain",
                           }}
                         />
                       </section>

@@ -299,7 +299,7 @@ const MarcaProductos = ({ params: { id } }) => {
                           src={producto?.Variantes[0].url || ""}
                           alt="imageCategoria"
                           style={{
-                            objectFit: "cover",
+                            objectFit: "contain",
                           }}
                         />
                       </section>
