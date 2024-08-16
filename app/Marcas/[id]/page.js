@@ -14,7 +14,7 @@ import { notFound } from "next/navigation";
 
 export const revalidate = 3600; // revalidate at most every hour
 
-const Marcas = async ({ params: { id } }) => {
+const MarcaId = async ({ params: { id } }) => {
   if (!id) {
     return notFound();
   }
@@ -28,14 +28,14 @@ const Marcas = async ({ params: { id } }) => {
   return (
     <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50 w-full h-full">
       <TitleSection
-        title={`${marcaNombre}`}
+        title={`${marca?.NombreMarca || "hola"}`}
         image="/Banners/Bannersmarcas.webp"
       />
 
       <div className="container mx-auto  my-6 lg:my-5">
         <Card className="shadow-xl   ">
           <CardContent className="py-4">
-            <Breadcrumb>
+            {/* <Breadcrumb>
               <BreadcrumbList className="capitalize">
                 <Link href={"/"}>
                   <BreadcrumbItem>
@@ -63,7 +63,7 @@ const Marcas = async ({ params: { id } }) => {
                   </BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
-            </Breadcrumb>
+            </Breadcrumb> */}
           </CardContent>
         </Card>
       </div>
@@ -71,4 +71,4 @@ const Marcas = async ({ params: { id } }) => {
   );
 };
 
-export default Marcas;
+export default MarcaId;
