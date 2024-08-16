@@ -46,7 +46,7 @@ const Producto = async ({
     <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50 w-full h-full">
       <TitleSection
         title={`${product?.NombreProducto}`}
-        image="/Banners/BannersProductos.webp"
+        image="/Banners/BannerMarcas.webp"
       />
 
       <div className="container mx-auto  my-6 lg:my-5">

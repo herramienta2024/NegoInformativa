@@ -62,7 +62,7 @@ const CategoriaId = async ({
                 <BreadcrumbSeparator />
 
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="capitalize">
+                  <BreadcrumbPage className="uppercase">
                     {NombreCategoria}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
