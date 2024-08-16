@@ -24,7 +24,11 @@ import FileUploader from "@/app/FileUploader";
 import uploadImages from "@/lib/UploadImagenes";
 import DeleteImagenes from "@/lib/DeleteImagenes";
 
-const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
+const ModalCategorias = ({
+  OpenModalCategoria,
+  setOpenModalCategoria,
+  idMarca,
+}) => {
   const [InputValues, setInputValues] = useState({});
   const [files, setFiles] = useState([]);
 
@@ -115,6 +119,7 @@ const ModalCategorias = ({ OpenModalCategoria, setOpenModalCategoria }) => {
           ...InputValues,
           Imagenes: ImagesUrl,
           createdAt: serverTimestamp(),
+          marcaId: idMarca,
         });
       }
       closeOpenModalCategoria();

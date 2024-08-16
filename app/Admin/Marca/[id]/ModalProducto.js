@@ -10,23 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 import { useToast } from "@/components/ui/use-toast";
-import React, { useState } from "react";
-import {
-  deleteObject,
-  getDownloadURL,
-  listAll,
-  ref,
-  uploadBytes,
-} from "firebase/storage";
+import React, { useEffect, useState } from "react";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import {
   addDoc,
   collection,
   doc,
+  onSnapshot,
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
 import { db, storage } from "@/firebase/firebaseClient";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -49,18 +43,33 @@ const ModalProducto = ({
   OpenModalProducto,
   setOpenModalProducto,
   Categorias,
+  idMarca,
 }) => {
   const [InputValues, setInputValues] = useState({
     Variantes: OpenModalProducto?.InfoEditar?.Variantes || [],
     TextoOpcion: "",
   });
 
-  console.log("InputValue", InputValues);
-
-  console.log("OpenModal", OpenModalProducto);
-
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const [Marcas, setMarcas] = useState([]);
+
+  useEffect(() => {
+    if (!Object.keys(OpenModalProducto?.InfoEditar).length > 0) {
+      return;
+    }
+    onSnapshot(
+      collection(db, `Marcas`),
+      // orderBy("email", "asc"),
+      (snapshot) =>
+        setMarcas(
+          snapshot?.docs?.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }))
+        )
+    );
+  }, [Object.keys(OpenModalProducto?.InfoEditar).length]);
 
   const closeOpenModalProducto = () => {
     setOpenModalProducto({
@@ -75,6 +84,7 @@ const ModalProducto = ({
       [e.target.name]: e.target.value,
     });
   };
+
   const uploadImages = async (images, NombreCarpeta, variante) => {
     // Seleccionamos solo la primera imagen de la lista
     const image = images;
@@ -105,8 +115,6 @@ const ModalProducto = ({
   const HandlerSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    debugger;
 
     try {
       if (Object.keys(OpenModalProducto?.InfoEditar).length > 0) {
@@ -164,8 +172,6 @@ const ModalProducto = ({
             }
           }
 
-          console.log("Ant", FilesUpload);
-
           await updateDoc(UpdateRef, {
             Variantes: FilesUpload || [],
           });
@@ -214,6 +220,7 @@ const ModalProducto = ({
             ...InputValues,
             Variantes: FilesUpload || InputValues?.Variantes || [],
             Empresa: "Garden",
+            marcaId: idMarca,
           });
 
           closeOpenModalProducto();
@@ -247,6 +254,38 @@ const ModalProducto = ({
         </DialogHeader>
         <form onSubmit={HandlerSubmit} className="space-y-4 w-full h-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {Object.keys(OpenModalProducto?.InfoEditar).length > 0 && (
+              <div className="space-y-2 lg:col-span-2">
+                <Label htmlFor="marcaId" className="">
+                  Marca{" "}
+                </Label>
+                <Select
+                  value={
+                    InputValues?.marcaId ||
+                    OpenModalProducto?.InfoEditar?.marcaId
+                  }
+                  onValueChange={(e) => {
+                    setInputValues({
+                      ...InputValues,
+                      marcaId: e,
+                    });
+                  }}
+                  id="marcaId"
+                >
+                  <SelectTrigger className="">
+                    <SelectValue placeholder="Define categoría del producto" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {Marcas?.map((marca) => (
+                      <SelectItem key={marca.id} value={marca.id}>
+                        {marca.NombreMarca}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            )}
+
             <div className="space-y-2">
               <Label htmlFor="NombreProducto" className="">
                 Nombre del producto <span className="text-red-600">(*)</span>

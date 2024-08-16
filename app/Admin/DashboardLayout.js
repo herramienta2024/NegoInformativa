@@ -11,6 +11,7 @@ import {
   CalendarCheck,
   CalendarClock,
   CircleDollarSign,
+  FileHeart,
   GalleryHorizontal,
   HistoryIcon,
   MonitorXIcon,
@@ -21,11 +22,36 @@ import {
 import { signOut } from "firebase/auth";
 import { usePathname, useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { collection, onSnapshot } from "firebase/firestore";
+import Image from "next/image";
 
 const DashboardLayout = ({ children }) => {
   const [{ user, claims }, loading, error] = useAuthState(auth);
   const pathname = usePathname();
   const router = useRouter();
+
+  console.log(pathname);
+
+  const [Marcas, setMarcas] = useState([]);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(
+      collection(db, "Marcas"),
+      (snapshot) => {
+        const marcasData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setMarcas(marcasData);
+      },
+      (error) => {
+        console.error("Error fetching marcas: ", error);
+      }
+    );
+
+    // Cleanup function to unsubscribe from the snapshot listener
+    return () => unsubscribe();
+  }, []);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>error</p>;
@@ -40,68 +66,11 @@ const DashboardLayout = ({ children }) => {
       hidden: claims?.Rol?.includes("Admin") ? false : true,
     },
     {
-      name: "Garden",
-      link: "/Admin/Garden",
-      icon: <Bold className="w-6 h-6 text-white" />,
-      // hidden: claims?.Rol?.includes("Admin") ? false : true,
+      name: "Marcas",
+      link: "/Admin/Marcas",
+      icon: <FileHeart className="w-6 h-6 text-white" />,
+      hidden: claims?.Rol?.includes("Admin") ? false : true,
     },
-    // {
-    //   name: "Carrousel",
-    //   link: "/Admin/Carrousel",
-    //   icon: <GalleryHorizontal className="w-6 h-6 text-white" />,
-    //    hidden: claims?.Rol?.includes("Admin") ? false : true,
-    // },
-
-    // {
-    //   name: "Restaurantes",
-    //   link: "/Admin/Restaurantes",
-    //   icon: <Utensils className="w-6 h-6 text-white" />,
-    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
-    // },
-    // {
-    //   name: "Categorias",
-    //   link: "/Admin/Categorias",
-    //   icon: <BrickWall className="w-6 h-6 text-white" />,
-    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
-    // },
-    // {
-    //   name: "Productos",
-    //   link: "/Admin/Productos",
-    //   icon: <Beef className="w-6 h-6 text-white" />,
-    //   hidden: claims?.Rol?.includes("Admin") ? false : true,
-    // },
-    // {
-    //   name: "Reservas Pendientes",
-    //   link: `${
-    //     claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
-    //       ? `/Admin/Reservas/${claims?.IdRestaurante}`
-    //       : "/Admin/Reservas"
-    //   }`,
-    //   icon: <CalendarClock className="w-6 h-6 text-white" />,
-    //   Cant: true,
-    // },
-    // {
-    //   name: "Reservas para Hoy",
-    //   link: `${
-    //     claims?.Rol?.includes("Mostrador") && claims?.IdRestaurante?.length > 0
-    //       ? `/Admin/MesasHoy/${claims?.IdRestaurante}`
-    //       : "/Admin/MesasHoy"
-    //   }`,
-    //   icon: <CalendarCheck className="w-6 h-6 text-white" />,
-    // },
-    // ,
-    // {
-    //   name: "Realizar Pago",
-    //   link: `/Admin/Checkout`,
-
-    //   icon: <CircleDollarSign className="w-6 h-6 text-white" />,
-    // },
-    // {
-    //   name: "Historial Compras",
-    //   link: `/Admin/HistorialCompras`,
-
-    //   icon: <HistoryIcon className="w-6 h-6 text-white" />,
-    // },
   ];
 
   menu.find((men) => {
@@ -167,7 +136,30 @@ const DashboardLayout = ({ children }) => {
                   )}
                 </li>
               ))}
-
+              {Marcas?.length > 0 &&
+                Marcas.map((Marca, key) => (
+                  <li key={key}>
+                    <Link
+                      href={`/Admin/Marca/${Marca.id}`}
+                      className={` flex flex-row items-center h-11 focus:outline-none hover:bg-yellow-800  text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-yellow-600  pr-6 ${
+                        pathname.includes(Marca.id) &&
+                        "bg-yellow-800 border-yellow-600 "
+                      }`}
+                    >
+                      <span className="inline-flex justify-center items-center ml-4">
+                        <Image
+                          src={Marca?.Imagenes[0]}
+                          alt={Marca.NombreMarca}
+                          width={25}
+                          height={25}
+                        />
+                      </span>
+                      <span className="ml-2 text-sm tracking-wide truncate">
+                        {Marca?.NombreMarca}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
               <li>
                 <div
                   onClick={() => signOut(auth)}
