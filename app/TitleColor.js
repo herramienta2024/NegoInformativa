@@ -1,11 +1,8 @@
-function TitleSection({ title, image = "" }) {
+function TitleColor({ title, ColorMarca = "" }) {
   return (
     <section
       style={{
-        backgroundImage: `url("${image}")`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
+        backgroundColor: ColorMarca || "black",
       }}
     >
       <div className="py-7 flex h-full w-full items-center justify-center  mx-auto px-8 lg:w-full bg-black bg-opacity-50">
@@ -19,4 +16,4 @@ function TitleSection({ title, image = "" }) {
   );
 }
 
-export default TitleSection;
+export default TitleColor;
