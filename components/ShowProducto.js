@@ -13,53 +13,57 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
 
   return (
     <>
-      <div className="p-3 lg:p-5 flex flex-col lg:flex-row w-full">
-        {/* <div className="hidden lg:inline space-y-4">
-          {product?.Variantes?.map((image, i) => (
-            <Image
-              key={image.key}
-              src={image.url}
-              alt={product.title}
-              width={90}
-              height={90}
-              className="border rounded-sm"
-            />
-          ))}
-        </div> */}
+      <div className="grid grid-cols-1 lg:grid-cols-2  gap-2 lg:gap-x-4">
+        <div className=" w-[80%] mx-auto h-full">
+          {/* <div className="hidden lg:inline space-y-4">
+              {product?.Variantes?.map((image, i) => (
+                <Image
+                  key={image.key}
+                  src={image.url}
+                  alt={product.title}
+                  width={90}
+                  height={90}
+                  className="border rounded-sm"
+                />
+              ))}
+            </div> */}
 
-        <Carousel
-          opts={{
-            loop: true,
-          }}
-          className="w-2/4 mb-10 lg:mb-0 lg:w-full self-start flex items-center max-w-xl mx-auto lg:mx-20
-        "
-        >
-          <CarouselContent>
-            {product?.Variantes?.map((image, i) => (
-              <CarouselItem key={i}>
-                <div className="p-1">
-                  <div className="flex aspect-square items-center justify-center p-2 relative">
-                    <Image
-                      key={image?.key}
-                      src={image?.url}
-                      alt={product.title}
-                      width={400}
-                      height={400}
-                      className="border rounded-sm"
-                    />
+          <Carousel
+            opts={{
+              loop: true,
+            }}
+            className="w-full h-full  "
+          >
+            <CarouselContent className="  ">
+              {product?.Variantes?.map((image, i) => (
+                <CarouselItem key={i} className="">
+                  <div className="p-1">
+                    <div className="flex aspect-auto lg:aspect-square items-center justify-center p-2 relative">
+                      <Image
+                        key={image?.key}
+                        src={image?.url}
+                        alt={product.title}
+                        width={300}
+                        height={300}
+                        style={{
+                          objectFit: "contain",
+                        }}
+                        className="border rounded-sm"
+                      />
+                    </div>
                   </div>
-                </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-        <div className="flex-1 border rounded-md w-full p-5  space-y-2 ">
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <CarouselPrevious />
+            <CarouselNext />
+          </Carousel>
+        </div>
+        <div className=" flex justify-center flex-col items-center lg:items-start lg:justify-start mx-auto border w-full  uppercase rounded-md  p-5  space-y-2 ">
           <h1 className="font-semibold">
             {product?.NombreProducto || "Title Producto"}
           </h1>
-          <div className=" space-x-2 capitalize">
+          <div className=" space-x-2 ">
             <Badge variant="outline">
               {Empresa || "Empresa no disponible"}
             </Badge>
@@ -74,9 +78,9 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
               {product?.Variantes?.map((image, i) => (
                 <div
                   key={i}
-                  className="w-full h-full p-2 cursor-pointer border rounded-md hover:shadow-md hover:scale-105"
+                  className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md hover:scale-105"
                 >
-                  <h1 className="capitalize">{image?.Nombre || ""}</h1>
+                  <h1 className="capitalize ">{image?.Nombre || ""}</h1>
                   <Image
                     src={image.url}
                     alt={product.title}

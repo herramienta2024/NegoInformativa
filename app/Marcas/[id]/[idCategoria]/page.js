@@ -62,7 +62,7 @@ const CategoriaId = async ({
                 <BreadcrumbSeparator />
 
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="capitalize">
+                  <BreadcrumbPage className="uppercase">
                     {NombreCategoria}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
@@ -72,7 +72,7 @@ const CategoriaId = async ({
             <div className="pt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 text-center px-2 mx-auto">
               {Productos?.map((producto) => (
                 <Link
-                  href={`/Marcas/${id}/${idCategoria}?NombreCategoria=${NombreCategoria}/${producto.id}`}
+                  href={`/Marcas/${id}/${idCategoria}/${producto.id}`}
                   key={producto.id}
                 >
                   <div className="flex  items-center justify-center ">

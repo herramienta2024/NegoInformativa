@@ -69,7 +69,7 @@ const MarcaId = async ({ params: { id } }) => {
                 <BreadcrumbSeparator />
 
                 <BreadcrumbItem>
-                  <BreadcrumbPage className="capitalize">
+                  <BreadcrumbPage className="uppercase">
                     {marca?.NombreMarca}
                   </BreadcrumbPage>
                 </BreadcrumbItem>
