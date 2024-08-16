@@ -13,7 +13,8 @@ import { dbAdmin } from "@/firebase/firebaseAdmin";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// export const revalidate = 3600; // revalidate at most every hour
+export const revalidate = 3600; // revalidate at most every hour
+
 const Producto = async ({
   params: { id },
   searchParams: {
