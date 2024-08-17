@@ -58,7 +58,7 @@ const MenuPrincipal = () => {
           <span className="text-3xl cursor-pointer mx-2 md:hidden block text-white">
             <button name="Menu" onClick={() => setIsOpen(!isOpen)}>
               <svg
-                className="h-10 w-10 text-black"
+                className="h-10 w-10 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
