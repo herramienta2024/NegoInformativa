@@ -1,9 +1,9 @@
 "use client";
+
 import { Card, CardContent } from "@/components/ui/card";
 import TitleSection from "../TitleSection";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import useScrollAnimation from "@/lib/useScrollAnimation";
 
 const QuienesSomos = () => {
   const Data = [
@@ -37,6 +37,11 @@ const QuienesSomos = () => {
     },
   ];
 
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
     <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50 w-full h-full">
       <TitleSection
@@ -49,10 +54,11 @@ const QuienesSomos = () => {
           <CardContent className="grid w-full grid-cols-1 my-auto mt-6 mb-8 lg:grid-cols-2 gap-6">
             <motion.div
               className="flex flex-col justify-center items-center text-base font-normal leading-7 w-full px-2 lg:px-4 text-gray-700 text-justify space-y-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              {...useScrollAnimation()}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              variants={sectionVariants}
             >
               <h1 className="text-xl font-extrabold leading-tight lg:text-2xl text-gray-900 uppercase">
                 Nego Tools
@@ -78,31 +84,41 @@ const QuienesSomos = () => {
             </motion.div>
             <motion.div
               className="w-full"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5 }}
-              {...useScrollAnimation()}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              variants={sectionVariants}
             >
-              <img
+              <Image
                 className="w-full rounded-md"
                 src="/Banners/BannerNosotrosBody.webp"
                 alt="header image"
+                layout="responsive" // Usa la opción de diseño adecuado
+                width={1200} // Establece el ancho según sea necesario
+                height={600} // Establece la altura según sea necesario
               />
             </motion.div>
           </CardContent>
         </Card>
         <div className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2">
           {Data.map((item, index) => {
-            const { ref, inView } = useScrollAnimation();
-
             return (
               <motion.div
-                key={item.id}
-                ref={ref}
+                key={index}
                 className="p-8 space-y-3 border-2 border-black rounded-xl shadow-lg bg-white"
-                initial={{ opacity: 0, y: 20 }}
-                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{
+                  delay: index * 0.2,
+                  duration: 0.6,
+                  ease: "easeOut",
+                }}
+                variants={{
+                  hidden: { opacity: 0, scale: 0.9, y: 50 },
+                  visible: { opacity: 1, scale: 1, y: 0 },
+                }}
               >
                 <div className="flex justify-start gap-x-2 items-center">
                   <div className="inline-block text-blue-500">
