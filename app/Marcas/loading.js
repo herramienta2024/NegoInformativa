@@ -4,10 +4,7 @@ import TitleSection from "../TitleSection";
 export default function MarcasSkeleton() {
   return (
     <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50 w-full h-full">
-      <TitleSection
-        title={`Cargando ...`}
-        image="/Banners/BannersProductos.webp"
-      />
+      <TitleSection title={`Cargando ...`} image="/Banners/BannerMarcas.webp" />
       <div className="bg-white p-5 md:p-10 rounded-lg w-full h-full grid grid-cols-1 md:grid-cols-2 gap-4">
         {[1, 2, 3].map((_, index) => (
           <div

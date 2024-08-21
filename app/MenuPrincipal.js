@@ -58,7 +58,7 @@ const MenuPrincipal = () => {
           <span className="text-3xl cursor-pointer mx-2 md:hidden block text-white">
             <button name="Menu" onClick={() => setIsOpen(!isOpen)}>
               <svg
-                className="h-10 w-10 text-black"
+                className="h-10 w-10 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -95,6 +95,20 @@ const MenuPrincipal = () => {
             >
               Marcas
             </ItemMenu>
+            <ItemMenu
+              ruta="/QuienesSomos"
+              setIsOpen={setIsOpen}
+              border={pathname == "/QuienesSomos" ? true : false}
+            >
+              Nosotros
+            </ItemMenu>
+            <ItemMenu
+              ruta="/Contacto"
+              setIsOpen={setIsOpen}
+              border={pathname == "/Contacto" ? true : false}
+            >
+              Contacto
+            </ItemMenu>
 
             {/* <div className="hidden lg:block">
               <NegoGarden />
@@ -102,11 +116,11 @@ const MenuPrincipal = () => {
           </div>
         </div>
         <div className="hidden lg:flex justify-center items-center gap-x-4">
-          <Link href="/QuienesSomos">
+          <Link href="/Contacto">
             <Button
               className={`bg-Secundario uppercase text-black hover:bg-white`}
             >
-              Quienes somos
+              Contacto
             </Button>
           </Link>
 
