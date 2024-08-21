@@ -1,6 +1,9 @@
+"use client";
 import { Card, CardContent } from "@/components/ui/card";
 import TitleSection from "../TitleSection";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import useScrollAnimation from "@/lib/useScrollAnimation";
 
 const QuienesSomos = () => {
   const Data = [
@@ -41,11 +44,17 @@ const QuienesSomos = () => {
         image="/Banners/BannerNosotros.webp"
       />
 
-      <div className=" py-7 w-full h-full container  shadow-md bg-white space-y-5  ">
+      <div className="py-7 w-full h-full container shadow-md bg-white space-y-5">
         <Card className="border-black border-2">
-          <CardContent className="  grid w-full grid-cols-1 my-auto mt-6 mb-8 lg:grid-cols-2   gap-6">
-            <div className="flex flex-col justify-center items-center text-base font-normal leading-7    w-full px-2 lg:px-4 text-gray-700 text-justify  space-y-4">
-              <h1 className=" text-xl font-extrabold leading-tight lg:text-2xl  text-gray-900 uppercase">
+          <CardContent className="grid w-full grid-cols-1 my-auto mt-6 mb-8 lg:grid-cols-2 gap-6">
+            <motion.div
+              className="flex flex-col justify-center items-center text-base font-normal leading-7 w-full px-2 lg:px-4 text-gray-700 text-justify space-y-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              {...useScrollAnimation()}
+            >
+              <h1 className="text-xl font-extrabold leading-tight lg:text-2xl text-gray-900 uppercase">
                 Nego Tools
               </h1>
               <p>
@@ -66,33 +75,52 @@ const QuienesSomos = () => {
                 productos se enfoca en la calidad, seguridad y sostenibilidad,
                 adaptándonos siempre a las necesidades del mercado colombiano.
               </p>
-            </div>
-            <div className="w-full">
+            </motion.div>
+            <motion.div
+              className="w-full"
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5 }}
+              {...useScrollAnimation()}
+            >
               <img
                 className="w-full rounded-md"
                 src="/Banners/BannerNosotrosBody.webp"
                 alt="header image"
               />
-            </div>
+            </motion.div>
           </CardContent>
         </Card>
-        <div className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2    ">
-          {Data?.map((item) => (
-            <div
-              key={item.id}
-              className="p-8 space-y-3 border-2 border-black  rounded-xl shadow-lg bg-white"
-            >
-              <div className="flex justify-start gap-x-2 items-center">
-                <div className="inline-block text-blue-500  ">
-                  <Image src={item?.icon} width={48} height={48} alt="Mision" />
+        <div className="grid grid-cols-1 gap-6 md:gap-8 md:grid-cols-2">
+          {Data.map((item, index) => {
+            const { ref, inView } = useScrollAnimation();
+
+            return (
+              <motion.div
+                key={item.id}
+                ref={ref}
+                className="p-8 space-y-3 border-2 border-black rounded-xl shadow-lg bg-white"
+                initial={{ opacity: 0, y: 20 }}
+                animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                transition={{ duration: 0.5, delay: index * 0.2 }}
+              >
+                <div className="flex justify-start gap-x-2 items-center">
+                  <div className="inline-block text-blue-500">
+                    <Image
+                      src={item.icon}
+                      width={48}
+                      height={48}
+                      alt={item.title}
+                    />
+                  </div>
+                  <h1 className="text-2xl font-semibold text-gray-800 capitalize">
+                    {item.title}
+                  </h1>
                 </div>
-                <h1 className="text-2xl font-semibold text-gray-900 capitalize  ">
-                  {item.title}
-                </h1>
-              </div>
-              <p className="text-gray-700  text-justify">{item.description}</p>
-            </div>
-          ))}
+                <p className="text-gray-700 text-justify">{item.description}</p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </div>
