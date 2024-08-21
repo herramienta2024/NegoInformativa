@@ -26,13 +26,15 @@ const Footer = () => {
               <div className="flex space-x-2 items-center ">
                 <ul>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Nosotros"}>Preguntas frecuentes</Link>
+                    <Link href={"/PreguntasFrecuentes"}>
+                      Preguntas frecuentes
+                    </Link>
                   </li>
                   <li className="hover:text-Secundario">
                     <Link href={"/Nutricion"}>Dónde comprar</Link>
                   </li>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Nutricion"}>
+                    <Link href={"/Compromiso"}>
                       Nuestro compromiso con la sociedad
                     </Link>
                   </li>

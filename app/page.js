@@ -86,6 +86,50 @@ const HomePage = () => {
       <div className="py-6">
         <CarouselMarcas />
       </div>
+
+      <div className=" mx-auto space-y-4 shadow-xl bg-white">
+        <div className=" bg-black items-center justify-center flex flex-col">
+          <div className="items-center justify-center w-full p-8 flex flex-col">
+            <div className="rounded-xl max-w-2xl mx-auto bg-gray-800/50 px-6 py-4 shadow-lg backdrop-blur-md  flex justify-center items-center flex-col">
+              <h4 className="w-48 border-t-4 border-solid border-[#ffcc29] h-4"></h4>
+              <h4
+                className="text-orange-300    text-2xl"
+                style={{ fontFamily: "Abel" }}
+              >
+                ¿Quiénes somos?
+              </h4>
+              <h2
+                className="text-gray-300   text-5xl text-center mt-2 mb-3"
+                style={{ fontFamily: '"Archivo Black"' }}
+              >
+                ¡Descubre nuestra esencia!
+              </h2>
+              <div className="inline-block mr-2 mt-2">
+                <Link
+                  href={"/QuienesSomos"}
+                  className="focus:outline-none text-black text-lg py-2.5 px-5 rounded-md bg-[#ffcc29]/80 hover:scale-105 hover:shadow-lg flex items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                    />
+                  </svg>
+                  Conócenos{" "}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
