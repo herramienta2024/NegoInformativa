@@ -9,6 +9,8 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { useState } from "react";
 
+import { motion } from "framer-motion";
+
 const Contacto = () => {
   const [InputValues, setInputValues] = useState({});
 
@@ -17,6 +19,11 @@ const Contacto = () => {
       ...InputValues,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { opacity: 1, y: 0 },
   };
 
   return (
@@ -39,7 +46,14 @@ const Contacto = () => {
                   Enviamos un <br /> mensaje
                 </h1>
               </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+              <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, ease: "easeOut" }}
+                variants={sectionVariants}
+                className="pt-4 grid grid-cols-1 lg:grid-cols-2 gap-4"
+              >
                 <div className="space-y-2 ">
                   <Label htmlFor="NombreCompleto" className="">
                     Nombre Completo
@@ -116,13 +130,20 @@ const Contacto = () => {
                     minLength="10"
                   />
                 </div>
-              </div>
+              </motion.div>
 
               <div className="my-2 w-1/2 lg:w-1/4">
                 <Button> Enviar mensaje</Button>
               </div>
             </form>
-            <div className="w-full lg:-mt-96 lg:w-2/6 px-8 py-12 ml-auto bg-black  rounded-2xl">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              variants={sectionVariants}
+              className="w-full lg:-mt-96 lg:w-2/6 px-8 py-12 ml-auto bg-black  rounded-2xl"
+            >
               <div className="flex flex-col text-white">
                 <h1 className="font-bold uppercase text-4xl my-4">
                   Drop in our office
@@ -161,7 +182,7 @@ const Contacto = () => {
                   </div>
                 </i>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>

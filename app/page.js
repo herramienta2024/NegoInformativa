@@ -83,11 +83,18 @@ const HomePage = () => {
         ))}
       </Carousel>
 
-      <div className="py-6">
+      <div className="py-6 w-full ">
         <CarouselMarcas />
       </div>
 
-      <div className=" mx-auto space-y-4 shadow-xl bg-white">
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        variants={fadeInVariants}
+        className=" mx-auto space-y-4 shadow-xl bg-white"
+      >
         <div className=" bg-black items-center justify-center flex flex-col">
           <div className="items-center justify-center w-full p-8 flex flex-col">
             <div className="rounded-xl max-w-2xl mx-auto bg-gray-800/50 px-6 py-4 shadow-lg backdrop-blur-md  flex justify-center items-center flex-col">
@@ -129,7 +136,7 @@ const HomePage = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
