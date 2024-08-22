@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Smartphone } from "lucide-react";
 
-import { NegoGarden } from "@/components/NegoGarden";
+import { motion } from "framer-motion";
 
 const MenuPrincipal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,6 +37,11 @@ const MenuPrincipal = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  const fadeInVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
 
   return (
     <>
@@ -73,7 +78,13 @@ const MenuPrincipal = () => {
             </button>
           </span>
         </div>
-        <div className="flex flex-col  pl-14  ">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInVariants}
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex flex-col  pl-14  "
+        >
           <div
             className={` text-center  flex flex-col h-screen md:h-auto  md:flex md:flex-row  md:items-center md:justify-start  z-[-1] md:z-auto md:static gap-2 absolute text-white bg-black    md:bg-transparent  w-full left-0 top-full md:w-auto md:py-0  md:pl-0 pl-7 md:opacity-100 opacity-0 right-[-400px] transition-all ease-in   ${
               isOpen ? ` right-0 py-11 opacity-100` : `hidden`
@@ -114,7 +125,7 @@ const MenuPrincipal = () => {
               <NegoGarden />
             </div> */}
           </div>
-        </div>
+        </motion.div>
         <div className="hidden lg:flex justify-center items-center gap-x-4">
           <Link href="/Contacto">
             <Button
