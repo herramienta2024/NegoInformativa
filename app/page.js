@@ -59,10 +59,7 @@ const HomePage = () => {
                     <span className="text-Secundario uppercase"> Medida </span>
                   </motion.p>
 
-                  <Link
-                    href={"/ProyectosVenta/MariaAuxiliadora"}
-                    className="flex justify-start"
-                  >
+                  <Link href={"/QuienesSomos"} className="flex justify-start">
                     <motion.div
                       className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-0 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent text-white border-Secundario hover:text-black hover:bg-Secundario"
                       initial="hidden"

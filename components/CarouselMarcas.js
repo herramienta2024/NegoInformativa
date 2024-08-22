@@ -3,7 +3,6 @@ import "./Carousel.css";
 import { useEffect, useState } from "react";
 import { collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebaseClient";
-import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -79,6 +78,7 @@ const BrandCarousel = () => {
                 className="w-full h-full  "
                 href={`/Marcas/${marca.id}`}
                 key={marca.id}
+                title={`Ver más de ${marca.NombreMarca}`}
               >
                 <div
                   style={{
