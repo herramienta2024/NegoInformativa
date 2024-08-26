@@ -22,7 +22,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] ">
+    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50">
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {BannerInicio?.map((banner, index) => (
           <div key={index} className="relative w-full h-[21rem] sm:h-screen">
@@ -84,7 +84,7 @@ const HomePage = () => {
 
       <div className="container mx-auto">
         <div className=" w-full h-full mx-auto space-y-6 shadow-xl bg-white rounded-lg">
-          <div className="grid w-full grid-cols-1 my-auto mt-12 mb-8 md:grid-cols-2 xl:gap-14 gap-5">
+          <div className="grid w-full grid-cols-1 my-auto mt-8 mb-8 md:grid-cols-2 xl:gap-14 gap-5">
             <div className="flex flex-col justify-center col-span-1 text-center lg:text-start px-8">
               <div className="flex items-center justify-center mb-4 lg:justify-normal">
                 {/* <img className="h-5" src="/Favicon.png" alt="logo" /> */}
@@ -120,7 +120,7 @@ const HomePage = () => {
                 </div>
               </div>
             </div>
-            <div className="items-center justify-center  w-full h-full overflow-hidden rounded-r-md  flex">
+            <div className="items-center justify-center   w-full h-full rounded-md  flex">
               <ProyectosCarrousel />
             </div>
           </div>

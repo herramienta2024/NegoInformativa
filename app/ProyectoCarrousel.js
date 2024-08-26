@@ -29,7 +29,7 @@ const ProyectosCarrousel = () => {
     },
   ];
   return (
-    <div>
+    <div className="w-full h-full rounded-md overflow-hidden">
       <Carousel
         autoPlay
         infiniteLoop
@@ -43,7 +43,7 @@ const ProyectosCarrousel = () => {
               <img
                 src={proyect.Image}
                 className="max-h-[350px] w-full aspect-square object-cover overflow-hidden object-center"
-                alt="slider 1"
+                alt={proyect.Nombre}
               />
             </div>
             <div className="bg-black text-white h-[170px] pt-6 w-full space-y-1 text-center">
