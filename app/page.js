@@ -5,6 +5,8 @@ import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
 import CarouselMarcas from "@/components/CarouselMarcas";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import ProyectosCarrousel from "./ProyectoCarrousel";
 
 const HomePage = () => {
   const BannerInicio = [
@@ -20,7 +22,7 @@ const HomePage = () => {
   };
 
   return (
-    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px]">
+    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] ">
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {BannerInicio?.map((banner, index) => (
           <div key={index} className="relative w-full h-[21rem] sm:h-screen">
@@ -79,6 +81,51 @@ const HomePage = () => {
           </div>
         ))}
       </Carousel>
+
+      <div className="container mx-auto">
+        <div className=" w-full h-full mx-auto space-y-6 shadow-xl bg-white rounded-lg">
+          <div className="grid w-full grid-cols-1 my-auto mt-12 mb-8 md:grid-cols-2 xl:gap-14 gap-5">
+            <div className="flex flex-col justify-center col-span-1 text-center lg:text-start px-8">
+              <div className="flex items-center justify-center mb-4 lg:justify-normal">
+                {/* <img className="h-5" src="/Favicon.png" alt="logo" /> */}
+
+                <Image src={"/Tuerca.svg"} width={30} height={30} alt="logo" />
+                <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">
+                  DESCUBRE LO NUEVO
+                </h4>
+              </div>
+              <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">
+                NUESTROS PRODUCTOS
+              </h1>
+              <p className="mb-6 text-base font-normal leading-7 l  text-grey-700">
+                Nuestra empresa se enorgullece de ofrecer herramientas de alta
+                calidad para satisfacer todas tus necesidades.
+              </p>
+              <div className="flex flex-col items-center gap-4 lg:flex-row">
+                <div className="inline-block mr-2 mt-2">
+                  <Link href={"/QuienesSomos"} className="flex justify-start">
+                    <motion.div
+                      className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-0 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent border-Secundario hover:text-black hover:bg-Secundario"
+                      initial="hidden"
+                      animate="visible"
+                      variants={fadeInVariants}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <strong className="font-bold uppercase">
+                        Más detalles{" "}
+                      </strong>
+                      <span className="absolute bg-Secundario bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
+                    </motion.div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="items-center justify-center  w-full h-full overflow-hidden rounded-r-md  flex">
+              <ProyectosCarrousel />
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div className="py-6 w-full ">
         <CarouselMarcas />

@@ -1,4 +1,3 @@
-"use client";
 import {
   Facebook,
   FacebookIcon,
@@ -6,11 +5,9 @@ import {
   Linkedin,
   PhoneCall,
   PhoneCallIcon,
-  Youtube,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
 const Footer = () => {
   return (
