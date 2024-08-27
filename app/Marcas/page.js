@@ -6,6 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+export const revalidate = 3600; // revalidate at most every hour
+
 async function obtenerMarcasActivas() {
   try {
     const MarcasRef = dbAdmin.collection("Marcas");
@@ -28,7 +30,7 @@ async function obtenerMarcasActivas() {
   }
 }
 
-const Saludo = async () => {
+const Marcas = async () => {
   const marcas = await obtenerMarcasActivas();
   if (!marcas?.length) {
     return notFound();
@@ -53,12 +55,14 @@ const Saludo = async () => {
                         backgroundColor: marca?.ColorMarca || "black",
                       }}
                     >
-                      <Image
-                        src={marca?.Imagenes[0] || ""}
-                        alt="image"
-                        className="h-full w-full object-contain"
-                        fill
-                      />
+                      {marca?.Imagenes?.length > 0 && (
+                        <Image
+                          src={marca?.Imagenes[0] || ""}
+                          alt="image"
+                          className="h-full w-full object-contain"
+                          fill
+                        />
+                      )}
                     </div>
                     <div className="p-6">
                       <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased uppercase ">
@@ -79,4 +83,4 @@ const Saludo = async () => {
   );
 };
 
-export default Saludo;
+export default Marcas;
