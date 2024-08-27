@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
 import { dbAdmin } from "@/firebase/firebaseAdmin";
-import ObtejerColeccionBackend from "@/lib/ObtejerColeccionBackend";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -29,8 +28,6 @@ const Producto = async ({
   const CategoriaDoc = await docCategoriaRef?.get();
 
   const categoria = CategoriaDoc.data();
-
-  console.log("categoria", categoria);
 
   const MarcaRef = await dbAdmin?.collection("Marcas").doc(id);
   const MarcaDoc = await MarcaRef?.get();
