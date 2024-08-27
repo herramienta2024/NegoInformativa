@@ -33,6 +33,7 @@ import { formats, modules } from "@/lib/QuillConfig";
 
 import "react-quill/dist/quill.snow.css";
 import FileUploaderProductos from "./FileUploaderProductos";
+import UploadPDF from "./UploadPDf";
 
 const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -69,7 +70,7 @@ const ModalProducto = ({
           }))
         )
     );
-  }, [Object.keys(OpenModalProducto?.InfoEditar).length]);
+  }, [OpenModalProducto?.InfoEditar]);
 
   const closeOpenModalProducto = () => {
     setOpenModalProducto({
@@ -159,13 +160,9 @@ const ModalProducto = ({
                   variante
                 );
 
-                console.log("ImagesUrl", ImagesUrl);
-
                 FilesUpload.push(ImagesUrl);
               }
             } else {
-              console.log("Variante aaa", variante);
-
               FilesUpload.push({
                 ...variante,
               });
@@ -471,6 +468,10 @@ const ModalProducto = ({
                   ))}
                 </ul>
               </div>
+            </div>
+
+            <div>
+              <UploadPDF />
             </div>
 
             <div className="lg:col-span-2">

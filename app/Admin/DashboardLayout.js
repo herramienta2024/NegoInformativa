@@ -146,14 +146,17 @@ const DashboardLayout = ({ children }) => {
                         "bg-yellow-800 border-yellow-600 "
                       }`}
                     >
-                      <span className="inline-flex justify-center items-center ml-4">
-                        <Image
-                          src={Marca?.Imagenes[0]}
-                          alt={Marca.NombreMarca}
-                          width={25}
-                          height={25}
-                        />
-                      </span>
+                      {Marca?.Imagenes?.length > 0 && (
+                        <span className="inline-flex justify-center items-center ml-4">
+                          <Image
+                            src={Marca?.Imagenes[0]}
+                            alt={Marca.NombreMarca}
+                            width={25}
+                            height={25}
+                          />
+                        </span>
+                      )}
+
                       <span className="ml-2 text-sm tracking-wide truncate">
                         {Marca?.NombreMarca}
                       </span>

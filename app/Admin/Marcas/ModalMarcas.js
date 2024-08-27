@@ -19,10 +19,9 @@ import {
   serverTimestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "@/firebase/firebaseClient";
+import { db, storage } from "@/firebase/firebaseClient";
 import FileUploader from "@/app/FileUploader";
 import uploadImages from "@/lib/UploadImagenes";
-import DeleteImagenes from "@/lib/DeleteImagenes";
 import {
   Select,
   SelectContent,
@@ -31,6 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { deleteObject, listAll, ref } from "firebase/storage";
 
 const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
   const [InputValues, setInputValues] = useState({});
@@ -53,67 +53,77 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
     });
   };
 
-  const HandlerSubmit = async (e) => {
+  const deleteExistingImages = async (folderName, collectionName) => {
+    try {
+      const imagesRef = ref(storage, `${collectionName}/${folderName}`);
+
+      // Obtén la lista de todos los archivos en la carpeta
+      const imagesList = await listAll(imagesRef);
+
+      // Elimina cada archivo encontrado en la lista
+      const deletePromises = imagesList.items.map((item) => deleteObject(item));
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error("Error eliminando imágenes:", error);
+    }
+  };
+
+  const handlerSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
-      if (Object.keys(OpenModalMarcas?.InfoEditar).length > 0) {
+      const isEditing = Object.keys(OpenModalMarcas?.InfoEditar).length > 0;
+
+      if (isEditing) {
+        let updateData = {};
+        const marcaId = OpenModalMarcas?.InfoEditar?.id;
+        const nombreActual =
+          OpenModalMarcas?.InfoEditar?.NombreMarca?.replace(/\s+/g, "_") || "";
+        const nombreNuevo =
+          InputValues?.NombreMarca?.replace(/\s+/g, "_") || nombreActual;
+
+        // Actualizar campos de la marca si hay cambios
         if (Object.keys(InputValues).length > 0) {
-          const UpdateRef = doc(
-            db,
-            "Marcas",
-            `${OpenModalMarcas?.InfoEditar?.id}`
-          );
-          // Set the "capital" field of the city 'DC'
+          const updateRef = doc(db, "Marcas", marcaId);
+          updateData = { ...InputValues };
 
-          await updateDoc(UpdateRef, {
-            ...InputValues,
-          });
+          // Actualizar el documento en Firestore
+          await updateDoc(updateRef, updateData);
         }
+
+        // Manejar la actualización de las imágenes
         if (files?.length > 0) {
-          const NombreArchivo =
-            OpenModalMarcas?.InfoEditar?.NombreCategoria?.replace(
-              /\s+/g,
-              "_"
-            ) || "";
-          const NombreNuevo =
-            InputValues?.NombreCategoria?.replace(/\s+/g, "_") || NombreArchivo;
+          await deleteExistingImages(nombreActual, "Marcas");
+          const imagesUrl = await uploadImages(files, nombreNuevo, "Marcas");
 
-          await DeleteImagenes(NombreArchivo, "Marcas");
-
-          const ImagesUrl = await uploadImages(files, NombreNuevo, "Marcas");
-
-          const UpdateRef = doc(
-            db,
-            "Marcas",
-            `${OpenModalMarcas?.InfoEditar?.id}`
-          );
-          await updateDoc(UpdateRef, {
-            Imagenes: ImagesUrl || [],
+          const updateRef = doc(db, "Marcas", marcaId);
+          await updateDoc(updateRef, {
+            Imagenes: imagesUrl || [],
           });
         }
 
         closeOpenModalMarcas();
-
         return;
-      } else {
-        if (!files?.length > 0) {
-          toast({
-            title: "Alerta",
-            description: "Por favor seleccione una imágen para la categoria",
-          });
-        }
+      }
 
-        const NombreCarpeta = InputValues?.NombreMarca?.replace(/\s+/g, "_");
-
-        const ImagesUrl = await uploadImages(files, NombreCarpeta, "Marcas"); // Asegúrate de que la promesa se haya resuelto
-
-        const docRef = await addDoc(collection(db, "Marcas"), {
-          ...InputValues,
-          Imagenes: ImagesUrl,
-          createdAt: serverTimestamp(),
+      // Creación de una nueva marca
+      if (!files?.length > 0) {
+        return toast({
+          title: "Alerta",
+          description: "Por favor seleccione una imagen para la categoría",
         });
       }
+
+      const nombreCarpeta = InputValues?.NombreMarca?.replace(/\s+/g, "_");
+      const imagesUrl = await uploadImages(files, nombreCarpeta, "Marcas");
+
+      await addDoc(collection(db, "Marcas"), {
+        ...InputValues,
+        Imagenes: imagesUrl,
+        createdAt: serverTimestamp(),
+      });
+
       closeOpenModalMarcas();
     } catch (err) {
       console.error("Error:", err);
@@ -138,7 +148,7 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
           </DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
-        <form onSubmit={HandlerSubmit} className="space-y-4 w-full h-full">
+        <form onSubmit={handlerSubmit} className="space-y-4 w-full h-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="NombreMarca" className="">
