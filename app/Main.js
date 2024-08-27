@@ -2,8 +2,9 @@
 import MenuPrincipal from "./MenuPrincipal";
 import Footer from "./Footer";
 import { usePathname } from "next/navigation";
+import MenuMarcas from "./MenuMarcas";
 
-const Main = ({ children }) => {
+const Main = ({ children, marcas }) => {
   const pathname = usePathname();
 
   return (
@@ -12,7 +13,14 @@ const Main = ({ children }) => {
         <>{children}</>
       ) : (
         <main>
-          <MenuPrincipal />
+          {pathname.includes("/Marcas") ? (
+            <></>
+          ) : (
+            <>
+              <MenuPrincipal />
+            </>
+          )}
+
           {children}
           <Footer />
         </main>
