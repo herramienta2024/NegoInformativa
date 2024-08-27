@@ -145,19 +145,22 @@ const HomePage = () => {
             <div className="">
               <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-4 p-6  md:grid-cols-3  ">
                 {Marcas?.map((Marca) => (
-                  <div
+                  <Link
+                    href={`/Marcas/${Marca.id}`}
                     key={Marca.id}
-                    className={`w-full  border-gray-200 mx-auto border    rounded-lg  shadow-md`}
+                    className={`w-full  border-gray-200 mx-auto border   rounded-lg  shadow-md`}
                   >
                     {Marca?.Imagenes?.length > 0 && (
                       <section
-                        className={"rounded-lg relative w-full h-[200px] px-4"}
+                        className={
+                          "rounded-lg relative w-full h-[130px] overflow-hidden "
+                        }
                         style={{
                           backgroundColor: Marca?.ColorMarca || "black",
                         }}
                       >
                         <Image
-                          className="rounded-t-lg "
+                          className="px-2"
                           fill
                           src={Marca?.Imagenes[0] || ""}
                           alt="imageMarca"
@@ -167,7 +170,7 @@ const HomePage = () => {
                         />
                       </section>
                     )}
-                  </div>
+                  </Link>
                 ))}
               </div>{" "}
             </div>
