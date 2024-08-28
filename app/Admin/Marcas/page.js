@@ -9,18 +9,31 @@ import {
 } from "@/components/ui/card";
 import { db } from "@/firebase/firebaseClient";
 import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
-import { BadgePlus, EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
+import {
+  BadgePlus,
+  EyeIcon,
+  ImageIcon,
+  PencilIcon,
+  TrashIcon,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import ModalMarcas from "./ModalMarcas";
 import Image from "next/image";
 import DeleteImagenes from "@/lib/DeleteImagenes";
 import { cn } from "@/lib/utils";
+import ModalSlider from "./ModalSliders";
 
 const Marcas = () => {
   const [OpenModalMarcas, setOpenModalMarcas] = useState({
     Visible: false,
     InfoEditar: {},
   });
+  const [OpenModalSlider, setOpenModalSlider] = useState({
+    Visible: false,
+    InfoEditar: {},
+  });
+
+  console.log("OpenModalSlider", OpenModalSlider);
 
   const [Marcas, setMarcas] = useState([]);
 
@@ -48,6 +61,12 @@ const Marcas = () => {
         <ModalMarcas
           OpenModalMarcas={OpenModalMarcas}
           setOpenModalMarcas={setOpenModalMarcas}
+        />
+      )}
+      {OpenModalSlider?.Visible && (
+        <ModalSlider
+          OpenModalSlider={OpenModalSlider}
+          setOpenModalSlider={setOpenModalSlider}
         />
       )}
 
@@ -122,6 +141,23 @@ const Marcas = () => {
                         </h1>
                       </div>
                       <div className="flex items-center justify-center gap-x-2">
+                        <button
+                          title="Sliders"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setOpenModalSlider({
+                              Visible: true,
+                              InfoEditar: {
+                                id: Marca.id,
+                                NombreMarca: Marca?.NombreMarca || "",
+                                Carrousel: Marca?.Carrousel || [],
+                              },
+                            });
+                          }}
+                          className="bg-yellow-800 space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
+                        >
+                          <ImageIcon className="w-4 h-4" />
+                        </button>
                         <button
                           title="Editar Marca"
                           onClick={(e) => {
