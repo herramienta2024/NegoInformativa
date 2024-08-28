@@ -63,6 +63,22 @@ const FileUploader = ({ setFiles, files, Modal }) => {
       </div>
     </div>
   ));
+  const thumbsEditarCarrousel = Modal?.InfoEditar?.Carrousel?.map(
+    (file, key) => (
+      <div style={thumb} key={key}>
+        <div style={thumbInner}>
+          <img
+            src={file}
+            style={img}
+            // Revoke data uri after image is loaded
+            onLoad={() => {
+              URL.revokeObjectURL(file);
+            }}
+          />
+        </div>
+      </div>
+    )
+  );
   const thumbs = files?.map((file, key) => (
     <div style={thumb} key={key}>
       <div style={thumbInner}>
@@ -95,7 +111,13 @@ const FileUploader = ({ setFiles, files, Modal }) => {
       {files?.length > 0 ? (
         <aside style={thumbsContainer}>{thumbs}</aside>
       ) : (
-        <aside style={thumbsContainer}>{thumbsEditar}</aside>
+        <>
+          {Modal?.InfoEditar?.Carrousel ? (
+            <aside style={thumbsContainer}>{thumbsEditarCarrousel}</aside>
+          ) : (
+            <aside style={thumbsContainer}>{thumbsEditar}</aside>
+          )}
+        </>
       )}
     </section>
   );
