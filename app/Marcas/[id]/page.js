@@ -1,5 +1,6 @@
 import MenuPrincipalMarcas from "@/app/MenuMarcas";
 import CarrouselComponent from "@/components/CarrouselComponent";
+import CarrouslProductosImagenes from "@/components/CarrouslProductosImagenes";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,6 +10,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Card, CardContent } from "@/components/ui/card";
+
 import { dbAdmin } from "@/firebase/firebaseAdmin";
 import ObtejerColeccionBackend from "@/lib/ObtejerColeccionBackend";
 import Image from "next/image";
@@ -25,11 +27,13 @@ const MarcaId = async ({ params: { id } }) => {
   const docRef = await dbAdmin?.collection("Marcas").doc(id);
   const doc = await docRef?.get();
 
-  const Categorias = await ObtejerColeccionBackend({
-    collectionName: "Categorias",
-    variable: "marcaId",
-    idCondition: `${id}`,
+  const Productos = await ObtejerColeccionBackend({
+    collectionName: "Productos",
+    variable: "Recomendado",
+    idMarca: id,
   });
+
+  console.log("Productos", Productos);
 
   const marca = doc.data() || null;
 
@@ -58,14 +62,43 @@ const MarcaId = async ({ params: { id } }) => {
 
         <div
           style={{
-            backgroundColor: marca?.ColorMarca,
-            borderColor: marca?.ColorMarca,
-            // hover
+            backgroundColor: marca?.ColorMarca || "black",
           }}
+          className="text-center py-5"
         >
-          Productos Destacados
+          <h1 className="text-4xl font-semibold text-white ">
+            Explore our Featured Products
+          </h1>
+          <h2 className="text-3xl text-white">
+            Check out our latest innovations on the tools you love.
+          </h2>
+          <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
+            {Productos?.map((producto) => (
+              <div
+                key={producto.id}
+                className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+              >
+                <CarrouslProductosImagenes
+                  Variantes={producto?.Variantes || []}
+                />
+
+                <div className="p-4">
+                  <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900 uppercase">
+                    {producto?.NombreProducto}
+                  </h2>
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: producto?.Description || "",
+                    }}
+                    className="mb-2 text-base dark:text-gray-300 text-gray-700 line-clamp-4"
+                  ></div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="container mx-auto  my-6 lg:my-5">
+
+        {/* <div className="container mx-auto  my-6 lg:my-5">
           <Card className="shadow-xl   ">
             <CardContent className="py-4">
               <Breadcrumb>
@@ -115,16 +148,10 @@ const MarcaId = async ({ params: { id } }) => {
                             objectFit: "contain",
                           }}
                         />
-                        {/* <span className="ml-1 text-sm text-slate-400">
-                        {marca?.NombreMarca}
-                      </span> */}
                       </div>
                       <Link
                         href={`/Marcas/${id}/${categoria?.id}?NombreCategoria=${categoria?.NombreCategoria}`}
                         className="flex justify-center items-center  bg-black bg-opacity-80  z-10 absolute top-0 left-0 w-full h-full text-white rounded-2xl opacity-0 transition-all duration-300 transform group-hover:scale-105 text-xl group-hover:opacity-100"
-                        // style={{
-                        //   backgroundColor: marca?.ColorMarca / 30 || "black",
-                        // }}
                       >
                         Productos
                         <svg
@@ -158,7 +185,7 @@ const MarcaId = async ({ params: { id } }) => {
               </div>
             </CardContent>
           </Card>
-        </div>
+        </div> */}
       </div>
     </main>
   );

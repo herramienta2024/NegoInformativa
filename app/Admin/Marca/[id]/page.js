@@ -13,11 +13,19 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import { BadgePlus, EyeIcon, PencilIcon, TrashIcon } from "lucide-react";
+import {
+  BadgePlus,
+  EyeIcon,
+  HeartIcon,
+  PencilIcon,
+  TrashIcon,
+} from "lucide-react";
 import { useEffect, useState } from "react";
 import ModalCategorias from "./ModalCategorias";
 import ModalProducto from "./ModalProducto";
@@ -327,6 +335,35 @@ const MarcaProductos = ({ params: { id } }) => {
                     </div>
 
                     <div className="flex items-center justify-center gap-x-2 pb-2">
+                      <button
+                        onClick={async (e) => {
+                          e.preventDefault();
+                          const UpdateRef = doc(
+                            db,
+                            "Productos",
+                            `${producto?.id}`
+                          );
+
+                          const docSnapshot = await getDoc(UpdateRef);
+                          const recomendadoActual =
+                            docSnapshot.data().Recomendado;
+
+                          const nuevoRecomendado = recomendadoActual
+                            ? false
+                            : true;
+
+                          await updateDoc(UpdateRef, {
+                            Recomendado: nuevoRecomendado,
+                          });
+                        }}
+                        className="bg-black space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:opacity-60"
+                      >
+                        <HeartIcon
+                          className={`${
+                            producto?.Recomendado && "text-green-700"
+                          } w-4 h-4`}
+                        />
+                      </button>
                       <button
                         title={"Editar producto"}
                         onClick={(e) => {
