@@ -4,14 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import ItemMenu from "./ItemMenu";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Smartphone } from "lucide-react";
 
 import { motion } from "framer-motion";
 
-const MenuPrincipalMarcas = ({ Icono, marcaId }) => {
-  console.log("Icono", Icono);
-
+const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [scrollBg, setScrollBg] = useState("");
@@ -27,9 +23,9 @@ const MenuPrincipalMarcas = ({ Icono, marcaId }) => {
       const isElementVisible = window.scrollY > 40;
 
       if (isElementVisible) {
-        setScrollBg("bg-black/50 backdrop-blur-md ");
+        setScrollBg(`ChangeColor`);
       } else {
-        setScrollBg("   lg:bg-transparent");
+        setScrollBg("custom-background");
       }
     };
 
@@ -47,27 +43,38 @@ const MenuPrincipalMarcas = ({ Icono, marcaId }) => {
 
   return (
     <>
+      <style jsx>{`
+        .ChangeColor {
+          background-color: ${ColorMarca};
+          // opacity: 0.9;
+          backdrop-filter: blur(12px);
+        }
+
+        @media (min-width: 1024px) {
+          /* 'lg' size in Tailwind starts at 1024px */
+          .custom-background {
+            background-color: transparent;
+          }
+        }
+      `}</style>
       <nav
         style={{ filter: "drop-shadow(0px 0px 3px black)" }}
         className={`sticky z-50 top-0 p-2 md:px-10 shadow-sm md:flex md:items-center md:justify-between    ${scrollBg}  `}
       >
         <div className="flex justify-between items-center   ">
           {/* Escudo Logo "inicio" */}
-          <Link className="flex" href="/" title="Ir a inicio">
-            <img
+          <Link
+            className="flex overflow-hidden max-h-[60px] max-w-[150px]"
+            href="/"
+            title="Ir a inicio"
+          >
+            <Image
               src={(Icono?.length > 0 && Icono) || "/LogoNego.svg"}
-              alt=""
-              width={100}
-              height={50}
-              className="object-contain"
-            />
-            {/* <Image
-              
-              width={130}
+              width={150}
               height={60}
               alt="Logotype"
-              className="object-cover"
-            /> */}
+              className="object-contain"
+            />
           </Link>
           <span className="text-3xl cursor-pointer mx-2 md:hidden block text-white">
             <button name="Menu" onClick={() => setIsOpen(!isOpen)}>
