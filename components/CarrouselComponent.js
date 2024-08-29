@@ -16,7 +16,7 @@ function CarrouselComponent({ Carrousel, NombreMarca, ColorMarca }) {
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {Carrousel?.length ? (
           Carrousel?.map((banner, index) => (
-            <div key={index} className="relative w-full h-[21rem] sm:h-screen">
+            <div key={index} className="relative w-full h-[21rem] sm:h-[95vh]">
               <img
                 src={banner}
                 className="h-full w-full object-cover overflow-hidden"
