@@ -1,5 +1,5 @@
 import MenuPrincipalMarcas from "@/app/MenuMarcas";
-import TitleColor from "@/app/TitleColor";
+import CarrouselComponent from "@/components/CarrouselComponent";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -33,20 +33,38 @@ const MarcaId = async ({ params: { id } }) => {
 
   const marca = doc.data() || null;
 
-  if (!marca) return notFound();
+  console.log("marca", marca);
 
-  console.log("only", marca);
+  if (!marca) return notFound();
 
   return (
     <main>
-      <MenuPrincipalMarcas Icono={marca?.Imagenes[0] || ""} marcaId={id} />
+      <MenuPrincipalMarcas
+        Icono={
+          (marca?.SubLogo?.length && marca.SubLogo?.[0]) ||
+          marca.Imagenes[0] ||
+          ""
+        }
+        marcaId={id}
+        ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
+      />
 
       <div className="-mt-[72px] md:-mt-[79.09px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
-        <TitleColor
-          title={`${marca?.NombreMarca || "Marca no disponble"}`}
-          ColorMarca={marca?.ColorMarca}
+        <CarrouselComponent
+          NombreMarca={marca?.NombreMarca}
+          Carrousel={marca?.Carrousel || []}
+          ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
         />
 
+        <div
+          style={{
+            backgroundColor: marca?.ColorMarca,
+            borderColor: marca?.ColorMarca,
+            // hover
+          }}
+        >
+          Productos Destacados
+        </div>
         <div className="container mx-auto  my-6 lg:my-5">
           <Card className="shadow-xl   ">
             <CardContent className="py-4">

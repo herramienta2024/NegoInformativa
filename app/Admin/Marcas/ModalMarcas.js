@@ -31,10 +31,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { deleteObject, listAll, ref } from "firebase/storage";
+import FileUploaderSubLogo from "./FIleUploaderSubLogo";
 
 const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
   const [InputValues, setInputValues] = useState({});
   const [files, setFiles] = useState([]);
+
+  const [SubLogo, setSubLogo] = useState([]);
 
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -102,9 +105,35 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
             Imagenes: imagesUrl || [],
           });
         }
+        if (SubLogo?.length > 0) {
+          await deleteExistingImages(nombreActual, "Marcas/SubLogo");
+          const imagesUrl = await uploadImages(
+            SubLogo,
+            nombreNuevo,
+            "Marcas/SubLogo"
+          );
+
+          const updateRef = doc(db, "Marcas", marcaId);
+          await updateDoc(updateRef, {
+            SubLogo: imagesUrl || [],
+          });
+        }
 
         closeOpenModalMarcas();
         return;
+      }
+
+      if (SubLogo?.length > 0) {
+        const imagesUrl = await uploadImages(
+          SubLogo,
+          nombreNuevo,
+          "Marcas/SubLogo"
+        );
+
+        const updateRef = doc(db, "Marcas", marcaId);
+        await updateDoc(updateRef, {
+          SubLogo: imagesUrl || [],
+        });
       }
 
       // Creación de una nueva marca
@@ -215,7 +244,6 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
                 type="color"
               />
             </div>
-
             <div className="space-y-2 lg:col-span-2">
               <Label htmlFor="Imagenes">
                 Logo Marca <span className="text-red-600"> (*)</span>
@@ -223,6 +251,36 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
               <FileUploader
                 setFiles={setFiles}
                 files={files}
+                Modal={OpenModalMarcas}
+              />
+            </div>
+            <div className="space-y-2 lg:col-span-2">
+              <Label htmlFor="ColorContraste" className="">
+                Color Contraste Blanco - Sub Color
+              </Label>
+              <Input
+                id="ColorContraste"
+                name="ColorContraste"
+                className="w-full text-gray-900"
+                onChange={HandlerChange}
+                defaultValue={OpenModalMarcas?.InfoEditar?.ColorContraste}
+                autoComplete="off"
+                type="color"
+              />
+            </div>
+
+            <div className="space-y-2 lg:col-span-2">
+              <Label htmlFor="Imagenes">
+                Logo Contraste Blanco - Sub Logo{" "}
+              </Label>
+
+              <FileUploaderSubLogo
+                Color={
+                  InputValues?.ColorContraste ||
+                  OpenModalMarcas?.InfoEditar?.ColorContraste
+                }
+                setFiles={setSubLogo}
+                files={SubLogo}
                 Modal={OpenModalMarcas}
               />
             </div>
