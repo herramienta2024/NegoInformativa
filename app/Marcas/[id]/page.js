@@ -55,6 +55,16 @@ const MarcaId = async ({ params: { id } }) => {
           Carrousel={marca?.Carrousel || []}
           ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
         />
+
+        <div
+          style={{
+            backgroundColor: marca?.ColorMarca,
+            borderColor: marca?.ColorMarca,
+            // hover
+          }}
+        >
+          Productos Destacados
+        </div>
         <div className="container mx-auto  my-6 lg:my-5">
           <Card className="shadow-xl   ">
             <CardContent className="py-4">

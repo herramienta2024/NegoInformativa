@@ -44,7 +44,7 @@ function CarrouselComponent({ Carrousel, NombreMarca, ColorMarca }) {
                         color: "white",
                       }}
                     >
-                      Calidad
+                      Conoce
                     </motion.section>
                     <motion.p
                       className="text-start text-base sm:text-4xl font-extrabold"
@@ -53,16 +53,13 @@ function CarrouselComponent({ Carrousel, NombreMarca, ColorMarca }) {
                       variants={fadeInVariants}
                       transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                      A tu{" "}
+                      Nuestros
                       <span
                         className="text-Secundario uppercase"
                         style={{
                           color: ColorMarca,
                         }}
-                      >
-                        {" "}
-                        Medida{" "}
-                      </span>
+                      ></span>
                     </motion.p>
 
                     <Link href={"/QuienesSomos"} className="flex justify-start">
