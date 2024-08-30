@@ -111,7 +111,7 @@ const Producto = async ({ params: { id } }) => {
                         <div className="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 ">
                           {Productos?.map((producto) => (
                             <Link
-                              href={`/Marcas/${producto.marcaId}`}
+                              href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
                               key={producto?.id}
                             >
                               <article className="rounded-xl bg-white p-3 shadow-lg hover:shadow-2xl   hover:transform hover:scale-105 duration-300 hover:cursor-pointer">

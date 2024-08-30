@@ -7,7 +7,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import MenuPrincipal from "../MenuPrincipal";
 
-export const revalidate = 3600; // revalidate at most every hour
+// export const revalidate = 3600; // revalidate at most every hour
 
 async function obtenerMarcasActivas() {
   try {

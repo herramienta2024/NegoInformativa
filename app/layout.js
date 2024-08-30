@@ -14,6 +14,7 @@ export default async function RootLayout({ children, modal }) {
   return (
     <html lang="es">
       <body className={inter.className}>
+        {modal}
         <Main>{children}</Main>
         <Toaster />
       </body>

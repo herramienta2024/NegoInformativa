@@ -7,27 +7,54 @@ import {
   CarouselPrevious,
 } from "./ui/carousel";
 import { Badge } from "./ui/badge";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "./ui/breadcrumb";
+import Link from "next/link";
 
 const ShowProducto = ({ product, CategoriaName, Empresa }) => {
-  console.log(" product", product);
+  console.log("produc", product);
+  console.log("CategoriaName", CategoriaName);
+  console.log("Empresa", Empresa);
 
   return (
-    <>
+    <div className="w-full h-full">
+      <Breadcrumb>
+        <BreadcrumbList className="capitalize">
+          <Link href={"/"}>
+            <BreadcrumbItem>
+              <BreadcrumbLink>NEGO</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Link>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link href={`/Marcas/`}>
+              <BreadcrumbLink className="uppercase">{Empresa}</BreadcrumbLink>
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <Link href={`/Marcas`}>
+              <BreadcrumbLink className="uppercase">
+                {CategoriaName}
+              </BreadcrumbLink>
+            </Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage className="capitalize">
+              {product?.NombreProducto || "Title Producto"}
+            </BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <div className="grid grid-cols-1 lg:grid-cols-2  gap-2 lg:gap-x-4">
         <div className=" w-[80%] mx-auto h-full">
-          {/* <div className="hidden lg:inline space-y-4">
-              {product?.Variantes?.map((image, i) => (
-                <Image
-                  key={image.key}
-                  src={image.url}
-                  alt={product.title}
-                  width={90}
-                  height={90}
-                  className="border rounded-sm"
-                />
-              ))}
-            </div> */}
-
           <Carousel
             opts={{
               loop: true,
@@ -126,7 +153,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
         </p> */}
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

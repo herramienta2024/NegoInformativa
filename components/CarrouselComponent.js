@@ -63,7 +63,7 @@ function CarrouselComponent({
                     </motion.p>
 
                     <Link
-                      href={`/Productos/${idMarca}`}
+                      href={`/Marcas/${idMarca}/Productos`}
                       className="flex justify-start"
                     >
                       <style jsx>{`
