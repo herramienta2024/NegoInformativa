@@ -300,13 +300,13 @@ const ModalProducto = ({
               />
             </div>
 
-            <div className="space-y-2 lg:col-span-2">
+            <div className="space-y-2 ">
               <Label htmlFor="Estado" className="">
                 Estado
               </Label>
               <Select
                 value={InputValues?.Estado}
-                defaultValue={OpenModalMarcas?.InfoEditar?.Estado}
+                defaultValue={OpenModalProducto?.InfoEditar?.Estado}
                 onValueChange={(e) => {
                   setInputValues({
                     ...InputValues,
