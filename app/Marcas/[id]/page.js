@@ -1,20 +1,11 @@
 import MenuPrincipalMarcas from "@/app/MenuMarcas";
 import CarrouselComponent from "@/components/CarrouselComponent";
 import CarrouslProductosImagenes from "@/components/CarrouslProductosImagenes";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Card, CardContent } from "@/components/ui/card";
 
 import { dbAdmin } from "@/firebase/firebaseAdmin";
-import ObtejerColeccionBackend from "@/lib/ObtejerColeccionBackend";
-import Image from "next/image";
+import { ProductosBackendRecomendados } from "@/lib/ObtejerColeccionBackend";
 import Link from "next/link";
+
 import { notFound } from "next/navigation";
 
 export const revalidate = 3600; // revalidate at most every hour
@@ -27,17 +18,13 @@ const MarcaId = async ({ params: { id } }) => {
   const docRef = await dbAdmin?.collection("Marcas").doc(id);
   const doc = await docRef?.get();
 
-  const Productos = await ObtejerColeccionBackend({
+  const Productos = await ProductosBackendRecomendados({
     collectionName: "Productos",
     variable: "Recomendado",
     idMarca: id,
   });
 
-  console.log("Productos", Productos);
-
   const marca = doc.data() || null;
-
-  console.log("marca", marca);
 
   if (!marca) return notFound();
 
@@ -58,42 +45,48 @@ const MarcaId = async ({ params: { id } }) => {
           NombreMarca={marca?.NombreMarca}
           Carrousel={marca?.Carrousel || []}
           ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
+          Slogan={marca?.Slogan}
+          idMarca={id}
         />
 
         <div
           style={{
             backgroundColor: marca?.ColorMarca || "black",
           }}
-          className="text-center py-5"
+          className="text-center py-10"
         >
-          <h1 className="text-4xl font-semibold text-white ">
-            Explore our Featured Products
-          </h1>
-          <h2 className="text-3xl text-white">
-            Check out our latest innovations on the tools you love.
-          </h2>
+          <div className="text-center max-w-4xl mx-auto space-y-4">
+            <h1 className="text-4xl text font-bold leading-9 text-white uppercase">
+              Explore nuestros productos destacados
+            </h1>
+            <h2 className="text-lg leading-9 text-white">
+              Descubra nuestras últimas innovaciones en las herramientas que más
+              le gustan.{" "}
+            </h2>
+          </div>
           <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
             {Productos?.map((producto) => (
-              <div
+              <Link
+                href={`/pepe/${producto.marcaId}`}
                 key={producto.id}
-                className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white dark:bg-slate-800 shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+                className="mx-auto mt-11 w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <CarrouslProductosImagenes
                   Variantes={producto?.Variantes || []}
                 />
 
                 <div className="p-4">
-                  <h2 className="mb-2 text-lg font-medium dark:text-white text-gray-900 uppercase">
+                  <h2 className="mb-2 text-lg font-bold    text-gray-900 uppercase">
                     {producto?.NombreProducto}
                   </h2>
                   <div
                     dangerouslySetInnerHTML={{
                       __html: producto?.Description || "",
                     }}
-                    className="mb-2 text-base dark:text-gray-300 text-gray-700 line-clamp-4"
+                    className="mb-2 text-base  text-gray-700 line-clamp-3"
                   ></div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>

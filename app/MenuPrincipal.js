@@ -4,10 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import ItemMenu from "./ItemMenu";
 import { usePathname } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Smartphone } from "lucide-react";
 
 import { motion } from "framer-motion";
+import IconsMenu from "../components/IconsMenu";
 
 const MenuPrincipal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -83,7 +82,7 @@ const MenuPrincipal = () => {
           animate="visible"
           variants={fadeInVariants}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-col  pl-14  "
+          className="flex flex-col   pl-14  "
         >
           <div
             className={` text-center  flex flex-col h-screen md:h-auto  md:flex md:flex-row  md:items-center md:justify-start  z-[-1] md:z-auto md:static gap-2 absolute text-white bg-black    md:bg-transparent  w-full left-0 top-full md:w-auto md:py-0  md:pl-0 pl-7 md:opacity-100 opacity-0 right-[-400px] transition-all ease-in   ${
@@ -126,27 +125,7 @@ const MenuPrincipal = () => {
             </div> */}
           </div>
         </motion.div>
-        <div className="hidden lg:flex justify-center items-center gap-x-4">
-          <Link href="/Contacto">
-            <Button
-              className={`bg-Secundario uppercase text-black hover:bg-white`}
-            >
-              Contacto
-            </Button>
-          </Link>
-
-          <a href="tel:+573107956853">
-            <div className=" uppercase lg:flex text-Secundario ">
-              <div>
-                <Smartphone className="w-14 h-full" />
-              </div>
-              <div className="">
-                <h1>LLamanos</h1>
-                <p className="text-2xl">3107956853</p>
-              </div>
-            </div>
-          </a>
-        </div>
+        <IconsMenu />
       </nav>
     </>
   );

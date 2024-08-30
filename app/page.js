@@ -46,7 +46,7 @@ const HomePage = () => {
     fetchMarcas();
   }, []);
   return (
-    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50">
+    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-white">
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {BannerInicio?.map((banner, index) => (
           <div key={index} className="relative w-full h-[21rem] sm:h-screen">
@@ -106,8 +106,8 @@ const HomePage = () => {
         ))}
       </Carousel>
 
-      <div className="container mx-auto">
-        <div className=" w-full h-full mx-auto space-y-6 shadow-xl bg-white rounded-lg">
+      <div className="container mx-auto ">
+        <div className=" w-full h-full mx-auto space-y-6  bg-white rounded-lg">
           <div className="grid w-full grid-cols-1 my-auto mt-8 mb-8 md:grid-cols-2 xl:gap-8 gap-5">
             <div className="flex flex-col justify-center col-span-1 text-center lg:text-start px-8">
               <div className="flex items-center justify-center mb-4 lg:justify-normal">
@@ -117,7 +117,7 @@ const HomePage = () => {
                 </h4>
               </div>
               <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">
-                NUESTROS PRODUCTOS
+                NUESTROS MARCAS
               </h1>
               <p className="mb-6 text-base font-normal leading-7 l  text-grey-700">
                 Nuestra empresa se enorgullece de ofrecer herramientas de alta
