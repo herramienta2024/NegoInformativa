@@ -291,9 +291,9 @@ const MarcaProductos = ({ params: { id } }) => {
                 <div
                   key={producto.id}
                   className={`w-full h-full mx-auto shadow-md border  ${
-                    producto?.Disponibilidad == "Si"
+                    producto?.Estado == "Activo"
                       ? "bg-green-200 border-green-500 "
-                      : (producto.Disponibilidad == "No" &&
+                      : (producto.Estado == "Inactivo" &&
                           "bg-red-200 border-red-500 ") ||
                         "bg-white"
                   }  border-gray-200 rounded-lg`}
