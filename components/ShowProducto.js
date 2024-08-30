@@ -86,8 +86,8 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             <CarouselNext />
           </Carousel>
         </div>
-        <div className=" flex justify-center flex-col items-center lg:items-start lg:justify-start mx-auto border w-full  uppercase rounded-md  p-5  space-y-2 overflow-auto">
-          <h1 className="font-semibold">
+        <div className=" flex justify-center flex-col items-center lg:items-start lg:justify-start mx-auto border w-full   rounded-md  p-5  space-y-2 overflow-auto">
+          <h1 className="font-semibold uppercase">
             {product?.NombreProducto || "Title Producto"}
           </h1>
           <div className=" space-x-2 ">
