@@ -23,7 +23,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
   console.log("Empresa", Empresa);
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full h-full overflow-auto">
       <Breadcrumb>
         <BreadcrumbList className="capitalize">
           <Link href={"/"}>
@@ -86,7 +86,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             <CarouselNext />
           </Carousel>
         </div>
-        <div className=" flex justify-center flex-col items-center lg:items-start lg:justify-start mx-auto border w-full  uppercase rounded-md  p-5  space-y-2 ">
+        <div className=" flex justify-center flex-col items-center lg:items-start lg:justify-start mx-auto border w-full  uppercase rounded-md  p-5  space-y-2 overflow-auto">
           <h1 className="font-semibold">
             {product?.NombreProducto || "Title Producto"}
           </h1>
@@ -99,21 +99,23 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             </Badge>
           </div>
 
-          <div className="space-y-2 ">
+          <div className="space-y-2 overflow-auto w-full h-full ">
             <h1 className="font-semibold text-xl">Variantes</h1>
-            <div className="grid grid-cols-2 gap-4  ">
+            <div className="grid grid-flow-col auto-cols-max	 gap-4 ">
               {product?.Variantes?.map((image, i) => (
                 <div
                   key={i}
-                  className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md hover:scale-105"
+                  className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md "
                 >
-                  <h1 className="capitalize ">{image?.Nombre || ""}</h1>
+                  <h1 className="capitalize  text-wrap">
+                    {image?.Nombre || ""}
+                  </h1>
                   <Image
                     src={image.url}
                     alt={product.title}
                     width={100}
                     height={100}
-                    className="border rounded-sm"
+                    className="border rounded-sm hover:scale-105"
                     style={{
                       objectFit: "contain",
                     }}
@@ -126,7 +128,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             dangerouslySetInnerHTML={{
               __html: product.Description || "Description no dispinible",
             }}
-            className="py-2"
+            className="py-2 "
           />
           {/* 
           <p className="text-yellow-500 text-sm flex space-x-0.5">

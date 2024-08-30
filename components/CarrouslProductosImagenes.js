@@ -4,23 +4,17 @@ import { Carousel } from "react-responsive-carousel";
 const CarrouslProductosImagenes = ({ Variantes }) => {
   return (
     <>
-      {Variantes?.map((image, i) => (
-        <Carousel
-          key={i}
-          infiniteLoop
-          autoPlay
-          showThumbs={false}
-          showStatus={false}
-        >
-          <div className="h-48 w-full">
+      <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
+        {Variantes?.map((image, i) => (
+          <div key={i} className="h-48 w-full">
             <img
-              className="w-full h-full object-cover object-center"
+              className="w-full h-full object-contain object-center"
               src={image?.url}
               alt={i}
             />
           </div>
-        </Carousel>
-      ))}
+        ))}
+      </Carousel>
     </>
   );
 };
