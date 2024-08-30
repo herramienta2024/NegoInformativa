@@ -6,6 +6,7 @@ import ItemMenu from "./ItemMenu";
 import { usePathname } from "next/navigation";
 
 import { motion } from "framer-motion";
+import IconsMenu from "../components/IconsMenu";
 
 const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -108,22 +109,24 @@ const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
           >
             {/*  */}
             <ItemMenu
-              ruta="/"
+              ruta={`/Marcas/${marcaId}`}
               setIsOpen={setIsOpen}
-              border={pathname == "/" ? true : false}
+              border={pathname == "/Marcas" ? true : false}
             >
               Inicio
             </ItemMenu>
 
             <ItemMenu
-              ruta={`/Marcas/${marcaId}/Prouctos`}
+              ruta={`/Marcas/${marcaId}/Productos`}
               setIsOpen={setIsOpen}
               border={pathname == "/Productos" ? true : false}
             >
               Productos
             </ItemMenu>
+            <IconsMenu />
           </div>
         </motion.div>
+
         {/* <div className="hidden lg:flex justify-center items-center gap-x-4"></div> */}
       </nav>
     </>

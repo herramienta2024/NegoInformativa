@@ -196,8 +196,22 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
                 type="text"
               />
             </div>
-
             <div className="space-y-2">
+              <Label htmlFor="Slogan" className="">
+                Slogan de la marca
+              </Label>
+              <Input
+                id="Slogan"
+                name="Slogan"
+                className="w-full text-gray-900"
+                onChange={HandlerChange}
+                defaultValue={OpenModalMarcas?.InfoEditar?.Slogan}
+                autoComplete="off"
+                type="text"
+              />
+            </div>
+
+            <div className="space-y-2 lg:col-span-2">
               <Label htmlFor="Estado" className="">
                 Estado
               </Label>

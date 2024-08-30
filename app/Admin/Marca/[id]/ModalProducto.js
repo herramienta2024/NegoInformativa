@@ -300,22 +300,35 @@ const ModalProducto = ({
               />
             </div>
 
-            {/* <div className="space-y-2">
-              <Label htmlFor="Precio" className="">
-                Precio S/ <span className="text-red-600">(*)</span>
+            <div className="space-y-2 lg:col-span-2">
+              <Label htmlFor="Estado" className="">
+                Estado
               </Label>
-              <Input
-                id="Precio"
-                name="Precio"
-                className="w-full text-gray-900"
-                onChange={HandlerChange}
-                defaultValue={OpenModalProducto?.InfoEditar?.Precio}
-                required
-                autoComplete="off"
-                type="number"
-                step="0.01"
-              />
-            </div> */}
+              <Select
+                value={InputValues?.Estado}
+                defaultValue={OpenModalMarcas?.InfoEditar?.Estado}
+                onValueChange={(e) => {
+                  setInputValues({
+                    ...InputValues,
+                    Estado: e,
+                  });
+                }}
+                id="Categoria"
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Define categoría del producto" />
+                </SelectTrigger>
+                <SelectContent>
+                  {[{ label: "Activo" }, { label: "Inactivo" }].map(
+                    (estado) => (
+                      <SelectItem key={estado.label} value={estado.label}>
+                        {estado.label}
+                      </SelectItem>
+                    )
+                  )}
+                </SelectContent>
+              </Select>
+            </div>
 
             <div className="space-y-2">
               <Label htmlFor="Categoria" className="">
@@ -470,9 +483,7 @@ const ModalProducto = ({
               </div>
             </div>
 
-            <div>
-              <UploadPDF />
-            </div>
+            <div>{/* <UploadPDF /> */}</div>
 
             <div className="lg:col-span-2">
               <Label htmlFor="ContenidoBLog" className="">

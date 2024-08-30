@@ -6,7 +6,13 @@ import Link from "next/link";
 import TitleColor from "@/app/TitleColor";
 import { motion } from "framer-motion";
 
-function CarrouselComponent({ Carrousel, NombreMarca, ColorMarca }) {
+function CarrouselComponent({
+  Carrousel,
+  NombreMarca,
+  ColorMarca,
+  Slogan,
+  idMarca,
+}) {
   const fadeInVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
@@ -44,25 +50,22 @@ function CarrouselComponent({ Carrousel, NombreMarca, ColorMarca }) {
                         color: "white",
                       }}
                     >
-                      Conoce
+                      Slogan
                     </motion.section>
                     <motion.p
-                      className="text-start text-base sm:text-4xl font-extrabold"
+                      className="text-start text-base sm:text-4xl font-extrabold "
                       initial="hidden"
                       animate="visible"
                       variants={fadeInVariants}
                       transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                      Nuestros
-                      <span
-                        className="text-Secundario uppercase"
-                        style={{
-                          color: ColorMarca,
-                        }}
-                      ></span>
+                      {Slogan || "Calidad y confianza"}
                     </motion.p>
 
-                    <Link href={"/QuienesSomos"} className="flex justify-start">
+                    <Link
+                      href={`/Marcas/${idMarca}/Productos`}
+                      className="flex justify-start"
+                    >
                       <style jsx>{`
                         .custom-hover:hover {
                           /* Estilos para hover aquí */
