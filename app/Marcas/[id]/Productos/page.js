@@ -113,8 +113,9 @@ const Producto = async ({ params: { id } }) => {
                             <Link
                               href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
                               key={producto?.id}
+                              className="bg-white rounded-xl p-3 shadow-lg hover:shadow-2xl   hover:transform hover:scale-105 duration-300 hover:cursor-pointer"
                             >
-                              <article className="rounded-xl bg-white p-3 shadow-lg hover:shadow-2xl   hover:transform hover:scale-105 duration-300 hover:cursor-pointer">
+                              <article className="">
                                 <div className="relative flex items-end overflow-hidden rounded-xl ">
                                   <CarrouslProductosImagenes
                                     Variantes={producto?.Variantes || []}
@@ -126,9 +127,15 @@ const Producto = async ({ params: { id } }) => {
                                   <h2 className="text-gray-700 font-semibold uppercase">
                                     {producto?.NombreProducto}
                                   </h2>
-                                  <p className="mt-1 text-sm text-gray-500 line-clamp-3">
-                                    {producto?.Descripcion}
-                                  </p>
+                                  {/* <p className="mt-1 text-sm text-gray-500 line-clamp-3">
+                                    
+                                  </p> */}
+                                  <div
+                                    className="line-clamp-4 mt-1 text-sm text-gray-500 "
+                                    dangerouslySetInnerHTML={{
+                                      __html: producto?.Description || "",
+                                    }}
+                                  />
                                   {/* 
                         <div className="mt-3 flex items-end justify-between">
                           <p className="text-lg font-bold text-blue-500">$850</p>

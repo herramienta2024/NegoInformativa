@@ -24,7 +24,7 @@ const ShowInfoProducto = ({ product, CategoriaName, Empresa }) => {
         }
       }}
     >
-      <DialogContent className="max-w-7xl overflow-auto">
+      <DialogContent className="max-w-7xl h-full max-h-[90%]">
         <DialogHeader>
           <DialogTitle>Información del producto</DialogTitle>
           <DialogDescription></DialogDescription>
