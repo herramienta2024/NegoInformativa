@@ -43,13 +43,13 @@ const QuienesSomos = () => {
   };
 
   return (
-    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-gray-50 w-full h-full">
+    <div className="-mt-[72px] md:-mt-[88px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
       <TitleSection
         title={`Soluciones a tu medida`}
         image="/Banners/BannerNosotros.webp"
       />
 
-      <div className="py-7 w-full h-full container shadow-md bg-white space-y-5">
+      <div className="py-7 w-full h-full container shadow-md -mt-24 space-y-5">
         <Card className="border-black border-2">
           <CardContent className="grid w-full grid-cols-1 my-auto mt-6 mb-8 lg:grid-cols-2 gap-6">
             <motion.div

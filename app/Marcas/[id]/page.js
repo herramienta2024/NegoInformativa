@@ -41,7 +41,7 @@ const MarcaId = async ({ params: { id } }) => {
         ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
       />
 
-      <div className="-mt-[72px] md:-mt-[79.09px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
+      <div className="-mt-[72px] md:-mt-[88px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
         <CarrouselComponent
           NombreMarca={marca?.NombreMarca}
           Carrousel={marca?.Carrousel || []}

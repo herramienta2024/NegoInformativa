@@ -113,15 +113,18 @@ const HomePage = () => {
               <div className="flex items-center justify-center mb-4 lg:justify-normal">
                 <Image src={"/Tuerca.svg"} width={30} height={30} alt="logo" />
                 <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">
-                  DESCUBRE LO NUEVO
+                  Explora nuestra
                 </h4>
               </div>
-              <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900">
-                NUESTROS MARCAS
+              <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900 uppercase">
+                colección de marcas líderes
               </h1>
               <p className="mb-6 text-base font-normal leading-7 l  text-grey-700">
-                Nuestra empresa se enorgullece de ofrecer herramientas de alta
-                calidad para satisfacer todas tus necesidades.
+                En nuestra empresa, nos enorgullece ofrecerte una gama completa
+                de marcas de alta calidad. Cada marca ha sido seleccionada para
+                proporcionarte herramientas y productos excepcionales que cubren
+                todas tus necesidades. Conoce a fondo cada una de nuestras
+                marcas y encuentra la solución perfecta para ti.
               </p>
               <div className="flex flex-col items-center gap-4 lg:flex-row">
                 <div className="inline-block mr-2 mt-2">

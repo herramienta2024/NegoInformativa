@@ -14,6 +14,7 @@ import {
   FileHeart,
   GalleryHorizontal,
   HistoryIcon,
+  MapPin,
   MonitorXIcon,
   Users,
   Utensils,
@@ -69,6 +70,12 @@ const DashboardLayout = ({ children }) => {
       name: "Marcas",
       link: "/Admin/Marcas",
       icon: <FileHeart className="w-6 h-6 text-white" />,
+      hidden: claims?.Rol?.includes("Admin") ? false : true,
+    },
+    {
+      name: "Donde Comprar",
+      link: "/Admin/DondeComprar",
+      icon: <MapPin className="w-6 h-6 text-white" />,
       hidden: claims?.Rol?.includes("Admin") ? false : true,
     },
   ];
