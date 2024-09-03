@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/card";
 import { db } from "@/firebase/firebaseClient";
 import { collection, onSnapshot } from "firebase/firestore";
-import { BadgePlus } from "lucide-react";
+import { BadgePlus, PencilIcon, TrashIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import ModalComprar from "./ModalComprar";
+
+import ModalDondeComprar from "./ModalComprar";
+import { Input } from "@/components/ui/input";
 
 const DondeComprar = () => {
   const [Compras, setCompras] = useState([]);
@@ -32,7 +33,7 @@ const DondeComprar = () => {
         setCompras(DondeComprarData);
       },
       (error) => {
-        console.error("Error fetching marcas: ", error);
+        console.error("Error fetching compras: ", error);
       }
     );
 
@@ -42,7 +43,7 @@ const DondeComprar = () => {
   return (
     <div>
       {OpenModalCompra?.Visible && (
-        <ModalComprar
+        <ModalDondeComprar
           OpenModalCompra={OpenModalCompra}
           setOpenModalCompra={setOpenModalCompra}
         />
@@ -78,71 +79,47 @@ const DondeComprar = () => {
         <Card className="shadow-md">
           <CardHeader>
             <CardTitle>Lista de ubicaciones </CardTitle>
+
+            <Input placeholder="Buscar por nombre" />
           </CardHeader>
           <CardContent>
             <div>
               <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-6 p-6  md:grid-cols-3  ">
-                {/* {Marcas?.map((Marca) => (
+                {Compras?.map((compra) => (
                   <div
-                    key={Marca.id}
+                    key={compra.id}
                     className={`w-full  border-gray-200 mx-auto border    rounded-lg  shadow-md`}
+                    style={{
+                      backgroundColor:
+                        compra?.Estado == "Activo" ? "#bbf7d0" : "#fecaca",
+                    }}
                   >
-                    {Marca?.Imagenes?.length > 0 && (
-                      <section
-                        className={cn("rounded-lg relative w-full h-[200px]")}
-                        style={{
-                          backgroundColor: Marca?.ColorMarca || "black",
-                        }}
-                      >
-                        <Image
-                          className="rounded-t-lg "
-                          fill
-                          src={Marca?.Imagenes[0] || ""}
-                          alt="imageMarca"
-                          style={{
-                            objectFit: "contain",
-                          }}
-                        />
-                      </section>
-                    )}
-
-                    <div
-                      className="p-5"
-                      style={{
-                        backgroundColor:
-                          Marca?.Estado == "Activo" ? "#bbf7d0" : "#fecaca",
-                      }}
-                    >
+                    <div className="p-5">
                       <div>
                         <h1 className="text-gray-900 font-bold uppercase text-center text-2xl tracking-tight ">
-                          {Marca?.NombreMarca}
+                          {compra?.NombreLocal || "Sin nombre"}
                         </h1>
+                        <p>
+                          <span className="text-xl font-semibold">
+                            Dirección:
+                          </span>
+                          {compra?.NombreLocal}
+                        </p>
+                        <p>
+                          <span className="text-xl font-semibold">
+                            Telefono:
+                          </span>
+                          {compra?.Telefono}
+                        </p>
                       </div>
                       <div className="flex items-center justify-center gap-x-2">
                         <button
-                          title="Sliders"
+                          title="Editar compra"
                           onClick={(e) => {
                             e.preventDefault();
-                            setOpenModalSlider({
+                            setOpenModalCompra({
                               Visible: true,
-                              InfoEditar: {
-                                id: Marca.id,
-                                NombreMarca: Marca?.NombreMarca || "",
-                                Carrousel: Marca?.Carrousel || [],
-                              },
-                            });
-                          }}
-                          className="bg-yellow-800 space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
-                        >
-                          <ImageIcon className="w-4 h-4" />
-                        </button>
-                        <button
-                          title="Editar Marca"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setOpenModalMarcas({
-                              Visible: true,
-                              InfoEditar: Marca,
+                              InfoEditar: compra,
                             });
                           }}
                           className="bg-blue-500 space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:bg-blue-600"
@@ -150,19 +127,21 @@ const DondeComprar = () => {
                           <PencilIcon className="w-4 h-4" />
                         </button>
                         <button
-                          title="Eliminar Marca"
+                          title="Eliminar compra"
                           onClick={async (e) => {
                             e.preventDefault();
 
                             const Confirm = confirm(
-                              `Esta Seguro de eliminar esta Marca: ${Marca.NombreMarca}`
+                              `Esta Seguro de eliminar esta compra: ${compra.Nombrecompra}`
                             );
                             if (Confirm) {
                               await DeleteImagenes(
-                                Marca?.NombreMarca?.replace(/\s+/g, "_"),
-                                "Marcas"
+                                compra?.Nombrecompra?.replace(/\s+/g, "_"),
+                                "compras"
                               );
-                              await deleteDoc(doc(db, "Marcas", `${Marca.id}`));
+                              await deleteDoc(
+                                doc(db, "compras", `${compra.id}`)
+                              );
 
                               // Lista todos los objetos (archivos) en el directorio
                             }
@@ -174,7 +153,7 @@ const DondeComprar = () => {
                       </div>
                     </div>
                   </div>
-                ))} */}
+                ))}
               </div>
             </div>
           </CardContent>
