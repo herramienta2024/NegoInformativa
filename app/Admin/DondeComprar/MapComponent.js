@@ -30,11 +30,15 @@ const MapComponent = ({
   setSearchTerm,
   InputValues,
   options,
+  searchTerm,
+  SearchTermSelected,
+  setSearchTermSelected,
 }) => {
   const handleSelectChange = (event) => {
     const selectedValue = options.find((option) => option.label === event);
 
     if (selectedValue) {
+      setSearchTermSelected(selectedValue.label);
       setSelectedPosition(selectedValue.value);
     }
   };
@@ -89,31 +93,33 @@ const MapComponent = ({
         </Select>
       )}
 
-      <MapContainer
-        center={selectedPosition || [51.505, -0.09]} // Valor por defecto si selectedPosition no está definido
-        zoom={10}
-        style={{ height: "400px", width: "100%" }}
-        className="mt-64"
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+      {SearchTermSelected && (
+        <MapContainer
+          center={selectedPosition || [4.570868, -74.297333]} // Valor por defecto si selectedPosition no está definido
+          zoom={10}
+          style={{ height: "300px", width: "100%" }}
+          className="mt-64"
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-        {selectedPosition && (
-          <Marker position={selectedPosition} icon={customIcon}>
-            <Popup>
-              Local:{" "}
-              <strong>
-                {InputValues?.NombreLocal || "Nombre no disponible"}
-              </strong>
-            </Popup>
-          </Marker>
-        )}
+          {selectedPosition && (
+            <Marker position={selectedPosition} icon={customIcon}>
+              <Popup>
+                Local:{" "}
+                <strong>
+                  {InputValues?.NombreLocal || "Nombre no disponible"}
+                </strong>
+              </Popup>
+            </Marker>
+          )}
 
-        <MapUpdater />
-        <MapClickHandler />
-      </MapContainer>
+          <MapUpdater />
+          <MapClickHandler />
+        </MapContainer>
+      )}
     </div>
   );
 };
