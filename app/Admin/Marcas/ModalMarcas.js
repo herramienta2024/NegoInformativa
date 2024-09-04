@@ -123,20 +123,6 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
         return;
       }
 
-      if (SubLogo?.length > 0) {
-        const imagesUrl = await uploadImages(
-          SubLogo,
-          nombreNuevo,
-          "Marcas/SubLogo"
-        );
-
-        const updateRef = doc(db, "Marcas", marcaId);
-        await updateDoc(updateRef, {
-          SubLogo: imagesUrl || [],
-        });
-      }
-
-      // Creación de una nueva marca
       if (!files?.length > 0) {
         return toast({
           title: "Alerta",
@@ -147,11 +133,29 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
       const nombreCarpeta = InputValues?.NombreMarca?.replace(/\s+/g, "_");
       const imagesUrl = await uploadImages(files, nombreCarpeta, "Marcas");
 
-      await addDoc(collection(db, "Marcas"), {
+      const response = await addDoc(collection(db, "Marcas"), {
         ...InputValues,
         Imagenes: imagesUrl,
         createdAt: serverTimestamp(),
       });
+
+      const nombreNuevo =
+        InputValues?.NombreMarca?.replace(/\s+/g, "_") || nombreActual;
+
+      if (SubLogo?.length > 0) {
+        const imagesUrl = await uploadImages(
+          SubLogo,
+          nombreNuevo,
+          "Marcas/SubLogo"
+        );
+
+        const updateRef = doc(db, "Marcas", `${response.id}`);
+        await updateDoc(updateRef, {
+          SubLogo: imagesUrl || [],
+        });
+      }
+
+      // Creación de una nueva marca
 
       closeOpenModalMarcas();
     } catch (err) {
