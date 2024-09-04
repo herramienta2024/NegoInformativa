@@ -1,113 +1,236 @@
+"use client";
+import React, { useEffect, useState } from "react";
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { Carousel } from "react-responsive-carousel";
+import Link from "next/link";
+import { motion } from "framer-motion";
 import Image from "next/image";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "@/firebase/firebaseClient";
 
-export default function Home() {
+const HomePage = () => {
+  const [Marcas, setMarcas] = useState([]);
+
+  const BannerInicio = [
+    {
+      imagen: "/Banners/Banner.jpg",
+    },
+  ];
+
+  // Variantes de animación para fade-in
+  const fadeInVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1 },
+  };
+
+  useEffect(() => {
+    const fetchMarcas = async () => {
+      try {
+        const marcasRef = collection(db, "Marcas");
+        const q = query(marcasRef, where("Estado", "==", "Activo"));
+        const querySnapshot = await getDocs(q);
+
+        const marcasData = querySnapshot?.docs?.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setMarcas(marcasData);
+      } catch (error) {
+        console.error("Error fetching marcas: ", error);
+      }
+    };
+
+    fetchMarcas();
+  }, []);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-white">
+      <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
+        {BannerInicio?.map((banner, index) => (
+          <div key={index} className="relative w-full h-[21rem] sm:h-screen">
+            <img
+              src={banner.imagen}
+              className="h-full w-full object-cover overflow-hidden"
+              alt={`slider ${index}`}
             />
-          </a>
+
+            <motion.div
+              className="absolute top-0 left-0 w-full h-full text-white bg-black/40"
+              initial="hidden"
+              animate="visible"
+              variants={fadeInVariants}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="flex justify-start items-center max-w-[883px] h-full pl-2 sm:text-3xl sm:pl-20">
+                <div className="max-w-[40rem] space-y-1 sm:space-y-4">
+                  <motion.section
+                    className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 w-[10.5rem] text-black"
+                    initial="hidden"
+                    animate="visible"
+                    variants={fadeInVariants}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                  >
+                    Soluciones
+                  </motion.section>
+                  <motion.p
+                    className="text-start text-base sm:text-4xl font-extrabold"
+                    initial="hidden"
+                    animate="visible"
+                    variants={fadeInVariants}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                  >
+                    A tu{" "}
+                    <span className="text-Secundario uppercase"> Medida </span>
+                  </motion.p>
+
+                  <Link href={"/QuienesSomos"} className="flex justify-start">
+                    <motion.div
+                      className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-0 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent text-white border-Secundario hover:text-black hover:bg-Secundario"
+                      initial="hidden"
+                      animate="visible"
+                      variants={fadeInVariants}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <strong className="font-bold uppercase">
+                        Quienes Somos
+                      </strong>
+                      <span className="absolute bg-Secundario bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
+                    </motion.div>
+                  </Link>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        ))}
+      </Carousel>
+
+      <div className="container mx-auto ">
+        <div className=" w-full h-full mx-auto space-y-6  bg-white rounded-lg">
+          <div className="grid w-full grid-cols-1 my-auto mt-8 mb-8 md:grid-cols-2 xl:gap-8 gap-5">
+            <div className="flex flex-col justify-center col-span-1 text-center lg:text-start px-8">
+              <div className="flex items-center justify-center mb-4 lg:justify-normal">
+                <Image src={"/Tuerca.svg"} width={30} height={30} alt="logo" />
+                <h4 className="ml-2 text-sm font-bold tracking-widest text-primary uppercase">
+                  Explora nuestra
+                </h4>
+              </div>
+              <h1 className="mb-8 text-4xl font-extrabold leading-tight lg:text-6xl text-dark-grey-900 uppercase">
+                colección de marcas líderes
+              </h1>
+              <p className="mb-6 text-base font-normal leading-7 l  text-grey-700">
+                En nuestra empresa, nos enorgullece ofrecerte una gama completa
+                de marcas de alta calidad. Cada marca ha sido seleccionada para
+                proporcionarte herramientas y productos excepcionales que cubren
+                todas tus necesidades. Conoce a fondo cada una de nuestras
+                marcas y encuentra la solución perfecta para ti.
+              </p>
+              <div className="flex flex-col items-center gap-4 lg:flex-row">
+                <div className="inline-block mr-2 mt-2">
+                  <Link href={"/QuienesSomos"} className="flex justify-start">
+                    <motion.div
+                      className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-0 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent border-Secundario hover:text-black hover:bg-Secundario"
+                      initial="hidden"
+                      animate="visible"
+                      variants={fadeInVariants}
+                      transition={{ duration: 0.8, delay: 0.6 }}
+                    >
+                      <strong className="font-bold uppercase">
+                        Más detalles{" "}
+                      </strong>
+                      <span className="absolute bg-Secundario bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
+                    </motion.div>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="">
+              <div className="mx-auto grid max-w-6xl  grid-cols-1 gap-4 p-6  md:grid-cols-3  ">
+                {Marcas?.map((Marca) => (
+                  <Link
+                    href={`/Marcas/${Marca.id}`}
+                    key={Marca.id}
+                    className={`w-full  border-gray-200 mx-auto border   rounded-lg  shadow-md`}
+                  >
+                    {Marca?.Imagenes?.length > 0 && (
+                      <section
+                        className={
+                          "rounded-lg relative w-full h-[130px] overflow-hidden "
+                        }
+                        style={{
+                          backgroundColor: Marca?.ColorMarca || "black",
+                        }}
+                      >
+                        <Image
+                          className="px-2"
+                          fill
+                          src={Marca?.Imagenes[0] || ""}
+                          alt="imageMarca"
+                          style={{
+                            objectFit: "contain",
+                          }}
+                        />
+                      </section>
+                    )}
+                  </Link>
+                ))}
+              </div>{" "}
+            </div>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        variants={fadeInVariants}
+        className=" mx-auto space-y-4 shadow-xl bg-white"
+      >
+        <div className=" bg-black items-center justify-center flex flex-col">
+          <div className="items-center justify-center w-full p-8 flex flex-col">
+            <div className="rounded-xl max-w-2xl mx-auto bg-gray-800/50 px-6 py-4 shadow-lg backdrop-blur-md  flex justify-center items-center flex-col">
+              <h4 className="w-48 border-t-4 border-solid border-[#ffcc29] h-4"></h4>
+              <h4
+                className="text-orange-300    text-2xl"
+                style={{ fontFamily: "Abel" }}
+              >
+                ¿Quiénes somos?
+              </h4>
+              <h2
+                className="text-gray-300   text-5xl text-center mt-2 mb-3"
+                style={{ fontFamily: '"Archivo Black"' }}
+              >
+                ¡Descubre nuestra esencia!
+              </h2>
+              <div className="inline-block mr-2 mt-2">
+                <Link
+                  href={"/QuienesSomos"}
+                  className="focus:outline-none text-black text-lg py-2.5 px-5 rounded-md bg-[#ffcc29]/80 hover:scale-105 hover:shadow-lg flex items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6 mr-2"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+                    />
+                  </svg>
+                  Conócenos{" "}
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
-}
+};
+
+export default HomePage;
