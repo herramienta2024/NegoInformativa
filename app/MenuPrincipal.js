@@ -7,11 +7,15 @@ import { usePathname } from "next/navigation";
 
 import { motion } from "framer-motion";
 import IconsMenu from "../components/IconsMenu";
+import dynamic from "next/dynamic";
 
+const ModalUbicacion = dynamic(() => import("../components/ModalUbicacion"), {
+  ssr: false,
+});
 const MenuPrincipal = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const [scrollBg, setScrollBg] = useState("");
+  const [OpenModalSearch, setOpenModalSearch] = useState(false);
 
   const pathname = usePathname();
 
@@ -44,6 +48,12 @@ const MenuPrincipal = () => {
 
   return (
     <>
+      {OpenModalSearch && (
+        <ModalUbicacion
+          setOpenModalSearch={setOpenModalSearch}
+          OpenModalSearch={OpenModalSearch}
+        />
+      )}
       <nav
         style={{ filter: "drop-shadow(0px 0px 3px black)" }}
         className={`sticky z-50 top-0 p-2 md:px-10 shadow-sm md:flex md:items-center md:justify-between    ${scrollBg}  `}
@@ -82,7 +92,7 @@ const MenuPrincipal = () => {
           animate="visible"
           variants={fadeInVariants}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-col   pl-14  "
+          className="flex flex-col "
         >
           <div
             className={` text-center  flex flex-col h-screen md:h-auto  md:flex md:flex-row  md:items-center md:justify-start  z-[-1] md:z-auto md:static gap-2 absolute text-white bg-black    md:bg-transparent  w-full left-0 top-full md:w-auto md:py-0  md:pl-0 pl-7 md:opacity-100 opacity-0 right-[-400px] transition-all ease-in   ${
@@ -125,7 +135,7 @@ const MenuPrincipal = () => {
             </div> */}
           </div>
         </motion.div>
-        <IconsMenu />
+        <IconsMenu setOpenModalSearch={setOpenModalSearch} />
       </nav>
     </>
   );
