@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/components/ui/use-toast";
 import React, { useEffect, useState } from "react";
 
-import MapComponent from "./MapComponent";
 import useDebounce from "@/lib/useDebounce";
 import {
   addDoc,
@@ -30,19 +29,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import dynamic from "next/dynamic";
+
+const MapComponent = dynamic(() => import("./MapComponent"), {
+  ssr: false,
+});
 
 const ModalDondeComprar = ({ OpenModalCompra, setOpenModalCompra }) => {
   const [InputValues, setInputValues] = useState({});
 
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 500); // 500ms de retraso
-
+  const [SearchTermSelected, setSearchTermSelected] = useState("");
   const [Loading, setLoading] = useState(false);
 
   const [selectedPosition, setSelectedPosition] = useState([
     OpenModalCompra?.InfoEditar?.location?.latitude || 4.570868,
     OpenModalCompra?.InfoEditar?.location?.longitude || -74.297333,
   ]);
+
   const [options, setOptions] = useState([]);
 
   const { toast } = useToast();
@@ -103,6 +108,7 @@ const ModalDondeComprar = ({ OpenModalCompra, setOpenModalCompra }) => {
           {
             ...InputValues,
             location: new GeoPoint(selectedPosition[0], selectedPosition[1]),
+            SearchTermSelected: SearchTermSelected,
           }
         );
 
@@ -119,6 +125,7 @@ const ModalDondeComprar = ({ OpenModalCompra, setOpenModalCompra }) => {
           ...InputValues,
           //  add punto geografico
           location: new GeoPoint(selectedPosition[0], selectedPosition[1]),
+          searchTerm: searchTerm,
         });
         toast({
           title: "Lugar de compra agregado",
@@ -240,6 +247,8 @@ const ModalDondeComprar = ({ OpenModalCompra, setOpenModalCompra }) => {
               options={options}
               setOptions={setOptions}
               fetchLocations={fetchLocations}
+              SearchTermSelected={SearchTermSelected}
+              setSearchTermSelected={setSearchTermSelected}
             />
           </div>
 
