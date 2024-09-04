@@ -126,6 +126,7 @@ const ModalDondeComprar = ({ OpenModalCompra, setOpenModalCompra }) => {
           //  add punto geografico
           location: new GeoPoint(selectedPosition[0], selectedPosition[1]),
           searchTerm: searchTerm,
+          SearchTermSelected: SearchTermSelected,
         });
         toast({
           title: "Lugar de compra agregado",
