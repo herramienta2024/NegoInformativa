@@ -33,8 +33,6 @@ const Marcas = () => {
     InfoEditar: {},
   });
 
-  console.log("OpenModalSlider", OpenModalSlider);
-
   const [Marcas, setMarcas] = useState([]);
 
   useEffect(() => {

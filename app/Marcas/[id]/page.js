@@ -94,7 +94,7 @@ const MarcaId = async ({ params: { id } }) => {
           </div>
 
           <Link href={`/Marcas/${id}/Productos`}>
-            <Button className="text-2xl uppercase ">Más Productos</Button>
+            <Button className="text-2xl uppercase ">Ver Más</Button>
           </Link>
         </div>
       </div>

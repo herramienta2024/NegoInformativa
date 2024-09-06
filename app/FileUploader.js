@@ -34,8 +34,6 @@ const img = {
 };
 
 const FileUploader = ({ setFiles, files, Modal }) => {
-  console.log(Modal);
-
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -66,20 +64,24 @@ const FileUploader = ({ setFiles, files, Modal }) => {
     </div>
   ));
   const thumbsEditarCarrousel = Modal?.InfoEditar?.Carrousel?.map(
-    (file, key) => (
-      <div style={thumb} key={key}>
-        <div style={thumbInner}>
-          <img
-            src={file}
-            style={img}
-            // Revoke data uri after image is loaded
-            onLoad={() => {
-              URL.revokeObjectURL(file);
-            }}
-          />
+    (file, key) => {
+      console.log("file", file);
+
+      return (
+        <div style={thumb} key={key}>
+          <div style={thumbInner}>
+            <img
+              src={file?.Imagen || file}
+              style={img}
+              // Revoke data uri after image is loaded
+              onLoad={() => {
+                URL.revokeObjectURL(file);
+              }}
+            />
+          </div>
         </div>
-      </div>
-    )
+      );
+    }
   );
   const thumbs = files?.map((file, key) => (
     <div style={thumb} key={key}>
@@ -114,12 +116,11 @@ const FileUploader = ({ setFiles, files, Modal }) => {
         <aside style={thumbsContainer}>{thumbs}</aside>
       ) : (
         <>
-          {(Modal?.InfoEditar?.Imagenes && (
+          {Modal?.InfoEditar?.Carrousel.length > 0 ? (
+            <aside style={thumbsContainer}>{thumbsEditarCarrousel}</aside>
+          ) : (
             <aside style={thumbsContainer}>{thumbsEditar}</aside>
-          )) ||
-            (Modal?.InfoEditar?.Carrousel && (
-              <aside style={thumbsContainer}>{thumbsEditarCarrousel}</aside>
-            ))}
+          )}
         </>
       )}
     </section>
