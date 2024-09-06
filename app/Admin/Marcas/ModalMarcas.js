@@ -32,6 +32,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { deleteObject, listAll, ref } from "firebase/storage";
 import FileUploaderSubLogo from "./FIleUploaderSubLogo";
+import FileUploaderLogoPrincipal from "./FileUploaderLogoPrincipal";
 
 const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
   const [InputValues, setInputValues] = useState({});
@@ -266,7 +267,17 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
               <Label htmlFor="Imagenes">
                 Logo Marca <span className="text-red-600"> (*)</span>
               </Label>
-              <FileUploader
+              {/* <FileUploader
+                setFiles={setFiles}
+                files={files}
+                Modal={OpenModalMarcas}
+              /> */}
+
+              <FileUploaderLogoPrincipal
+                Color={
+                  InputValues?.ColorMarca ||
+                  OpenModalMarcas?.InfoEditar?.ColorMarca
+                }
                 setFiles={setFiles}
                 files={files}
                 Modal={OpenModalMarcas}
