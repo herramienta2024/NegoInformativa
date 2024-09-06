@@ -267,11 +267,6 @@ const ModalMarcas = ({ OpenModalMarcas, setOpenModalMarcas }) => {
               <Label htmlFor="Imagenes">
                 Logo Marca <span className="text-red-600"> (*)</span>
               </Label>
-              {/* <FileUploader
-                setFiles={setFiles}
-                files={files}
-                Modal={OpenModalMarcas}
-              /> */}
 
               <FileUploaderLogoPrincipal
                 Color={
