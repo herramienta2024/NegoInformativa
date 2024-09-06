@@ -10,7 +10,16 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const PreguntasFrecuentes = () => {
   return (
-    <div className="-mt-[72px] md:-mt-[88px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
+    <div
+      className="-mt-[84px] md:-mt-[96px]
+
+
+
+
+
+ lg:-mt-[91.09px]
+ bg-gray-50 w-full h-full"
+    >
       <TitleSection
         title={`Preguntas Frecuentes`}
         image="/Banners/BannerPreguntasFrecuentes.webp"

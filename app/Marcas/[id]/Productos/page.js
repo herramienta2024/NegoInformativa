@@ -40,7 +40,7 @@ const Producto = async ({ params: { id } }) => {
         ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
       />
 
-      <div className="-mt-[72px] md:-mt-[79.09px] lg:-mt-[79.09px] bg-gray-50 w-full h-full">
+      <div className="-mt-[84px] md:-mt-[1000px] bg-gray-50 w-full h-full">
         {/* <CarrouselComponent
           NombreMarca={marca?.NombreMarca}
           Carrousel={marca?.Carrousel || []}
