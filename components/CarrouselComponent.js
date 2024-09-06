@@ -30,30 +30,36 @@ function CarrouselComponent({
               />
 
               <motion.div
-                className="absolute top-0 left-0 w-full h-full text-white bg-black/40"
+                className="absolute top-0 left-0 w-2/4 h-full text-white "
                 initial="hidden"
                 animate="visible"
                 variants={fadeInVariants}
                 transition={{ duration: 0.8 }}
+                style={{
+                  background: `linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0) 100%)`,
+                }}
               >
                 <div className="flex justify-start items-center max-w-[883px] h-full pl-2 sm:text-3xl sm:pl-20">
                   <div className="max-w-[40rem] space-y-1 sm:space-y-4">
-                    <motion.section
-                      className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200  text-black"
-                      initial="hidden"
-                      animate="visible"
-                      variants={fadeInVariants}
-                      transition={{ duration: 0.8, delay: 0.2 }}
-                      style={{
-                        backgroundColor: ColorMarca,
-                        borderColor: ColorMarca,
-                        color: "white",
-                      }}
-                    >
-                      {banner?.Titulo || "Seguridad y confianza"}
-                    </motion.section>
+                    <div className="w-full max-w-[20rem]">
+                      <motion.h1
+                        className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 text-black max-w-full text-center text-wrap"
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeInVariants}
+                        transition={{ duration: 0.8, delay: 0.2 }}
+                        style={{
+                          backgroundColor: ColorMarca,
+                          borderColor: ColorMarca,
+                          color: "white",
+                          wordWrap: "break-word", // Para que el texto largo se divida en varias líneas
+                        }}
+                      >
+                        {banner?.Titulo || "Seguridad y confianza"}
+                      </motion.h1>
+                    </div>
                     <motion.p
-                      className="text-start text-base sm:text-4xl font-extrabold "
+                      className="text-start text-base sm:text-4xl font-extrabold w-auto "
                       initial="hidden"
                       animate="visible"
                       variants={fadeInVariants}

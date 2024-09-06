@@ -7,11 +7,16 @@ import { usePathname } from "next/navigation";
 
 import { motion } from "framer-motion";
 import IconsMenu from "../components/IconsMenu";
+import dynamic from "next/dynamic";
 
+const ModalUbicacion = dynamic(() => import("../components/ModalUbicacion"), {
+  ssr: false,
+});
 const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const [scrollBg, setScrollBg] = useState("");
+  const [OpenModalSearch, setOpenModalSearch] = useState(false);
 
   const pathname = usePathname();
 
@@ -44,6 +49,12 @@ const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
 
   return (
     <>
+      {OpenModalSearch && (
+        <ModalUbicacion
+          setOpenModalSearch={setOpenModalSearch}
+          OpenModalSearch={OpenModalSearch}
+        />
+      )}
       <style jsx>{`
         .ChangeColor {
           background-color: ${ColorMarca};
@@ -60,7 +71,7 @@ const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
       `}</style>
       <nav
         style={{ filter: "drop-shadow(0px 0px 3px black)" }}
-        className={`sticky z-50 top-0 p-2 md:px-10 shadow-sm md:flex md:items-center md:justify-between    ${scrollBg}  `}
+        className={`sticky z-50 top-0 p-2 py-3 md:px-10 shadow-sm md:flex md:items-center md:justify-between    ${scrollBg}  `}
       >
         <div className="flex justify-between items-center   ">
           {/* Escudo Logo "inicio" */}
@@ -123,7 +134,10 @@ const MenuPrincipalMarcas = ({ Icono, marcaId, ColorMarca }) => {
             >
               Productos
             </ItemMenu>
-            <IconsMenu />
+            <IconsMenu
+              OpenModalSearch={OpenModalSearch}
+              setOpenModalSearch={setOpenModalSearch}
+            />
           </div>
         </motion.div>
 
