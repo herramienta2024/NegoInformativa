@@ -27,6 +27,8 @@ const MarcaId = async ({ params: { id } }) => {
 
   const marca = doc.data() || null;
 
+  console.log(marca);
+
   if (!marca) return notFound();
 
   return (

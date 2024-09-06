@@ -33,9 +33,7 @@ const img = {
   height: "100%",
 };
 
-const FileUploader = ({ setFiles, files, Modal }) => {
-  console.log(Modal);
-
+const FileUploaderLogoPrincipal = ({ setFiles, files, Modal, Color }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -51,8 +49,14 @@ const FileUploader = ({ setFiles, files, Modal }) => {
     },
   });
 
-  const thumbsEditar = Modal?.InfoEditar?.Imagenes?.map((file, key) => (
-    <div style={thumb} key={key}>
+  const thumbsEditarSubLogo = Modal?.InfoEditar?.Imagenes?.map((file, key) => (
+    <div
+      style={{
+        ...thumb,
+        backgroundColor: Color,
+      }}
+      key={key}
+    >
       <div style={thumbInner}>
         <img
           src={file}
@@ -65,24 +69,15 @@ const FileUploader = ({ setFiles, files, Modal }) => {
       </div>
     </div>
   ));
-  const thumbsEditarCarrousel = Modal?.InfoEditar?.Carrousel?.map(
-    (file, key) => (
-      <div style={thumb} key={key}>
-        <div style={thumbInner}>
-          <img
-            src={file}
-            style={img}
-            // Revoke data uri after image is loaded
-            onLoad={() => {
-              URL.revokeObjectURL(file);
-            }}
-          />
-        </div>
-      </div>
-    )
-  );
+
   const thumbs = files?.map((file, key) => (
-    <div style={thumb} key={key}>
+    <div
+      style={{
+        ...thumb,
+        backgroundColor: Color,
+      }}
+      key={key}
+    >
       <div style={thumbInner}>
         <img
           src={file.preview || file}
@@ -110,20 +105,18 @@ const FileUploader = ({ setFiles, files, Modal }) => {
           archivos
         </p>
       </div>
+      <div></div>
       {files?.length > 0 ? (
         <aside style={thumbsContainer}>{thumbs}</aside>
       ) : (
         <>
-          {(Modal?.InfoEditar?.Imagenes && (
-            <aside style={thumbsContainer}>{thumbsEditar}</aside>
-          )) ||
-            (Modal?.InfoEditar?.Carrousel && (
-              <aside style={thumbsContainer}>{thumbsEditarCarrousel}</aside>
-            ))}
+          {Modal?.InfoEditar?.Imagenes && (
+            <aside style={thumbsContainer}>{thumbsEditarSubLogo}</aside>
+          )}
         </>
       )}
     </section>
   );
 };
 
-export default FileUploader;
+export default FileUploaderLogoPrincipal;
