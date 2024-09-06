@@ -24,7 +24,7 @@ function CarrouselComponent({
           Carrousel?.map((banner, index) => (
             <div key={index} className="relative w-full h-[21rem] sm:h-[95vh]">
               <img
-                src={banner}
+                src={banner?.Imagen || banner}
                 className="h-full w-full object-cover overflow-hidden"
                 alt={`slider ${index}`}
               />
@@ -39,7 +39,7 @@ function CarrouselComponent({
                 <div className="flex justify-start items-center max-w-[883px] h-full pl-2 sm:text-3xl sm:pl-20">
                   <div className="max-w-[40rem] space-y-1 sm:space-y-4">
                     <motion.section
-                      className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 w-[10.5rem] text-black"
+                      className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200  text-black"
                       initial="hidden"
                       animate="visible"
                       variants={fadeInVariants}
@@ -50,7 +50,7 @@ function CarrouselComponent({
                         color: "white",
                       }}
                     >
-                      Slogan
+                      {banner?.Titulo || "Seguridad y confianza"}
                     </motion.section>
                     <motion.p
                       className="text-start text-base sm:text-4xl font-extrabold "
@@ -59,7 +59,7 @@ function CarrouselComponent({
                       variants={fadeInVariants}
                       transition={{ duration: 0.8, delay: 0.4 }}
                     >
-                      {Slogan || "Calidad y confianza"}
+                      {banner?.Description || Slogan}
                     </motion.p>
 
                     <Link
