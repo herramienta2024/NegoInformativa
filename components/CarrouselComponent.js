@@ -22,7 +22,7 @@ function CarrouselComponent({
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {Carrousel?.length ? (
           Carrousel?.map((banner, index) => (
-            <div key={index} className="relative w-full h-[21rem] sm:h-[95vh]">
+            <div key={index} className="relative w-full h-[95vh] sm:h-[95vh]">
               <img
                 src={banner?.Imagen || banner}
                 className="h-full w-full object-cover overflow-hidden"
@@ -41,9 +41,9 @@ function CarrouselComponent({
               >
                 <div className="flex justify-start items-center max-w-[883px] h-full pl-2 sm:text-3xl sm:pl-20">
                   <div className="max-w-[40rem] space-y-1 sm:space-y-4">
-                    <div className="w-full max-w-[20rem]">
+                    <div className="w-full max-w-[20rem]  ">
                       <motion.h1
-                        className="sm:p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 text-black max-w-full text-center text-wrap"
+                        className="p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 text-black max-w-full text-center text-wrap"
                         initial="hidden"
                         animate="visible"
                         variants={fadeInVariants}
@@ -59,7 +59,7 @@ function CarrouselComponent({
                       </motion.h1>
                     </div>
                     <motion.p
-                      className="text-start text-base sm:text-4xl font-extrabold w-auto "
+                      className="text-start text-base sm:text-4xl font-extrabold w-auto line-clamp-4 my-4"
                       initial="hidden"
                       animate="visible"
                       variants={fadeInVariants}
@@ -92,7 +92,7 @@ function CarrouselComponent({
                         }}
                       >
                         <strong className="font-bold uppercase">
-                          Productos
+                          Más información
                         </strong>
                         <span className="absolute bg-white   bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
                       </motion.div>

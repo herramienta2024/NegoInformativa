@@ -156,14 +156,14 @@ const HomePage = () => {
                     {Marca?.Imagenes?.length > 0 && (
                       <section
                         className={
-                          "rounded-lg relative w-full h-[130px] overflow-hidden "
+                          "rounded-lg relative w-full h-[150px] md:h-[130px] overflow-hidden "
                         }
                         style={{
                           backgroundColor: Marca?.ColorMarca || "black",
                         }}
                       >
                         <Image
-                          className="px-2"
+                          className="p-2"
                           fill
                           src={Marca?.Imagenes[0] || ""}
                           alt="imageMarca"
