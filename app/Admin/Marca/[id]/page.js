@@ -299,12 +299,17 @@ const MarcaProductos = ({ params: { id } }) => {
                   }  border-gray-200 rounded-lg`}
                 >
                   <div className="">
-                    {producto?.Variantes?.length > 0 && (
+                    {(producto?.Variantes?.length > 0 ||
+                      producto?.ImagenesGenerales?.length > 0) && (
                       <section className="relative w-full h-[200px]">
                         <Image
                           className="rounded-t-lg "
                           fill
-                          src={producto?.Variantes[0].url || ""}
+                          src={
+                            producto?.ImagenesGenerales[0] ||
+                            producto?.Variantes[0]?.url ||
+                            ""
+                          }
                           alt="imageCategoria"
                           style={{
                             objectFit: "contain",
@@ -390,6 +395,13 @@ const MarcaProductos = ({ params: { id } }) => {
                             await DeleteImagenesVariante(
                               producto?.NombreProducto?.replace(/\s+/g, "_"),
                               "Productos"
+                            );
+
+                            await DeletePdf(
+                              `files/${producto?.NombreProducto?.replace(
+                                /\s+/g,
+                                "_"
+                              )}`
                             );
 
                             await deleteDoc(
