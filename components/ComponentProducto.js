@@ -8,16 +8,18 @@ import {
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 import ShowProducto from "./ShowProducto";
+import { usePathname } from "next/navigation";
 
-const ShowInfoProducto = ({ product, CategoriaName, Empresa }) => {
+const ShowInfoProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   function onDismiss() {
     router.back();
   }
   return (
     <Dialog
-      open
+      open={pathname.includes("show") ? true : false}
       onOpenChange={(isOpen) => {
         if (!isOpen) {
           onDismiss();
@@ -33,6 +35,7 @@ const ShowInfoProducto = ({ product, CategoriaName, Empresa }) => {
           product={product}
           CategoriaName={CategoriaName}
           Empresa={Empresa}
+          idMarca={idMarca}
         />
       </DialogContent>
     </Dialog>

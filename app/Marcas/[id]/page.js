@@ -73,7 +73,10 @@ const MarcaId = async ({ params: { id } }) => {
                 className="mx-auto  w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <CarrouslProductosImagenes
-                  Variantes={producto?.Variantes || []}
+                  Variantes={
+                    producto?.ImagenesGenerales?.concat(producto?.Variantes) ||
+                    []
+                  }
                 />
 
                 <div className="p-4">

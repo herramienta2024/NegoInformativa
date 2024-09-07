@@ -16,12 +16,10 @@ import {
   BreadcrumbSeparator,
 } from "./ui/breadcrumb";
 import Link from "next/link";
+import { Button } from "./ui/button";
+import { FileIcon, FileSearch, FilesIcon } from "lucide-react";
 
-const ShowProducto = ({ product, CategoriaName, Empresa }) => {
-  console.log("produc", product);
-  console.log("CategoriaName", CategoriaName);
-  console.log("Empresa", Empresa);
-
+const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
   return (
     <div className="w-full h-full overflow-auto">
       <Breadcrumb>
@@ -33,13 +31,15 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
           </Link>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link href={`/Marcas/`}>
+            <Link href={`/Marcas/${idMarca}`}>
               <BreadcrumbLink className="uppercase">{Empresa}</BreadcrumbLink>
             </Link>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <Link href={`/Marcas`}>
+            <Link
+              href={`/Marcas/${idMarca}/Productos?Categoriaid=${product?.Categoria}`}
+            >
               <BreadcrumbLink className="uppercase">
                 {CategoriaName}
               </BreadcrumbLink>
@@ -62,25 +62,27 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             className="w-full h-full  "
           >
             <CarouselContent className="  ">
-              {product?.Variantes?.map((image, i) => (
-                <CarouselItem key={i} className="">
-                  <div className="p-1">
-                    <div className="flex aspect-auto lg:aspect-square items-center justify-center p-2 relative">
-                      <Image
-                        key={image?.key}
-                        src={image?.url}
-                        alt={product.title}
-                        width={300}
-                        height={300}
-                        style={{
-                          objectFit: "contain",
-                        }}
-                        className="border rounded-sm"
-                      />
+              {product?.ImagenesGenerales?.concat(product?.Variantes)?.map(
+                (image, i) => (
+                  <CarouselItem key={i} className="">
+                    <div className="p-1">
+                      <div className="flex aspect-auto lg:aspect-square items-center justify-center p-2 relative">
+                        <Image
+                          key={image?.key}
+                          src={image?.url || image}
+                          alt={product.title}
+                          width={300}
+                          height={300}
+                          style={{
+                            objectFit: "contain",
+                          }}
+                          className="border rounded-sm"
+                        />
+                      </div>
                     </div>
-                  </div>
-                </CarouselItem>
-              ))}
+                  </CarouselItem>
+                )
+              )}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
@@ -99,37 +101,56 @@ const ShowProducto = ({ product, CategoriaName, Empresa }) => {
             </Badge>
           </div>
 
-          <div className="space-y-2 overflow-auto w-full h-full ">
-            <h1 className="font-semibold text-xl">Variantes</h1>
-            <div className="grid grid-flow-col auto-cols-max	 gap-4 ">
-              {product?.Variantes?.map((image, i) => (
-                <div
-                  key={i}
-                  className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md "
-                >
-                  <h1 className="capitalize  text-wrap">
-                    {image?.Nombre || ""}
-                  </h1>
-                  <Image
-                    src={image.url}
-                    alt={product.title}
-                    width={100}
-                    height={100}
-                    className="border rounded-sm hover:scale-105"
-                    style={{
-                      objectFit: "contain",
-                    }}
-                  />
-                </div>
-              ))}
+          {product?.Variantes?.length > 0 && (
+            <div className="space-y-2 overflow-auto w-full h-full ">
+              <h1 className="font-semibold text-xl">Variantes</h1>
+              <div className="grid grid-flow-col auto-cols-max	 gap-4 ">
+                {product?.Variantes?.map((image, i) => (
+                  <div
+                    key={i}
+                    className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md "
+                  >
+                    <h1 className="capitalize  text-wrap">
+                      {image?.Nombre || ""}
+                    </h1>
+                    <Image
+                      src={image.url}
+                      alt={product.title}
+                      width={100}
+                      height={100}
+                      className="border rounded-sm hover:scale-105"
+                      style={{
+                        objectFit: "contain",
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+
+          {product?.FichaTecnica?.URLPDf && (
+            <a
+              href={product?.FichaTecnica?.URLPDf}
+              target="_blank"
+              title="Ficha Tecnica"
+              rel="noopener noreferrer"
+              className="w-full"
+            >
+              <Button className="w-full h-full space-x-2 uppercase">
+                <FileSearch className="w-6 h-6" />
+                <span>Ficha Técnica</span>
+              </Button>
+            </a>
+          )}
+
           <div
             dangerouslySetInnerHTML={{
               __html: product.Description || "Description no dispinible",
             }}
             className="py-2 "
           />
+
           {/* 
           <p className="text-yellow-500 text-sm flex space-x-0.5">
             <span>1</span>

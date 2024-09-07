@@ -32,6 +32,7 @@ import ModalProducto from "./ModalProducto";
 import Image from "next/image";
 import DeleteImagenes from "@/lib/DeleteImagenes";
 import DeleteImagenesVariante from "@/lib/DeleteImagenesVariante";
+import DeletePdf from "@/lib/DeletePdf";
 
 const MarcaProductos = ({ params: { id } }) => {
   const [Marca, setMarca] = useState({});
@@ -388,25 +389,29 @@ const MarcaProductos = ({ params: { id } }) => {
                         onClick={async (e) => {
                           e.preventDefault();
 
-                          const Confirm = confirm(
-                            `Esta Seguro de eliminar el producto: ${producto?.NombreProducto}`
-                          );
-                          if (Confirm) {
-                            await DeleteImagenesVariante(
-                              producto?.NombreProducto?.replace(/\s+/g, "_"),
-                              "Productos"
+                          try {
+                            const Confirm = confirm(
+                              `Esta Seguro de eliminar el producto: ${producto?.NombreProducto}`
                             );
+                            if (Confirm) {
+                              await DeleteImagenesVariante(
+                                producto?.NombreProducto?.replace(/\s+/g, "_"),
+                                "Productos"
+                              );
 
-                            await DeletePdf(
-                              `files/${producto?.NombreProducto?.replace(
-                                /\s+/g,
-                                "_"
-                              )}`
-                            );
+                              await DeletePdf(
+                                `files/${producto?.NombreProducto?.replace(
+                                  /\s+/g,
+                                  "_"
+                                )}`
+                              );
 
-                            await deleteDoc(
-                              doc(db, "Productos", `${producto?.id}`)
-                            );
+                              await deleteDoc(
+                                doc(db, "Productos", `${producto?.id}`)
+                              );
+                            }
+                          } catch (error) {
+                            console.error("Error deleting document: ", error);
                           }
                         }}
                         className="bg-red-500 space-x-1.5 rounded-lg  px-4 py-1.5 text-white duration-100 hover:bg-red-600"
