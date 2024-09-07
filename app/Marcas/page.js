@@ -39,16 +39,7 @@ const Marcas = async () => {
   return (
     <nav>
       <MenuPrincipal />
-      <div
-        className="-mt-[84px] md:-mt-[96px]
-
-
-
-
-
- lg:-mt-[91.09px]
- bg-gray-50 w-full h-full"
-      >
+      <div className="-mt-[84px] md:-mt-[96px] lg:-mt-[91.09px] bg-gray-50 w-full h-full">
         <TitleSection
           title={`Marcas Disponbiles`}
           image="/Banners/BannerMarcas.webp"
@@ -57,30 +48,31 @@ const Marcas = async () => {
         <div className="container mx-auto    ">
           <Card className="shadow-xl   ">
             <CardContent className="">
-              <div className=" bg-white p-5  rounded-lg w-full h-full grid grid-cols-1 md:grid-cols-2  gap-5">
+              <div className=" bg-white p-5  rounded-lg w-full h-full grid grid-cols-1 lg:grid-cols-2  gap-5">
                 {marcas?.map((marca) => (
-                  <Link key={marca?.id} href={`/Marcas/${marca?.id}`}>
-                    <div className=" flex w-full max-w-[48rem] flex-row rounded-xl border  text-gray-700 shadow-md hover:-translate-y-2 bg-gray-50">
+                  <Link
+                    key={marca?.id}
+                    href={`/Marcas/${marca?.id}`}
+                    className="rounded-xl border  text-gray-700 shadow-md hover:-translate-y-2 bg-gray-50 overflow-hidden"
+                  >
+                    <div className="md:flex">
                       <div
-                        className="relative m-0 w-[15rem] shrink-0 overflow-hidden rounded-xl rounded-r-none  bg-clip-border text-gray-700 "
                         style={{
                           backgroundColor: marca?.ColorMarca || "black",
                         }}
+                        className="md:flex-shrink-0 p-3  "
                       >
-                        {marca?.Imagenes?.length > 0 && (
-                          <Image
-                            src={marca?.Imagenes[0] || ""}
-                            alt="image"
-                            className="h-full w-full object-contain"
-                            fill
-                          />
-                        )}
+                        <img
+                          className="h-48 w-full object-contain md:w-52"
+                          src={marca?.Imagenes[0] || ""}
+                          alt="Event image"
+                        />
                       </div>
-                      <div className="p-6">
-                        <h4 className="mb-2 block font-sans text-2xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased uppercase ">
+                      <div className="py-8 px-4">
+                        <div className="uppercase tracking-wide text-lg text-black font-semibold">
                           {marca?.NombreMarca}
-                        </h4>
-                        <p className="mb-8 block font-sans text-base font-normal leading-relaxed text-gray-700 antialiased line-clamp-3">
+                        </div>
+                        <p className="block mt-1 text-sm leading-tight font-medium text-gray-800 ">
                           {marca?.Descripcion}
                         </p>
                       </div>

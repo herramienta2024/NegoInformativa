@@ -14,6 +14,22 @@ const Footer = () => {
     <>
       <footer className="border-t   py-6 px-4 lg:px-0 bg-Tertiary text-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 justify-center gap-4 items-center sm:items-start">
+          <div className="flex justify-between items-center   ">
+            {/* Escudo Logo "inicio" */}
+            <Link className=" w-full h-full " href="/" title="Ir a inicio">
+              <Image
+                src="/LogoNego.svg"
+                width={300}
+                height={100}
+                alt="Logotype"
+                style={{
+                  objectFit: "contain",
+                }}
+                className="mx-auto"
+              />
+            </Link>
+          </div>
+
           <div className=" lg:mx-auto  ">
             <h1 className="font-semibold mb-2 text-xl text-Secundario">
               Páginas de interés{" "}
@@ -100,41 +116,6 @@ const Footer = () => {
               </div>
             </div>
           </div> */}
-          <div className=" lg:mx-auto  ">
-            <h1 className="font-semibold mb-2 text-xl uppercase text-Secundario">
-              CONTÁCTANOS
-            </h1>
-            <hr className="mb-2" />
-            <div className="space-y-2">
-              <div className="flex justify-center items-center gap-3">
-                <a
-                  href="https://www.facebook.com/rodenconstructores"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className=""
-                >
-                  <FacebookIcon className="text-white hover:text-Secundario w-8 h-8" />
-                </a>
-
-                <a
-                  href="https://www.instagram.com/rodenconstructores/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <InstagramIcon className="text-white w-8 h-8 hover:text-Secundario" />
-                </a>
-                {/* s */}
-
-                <a
-                  href="https://api.whatsapp.com/send?phone=51956223460&text=Hola%20me%20interesa%20los%20dptos.%20de%20El%20Recreo"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <PhoneCallIcon className="text-white w-8 h-8 hover:text-Secundario" />
-                </a>
-              </div>
-            </div>
-          </div>
 
           <div className="  sm:col-span-2 lg:col-span-4 ">
             <div className="">
