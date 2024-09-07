@@ -31,6 +31,7 @@ const ModalCategorias = ({
 }) => {
   const [InputValues, setInputValues] = useState({});
   const [files, setFiles] = useState([]);
+  const [FielesGerales, setFielesGerales] = useState([]);
 
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -97,30 +98,36 @@ const ModalCategorias = ({
 
         return;
       } else {
-        if (!files?.length > 0) {
+        if (files?.length > 0) {
           toast({
             title: "Alerta",
             description: "Por favor seleccione una imágen para la categoria",
           });
+
+          const NombreCarpeta = InputValues?.NombreCategoria?.replace(
+            /\s+/g,
+            "_"
+          );
+
+          const ImagesUrl = await uploadImages(
+            files,
+            NombreCarpeta,
+            "Categorias"
+          ); // Asegúrate de que la promesa se haya resuelto
+
+          const docRef = await addDoc(collection(db, "Categorias"), {
+            ...InputValues,
+            Imagenes: ImagesUrl,
+            createdAt: serverTimestamp(),
+            marcaId: idMarca,
+          });
+        } else {
+          const docRef = await addDoc(collection(db, "Categorias"), {
+            ...InputValues,
+            createdAt: serverTimestamp(),
+            marcaId: idMarca,
+          });
         }
-
-        const NombreCarpeta = InputValues?.NombreCategoria?.replace(
-          /\s+/g,
-          "_"
-        );
-
-        const ImagesUrl = await uploadImages(
-          files,
-          NombreCarpeta,
-          "Categorias"
-        ); // Asegúrate de que la promesa se haya resuelto
-
-        const docRef = await addDoc(collection(db, "Categorias"), {
-          ...InputValues,
-          Imagenes: ImagesUrl,
-          createdAt: serverTimestamp(),
-          marcaId: idMarca,
-        });
       }
       closeOpenModalCategoria();
     } catch (err) {
@@ -170,9 +177,7 @@ const ModalCategorias = ({
             </div>
 
             <div>
-              <Label htmlFor="Imagenes">
-                Imagen Principal <span className="text-red-600"> (*)</span>
-              </Label>
+              <Label htmlFor="Imagenes">Imagen Principal</Label>
               <FileUploader
                 setFiles={setFiles}
                 files={files}

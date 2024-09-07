@@ -33,7 +33,7 @@ const img = {
   height: "100%",
 };
 
-const FileUploader = ({ setFiles, files, Modal }) => {
+const FileUploaderGeneral = ({ setFiles, files, Modal }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       "image/*": [],
@@ -49,40 +49,23 @@ const FileUploader = ({ setFiles, files, Modal }) => {
     },
   });
 
-  const thumbsEditar = Modal?.InfoEditar?.Imagenes?.map((file, key) => (
-    <div style={thumb} key={key}>
-      <div style={thumbInner}>
-        <img
-          src={file}
-          style={img}
-          // Revoke data uri after image is loaded
-          onLoad={() => {
-            URL.revokeObjectURL(file);
-          }}
-        />
-      </div>
-    </div>
-  ));
-  const thumbsEditarCarrousel = Modal?.InfoEditar?.Carrousel?.map(
-    (file, key) => {
-      console.log("file", file);
-
-      return (
-        <div style={thumb} key={key}>
-          <div style={thumbInner}>
-            <img
-              src={file?.Imagen || file}
-              style={img}
-              // Revoke data uri after image is loaded
-              onLoad={() => {
-                URL.revokeObjectURL(file);
-              }}
-            />
-          </div>
+  const thumbsEditar = Modal?.InfoEditar?.ImagenesGenerales?.map(
+    (file, key) => (
+      <div style={thumb} key={key}>
+        <div style={thumbInner}>
+          <img
+            src={file}
+            style={img}
+            // Revoke data uri after image is loaded
+            onLoad={() => {
+              URL.revokeObjectURL(file);
+            }}
+          />
         </div>
-      );
-    }
+      </div>
+    )
   );
+
   const thumbs = files?.map((file, key) => (
     <div style={thumb} key={key}>
       <div style={thumbInner}>
@@ -116,15 +99,11 @@ const FileUploader = ({ setFiles, files, Modal }) => {
         <aside style={thumbsContainer}>{thumbs}</aside>
       ) : (
         <>
-          {Modal?.InfoEditar?.Carrousel?.length > 0 ? (
-            <aside style={thumbsContainer}>{thumbsEditarCarrousel}</aside>
-          ) : (
-            <aside style={thumbsContainer}>{thumbsEditar}</aside>
-          )}
+          <aside style={thumbsContainer}>{thumbsEditar}</aside>
         </>
       )}
     </section>
   );
 };
 
-export default FileUploader;
+export default FileUploaderGeneral;

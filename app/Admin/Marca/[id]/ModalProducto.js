@@ -11,7 +11,13 @@ import { Label } from "@/components/ui/label";
 
 import { useToast } from "@/components/ui/use-toast";
 import React, { useEffect, useState } from "react";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytes,
+  getStorage,
+  uploadBytesResumable,
+} from "firebase/storage";
 import {
   addDoc,
   collection,
@@ -33,7 +39,11 @@ import { formats, modules } from "@/lib/QuillConfig";
 
 import "react-quill/dist/quill.snow.css";
 import FileUploaderProductos from "./FileUploaderProductos";
-import UploadPDF from "./UploadPDf";
+import FileUploaderGeneral from "./FileUploaderGeneral";
+import DeleteImagenes from "@/lib/DeleteImagenes";
+import UploadPDFFichaTecnica from "./UploadPDFFichaTecnica";
+import DeletePdf from "@/lib/DeletePdf";
+import { FileIcon } from "lucide-react";
 
 const QuillNoSSRWrapper = dynamic(() => import("react-quill"), {
   ssr: false,
@@ -54,6 +64,10 @@ const ModalProducto = ({
   const [Loading, setLoading] = useState(false);
   const { toast } = useToast();
   const [Marcas, setMarcas] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [FilePDF, setFilePDF] = useState([]);
+
+  console.log("OpenModalProducto", OpenModalProducto);
 
   useEffect(() => {
     if (!Object.keys(OpenModalProducto?.InfoEditar).length > 0) {
@@ -86,6 +100,22 @@ const ModalProducto = ({
     });
   };
 
+  const uploadImagesGenerales = async (images, name, collection) => {
+    const urlLinks = await Promise.all(
+      images.map(async (image, index) => {
+        const extension = image.name.split(".").pop(); // Extrae la extensión del archivo
+        const imageRef = ref(
+          storage,
+          `${collection}/${name}/image-${index}.${extension}`
+        );
+        await uploadBytes(imageRef, image);
+        const url = await getDownloadURL(imageRef);
+        return url;
+      })
+    );
+    return urlLinks;
+  };
+
   const uploadImages = async (images, NombreCarpeta, variante) => {
     // Seleccionamos solo la primera imagen de la lista
     const image = images;
@@ -113,6 +143,38 @@ const ModalProducto = ({
     };
   };
 
+  const handleUploadPdf = async (NombreProducto, name, docRefCol) => {
+    const storagePath = `files/${NombreProducto}/${name}`;
+    const storageRef = ref(storage, storagePath);
+    const uploadTask = uploadBytesResumable(storageRef, FilePDF);
+
+    let urlPrd = "";
+    uploadTask.on(
+      "state_changed",
+      (snap) => {
+        // Puedes agregar aquí un rastreador del progreso de la carga si lo deseas
+      },
+      (err) => {
+        console.error(err);
+        setUploading(false);
+      },
+      async () => {
+        const url = await getDownloadURL(storageRef);
+
+        await updateDoc(doc(db, docRefCol), {
+          FichaTecnica:
+            {
+              name: FilePDF.name,
+              URLPDf: url,
+            } || {},
+        });
+        setFilePDF(null);
+      }
+    );
+
+    return urlPrd;
+  };
+
   const HandlerSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -124,16 +186,54 @@ const ModalProducto = ({
           "Productos",
           `${OpenModalProducto?.InfoEditar?.id}`
         );
-        console.log(
-          "OpenModalProducto?.InfoEditar?.id",
-          OpenModalProducto?.InfoEditar?.id
-        );
 
         // Eliminar de inputValues "TextoOpcion" para no enviarlo a la base de datos , input values es un objeto
 
         if (Object.keys(InputValues).length > 2) {
           await updateDoc(UpdateRef, {
             ...InputValues,
+          });
+        }
+
+        if (FilePDF.name) {
+          const NombreAnt =
+            OpenModalProducto?.InfoEditar?.NombreProducto?.replace(/\s+/g, "_");
+          const NombreCarpeta =
+            InputValues?.NombreProducto?.replace(/\s+/g, "_") ||
+            OpenModalProducto?.InfoEditar?.NombreProducto?.replace(/\s+/g, "_");
+
+          await DeletePdf(`files/${NombreAnt}`);
+          await handleUploadPdf(
+            NombreCarpeta,
+            FilePDF.name,
+            `Productos/${OpenModalProducto?.InfoEditar?.id}`
+          );
+        }
+
+        if (files?.length > 0) {
+          const NombreArchivo =
+            OpenModalProducto?.InfoEditar?.NombreProducto?.replace(
+              /\s+/g,
+              "_"
+            ) || "";
+          const NombreNuevo =
+            InputValues?.NombreProducto?.replace(/\s+/g, "_") || NombreArchivo;
+
+          await DeleteImagenes(NombreArchivo, "Productos/ImagenesGenerales");
+
+          const ImagenesGenerales = await uploadImagesGenerales(
+            files,
+            NombreNuevo,
+            "Productos/ImagenesGenerales"
+          );
+
+          const UpdateRef = doc(
+            db,
+            "Productos",
+            `${OpenModalProducto?.InfoEditar?.id}`
+          );
+          await updateDoc(UpdateRef, {
+            ImagenesGenerales: ImagenesGenerales || [],
           });
         }
 
@@ -179,6 +279,7 @@ const ModalProducto = ({
       } else {
         if (Object.keys(InputValues).length > 2) {
           let FilesUpload = [];
+
           if (InputValues?.Variantes?.length > 0) {
             for (const variante of InputValues?.Variantes) {
               if (variante?.Imagenes?.length > 0) {
@@ -200,8 +301,6 @@ const ModalProducto = ({
                     variante
                   );
 
-                  console.log("ImagesUrl", ImagesUrl);
-
                   FilesUpload.push(ImagesUrl);
                 }
               } else {
@@ -219,6 +318,30 @@ const ModalProducto = ({
             Empresa: "Garden",
             marcaId: idMarca,
           });
+          if (FilePDF.name) {
+            await handleUploadPdf(
+              InputValues?.NombreProducto,
+              FilePDF.name,
+
+              `Productos/${docRef?.id}`
+            );
+          }
+
+          if (files?.length > 0) {
+            const NombreCarpeta = InputValues?.NombreProducto?.replace(
+              /\s+/g,
+              "_"
+            );
+            const ImagenesGenerales = await uploadImagesGenerales(
+              files,
+              NombreCarpeta,
+              "Productos/ImagenesGenerales"
+            );
+
+            await updateDoc(doc(db, "Productos", `${docRef?.id}`), {
+              ImagenesGenerales: ImagenesGenerales || [],
+            });
+          }
 
           closeOpenModalProducto();
         }
@@ -360,16 +483,16 @@ const ModalProducto = ({
               </Select>
             </div>
 
-            {/* <div className="lg:col-span-2">
+            <div className="lg:col-span-2">
               <Label htmlFor="Imagenes">
                 Imagen Principal <span className="text-red-600"> (*)</span>
               </Label>
-              <FileUploader
+              <FileUploaderGeneral
                 setFiles={setFiles}
                 files={files}
                 Modal={OpenModalProducto}
               />
-            </div> */}
+            </div>
 
             <div className="w-full mx-auto lg:col-span-2">
               <div className="text-center">
@@ -483,7 +606,26 @@ const ModalProducto = ({
               </div>
             </div>
 
-            <div>{/* <UploadPDF /> */}</div>
+            <div>
+              {OpenModalProducto?.InfoEditar?.FichaTecnica?.name && (
+                <div className="flex flex-col">
+                  <Label htmlFor="FichaTecnica" className="">
+                    Ficha Tecnica
+                  </Label>
+
+                  <a
+                    href={OpenModalProducto?.InfoEditar?.FichaTecnica?.URLPDf}
+                    target="_blank"
+                    className="text-blue-500 flex "
+                  >
+                    <FileIcon className="h-6 w-6 text-blue-500" />
+                    {OpenModalProducto?.InfoEditar?.FichaTecnica?.name}
+                  </a>
+                </div>
+              )}
+            </div>
+
+            <UploadPDFFichaTecnica FilePDF={FilePDF} setFilePDF={setFilePDF} />
 
             <div className="lg:col-span-2">
               <Label htmlFor="ContenidoBLog" className="">
