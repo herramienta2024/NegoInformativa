@@ -1,6 +1,7 @@
 import MenuPrincipalMarcas from "@/app/MenuMarcas";
 import TitleSection from "@/app/TitleSection";
 import CarrouslProductosImagenes from "@/components/CarrouslProductosImagenes";
+import InputBuscarProducto from "@/components/InputBuscarProducto";
 
 import { dbAdmin } from "@/firebase/firebaseAdmin";
 import {
@@ -13,18 +14,33 @@ import { notFound } from "next/navigation";
 
 // export const revalidate = 3600; // revalidate at most every hour
 
-const Producto = async ({ params: { id } }) => {
+const Producto = async ({
+  params: { id },
+  searchParams: { Categoriaid, search },
+}) => {
   if (!id) {
     return notFound();
   }
 
+  let ProductosSee = [];
   const docRef = await dbAdmin?.collection("Marcas").doc(id);
   const doc = await docRef?.get();
   const marca = doc.data() || null;
   const Productos = await ProductosMarca(id);
   const Categorias = await CategoriasMarcas(id);
 
-  console.log(Productos);
+  if (Categoriaid) {
+    ProductosSee = Productos.filter(
+      (producto) => producto?.Categoria === Categoriaid
+    );
+  }
+  if (search) {
+    ProductosSee = Productos?.filter((producto) =>
+      producto?.NombreProducto?.toLowerCase().includes(search.toLowerCase())
+    );
+  } else {
+    ProductosSee = Productos;
+  }
 
   if (!marca) return notFound();
 
@@ -40,7 +56,7 @@ const Producto = async ({ params: { id } }) => {
         ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
       />
 
-      <div className="-mt-[84px] md:-mt-[1000px] bg-gray-50 w-full h-full">
+      <div className="-mt-[84px] md:-mt-[96px] lg:-mt-[91.09px] bg-gray-50 w-full h-full">
         {/* <CarrouselComponent
           NombreMarca={marca?.NombreMarca}
           Carrousel={marca?.Carrousel || []}
@@ -61,55 +77,43 @@ const Producto = async ({ params: { id } }) => {
                         <h1 className="text-black text-lg uppercase">
                           Categorías
                         </h1>
-                        <button className="block font-medium  text-gray-900 hover:underline sm:pl-2">
+                        <Link
+                          href={`/Marcas/${id}/Productos`}
+                          className="block font-medium  text-gray-900 hover:underline sm:pl-2"
+                        >
                           Todos
-                        </button>
+                        </Link>
 
                         {Categorias?.map((categoria) => (
-                          <button
+                          <Link
+                            href={`/Marcas/${id}/Productos?Categoriaid=${categoria.id}`}
                             key={categoria.id}
                             className="block font-medium  text-gray-900 hover:underline sm:pl-2"
                           >
                             {categoria?.NombreCategoria}{" "}
-                          </button>
+                          </Link>
                         ))}
                       </div>
                       <div className="mt-6 lg:mt-0 lg:px-2 lg:w-4/5 ">
-                        <div className="lg:flex items-center justify-around text-sm tracking-widest uppercase ">
+                        <div className="lg:flex items-center justify-around text-sm tracking-widest uppercase -z-10">
                           <p className=" text-gray-900">
-                            {Productos.length} Productos
+                            {ProductosSee.length} Productos
                           </p>
-                          <div className="pt-2 relative mx-auto text-gray-800">
-                            <input
+                          <div className="pt-2 z-50 mx-auto text-gray-800">
+                            {/* <input
                               className="border-2 border-sky-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                               type="search"
                               name="search"
+                              onChange={(e) => {
+                                e.preventDefault();
+                              }}
                               placeholder="Buscar Productos"
-                            />
-                            <div className="absolute right-0 top-0 mt-5 mr-4">
-                              <svg
-                                className="text-gray-600 h-4 w-4 fill-current"
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                version="1.1"
-                                id="Capa_1"
-                                x="0px"
-                                y="0px"
-                                viewBox="0 0 56.966 56.966"
-                                style={{
-                                  enableBackground: "new 0 0 56.966 56.966",
-                                }}
-                                xmlSpace="preserve"
-                                width="512px"
-                                height="512px"
-                              >
-                                <path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
-                              </svg>
-                            </div>
+                            /> */}
+                            <InputBuscarProducto Productos={Productos} />
                           </div>
                         </div>
                         <div className="grid grid-cols-1 gap-8 mt-8 md:grid-cols-2 lg:grid-cols-3 ">
-                          {Productos?.map((producto) => (
+                          {ProductosSee?.map((producto) => (
                             <Link
                               href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
                               key={producto?.id}
@@ -118,7 +122,11 @@ const Producto = async ({ params: { id } }) => {
                               <article className="">
                                 <div className="relative flex items-end overflow-hidden rounded-xl ">
                                   <CarrouslProductosImagenes
-                                    Variantes={producto?.Variantes || []}
+                                    Variantes={
+                                      producto?.ImagenesGenerales.concat(
+                                        producto?.Variantes
+                                      ) || []
+                                    }
                                   />
                                   {/* <img className="h-48 w-full object-cover" /> */}
                                 </div>

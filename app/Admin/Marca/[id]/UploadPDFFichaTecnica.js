@@ -36,7 +36,6 @@ const UploadPDFFichaTecnica = ({ FilePDF, setFilePDF }) => {
           type="file"
           onChange={handleChange}
           accept=".pdf,.doc,.docx,.xls,.xlsx"
-          required
           className="hidden"
         />
       </label>

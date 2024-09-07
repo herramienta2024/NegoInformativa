@@ -29,6 +29,7 @@ const Show = async ({
         product={product}
         CategoriaName={categoria?.NombreCategoria}
         Empresa={Marca?.NombreMarca}
+        idMarca={id}
       />
     </>
   );

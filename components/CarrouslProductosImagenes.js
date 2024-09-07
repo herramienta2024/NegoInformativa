@@ -9,7 +9,7 @@ const CarrouslProductosImagenes = ({ Variantes }) => {
           <div key={i} className="h-48 w-full">
             <img
               className="w-full h-full object-contain object-center"
-              src={image?.url}
+              src={image?.url || image}
               alt={i}
             />
           </div>
