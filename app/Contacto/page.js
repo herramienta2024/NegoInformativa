@@ -28,13 +28,7 @@ const Contacto = () => {
 
   return (
     <div
-      className="-mt-[84px] md:-mt-[96px]
-
-
-
-
-
- lg:-mt-[91.09px]
+      className="-mt-[84px] md:-mt-[96px] g:-mt-[91.09px]
  bg-gray-50 w-full h-full"
     >
       <TitleSection title={`Contacto`} image="/Banners/BannerContacto.webp" />
@@ -46,7 +40,12 @@ const Contacto = () => {
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                alert("Mensaje enviado");
+
+                //Validar si "Celular" existe , sino devolver una alerta
+                if (!InputValues.Celular) {
+                  return alert("Por favor ingrese un número de celular");
+                }
+                alert("Esta en desarrollo");
               }}
               className="w-full p-8 my-4 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mr-auto rounded-2xl shadow-2xl"
             >
@@ -141,6 +140,28 @@ const Contacto = () => {
                 </div>
               </motion.div>
 
+              {/* Check de estoy de acuerdo con las Terminos y condiciones */}
+
+              <div className="flex items-center space-x-1 py-3 ">
+                <input
+                  type="checkbox"
+                  id="TerminosCondiciones"
+                  name="TerminosCondiciones"
+                  required
+                />
+                <Label htmlFor="TerminosCondiciones" className="text-gray-900">
+                  Acepto los{" "}
+                  <a
+                    href="/AvisoLegal"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500"
+                  >
+                    Terminos y condiciones
+                  </a>
+                </Label>
+              </div>
+
               <div className="my-2 w-1/2 lg:w-1/4">
                 <Button> Enviar mensaje</Button>
               </div>
@@ -155,41 +176,33 @@ const Contacto = () => {
             >
               <div className="flex flex-col text-white">
                 <h1 className="font-bold uppercase text-4xl my-4">
-                  Drop in our office
+                  Pasate por nuestra oficina
                 </h1>
                 <p className="text-gray-400">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aliquam tincidunt arcu diam, eu feugiat felis fermentum id.
-                  Curabitur vitae nibh viverra, auctor turpis sed, scelerisque
-                  ex.
+                  Por favor contáctenos a los siguiente medios :
                 </p>
                 <div className="flex my-4 w-2/3 lg:w-1/2">
                   <div className="flex flex-col">
-                    <i className="fas fa-map-marker-alt pt-2 pr-2"></i>
-                  </div>
-                  <i className="fas fa-map-marker-alt pt-2 pr-2">
-                    <div className="flex flex-col">
-                      <h2 className="text-2xl">Main Office</h2>
-                      <p className="text-gray-400">
-                        5555 Tailwind RD, Pleasant Grove, UT 73533
+                    <h2 className="text-2xl">Oficina</h2>
+                    <a
+                      href="https://maps.app.goo.gl/fwx7r3dFVHKkZJ3q8"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-400 hover:text-[#d8a325]"
+                    >
+                      <p className="">
+                        Cra 5 N° 22 - 82 el Carmen, Ibagué Tolima{" "}
                       </p>
-                    </div>
-                  </i>
-                </div>
-                <i className="fas fa-map-marker-alt pt-2 pr-2">
-                  <div className="flex my-4 w-2/3 lg:w-1/2">
-                    <div className="flex flex-col">
-                      <i className="fas fa-phone-alt pt-2 pr-2"></i>
-                    </div>
-                    <i className="fas fa-phone-alt pt-2 pr-2">
-                      <div className="flex flex-col">
-                        <h2 className="text-2xl">Call Us</h2>
-                        <p className="text-gray-400">Tel: xxx-xxx-xxx</p>
-                        <p className="text-gray-400">Fax: xxx-xxx-xxx</p>
-                      </div>
-                    </i>
+                    </a>
                   </div>
-                </i>
+                </div>
+                <div className="flex my-4 w-2/3 lg:w-1/2">
+                  <div className="flex flex-col">
+                    <h2 className="text-2xl">Llamanos</h2>
+                    <p className="text-gray-400">Tel: xxx-xxx-xxx</p>
+                    <p className="text-gray-400">Cel: xxx-xxx-xxx</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

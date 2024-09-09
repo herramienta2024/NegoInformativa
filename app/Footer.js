@@ -1,17 +1,23 @@
-import {
-  Facebook,
-  FacebookIcon,
-  InstagramIcon,
-  Linkedin,
-  PhoneCall,
-  PhoneCallIcon,
-} from "lucide-react";
+"use client";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
+const ModalUbicacion = dynamic(() => import("../components/ModalUbicacion"), {
+  ssr: false,
+});
 const Footer = () => {
+  const [OpenModalSearch, setOpenModalSearch] = useState(false);
+
   return (
     <>
+      {OpenModalSearch && (
+        <ModalUbicacion
+          setOpenModalSearch={setOpenModalSearch}
+          OpenModalSearch={OpenModalSearch}
+        />
+      )}
       <footer className="border-t   py-6 px-4 lg:px-0 bg-Tertiary text-white">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 justify-center gap-4 items-center sm:items-start">
           <div className="flex justify-between items-center   ">
@@ -43,14 +49,16 @@ const Footer = () => {
                       Preguntas frecuentes
                     </Link>
                   </li>
-                  <li className="hover:text-Secundario">
-                    <Link href={"/Nutricion"}>Dónde comprar</Link>
+                  <li
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenModalSearch(true);
+                    }}
+                    className="hover:text-Secundario hover:cursor-pointer"
+                  >
+                    <p>Dónde comprar</p>
                   </li>
-                  <li className="hover:text-Secundario">
-                    <Link href={"/Compromiso"}>
-                      Nuestro compromiso con la sociedad
-                    </Link>
-                  </li>
+
                   <li className="hover:text-Secundario">
                     <Link href={"/Nutricion"}>Garantía de productos</Link>
                   </li>
@@ -68,18 +76,18 @@ const Footer = () => {
               <div className="flex space-x-2 items-center ">
                 <ul>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Delivery"}>Trabaja con nosotros</Link>
+                    <Link href={"/Contacto"}>Trabaja con nosotros</Link>
                   </li>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Reservas"}>Contacto</Link>
+                    <Link href={"/Contacto"}>Contacto</Link>
                   </li>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Reservas"}>
+                    <Link href={"/Contacto"}>
                       ¿Quieres colaborar con nosotros?
                     </Link>
                   </li>
                   <li className="hover:text-Secundario">
-                    <Link href={"/Reservas"}>Aviso Legal</Link>
+                    <Link href={"/AvisoLegal"}>Aviso Legal</Link>
                   </li>
                 </ul>
               </div>
