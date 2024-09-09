@@ -51,6 +51,8 @@ const MarcaProductos = ({ params: { id } }) => {
   const [filteredItems, setFilteredItems] = useState([]);
   const [FilterByCategoria, setFilterByCategoria] = useState("");
 
+  console.log("filteredItems", filteredItems);
+
   useEffect(() => {
     if (!id) return; // Verificar si 'id' está disponible
 
@@ -302,21 +304,24 @@ const MarcaProductos = ({ params: { id } }) => {
                   <div className="">
                     {(producto?.Variantes?.length > 0 ||
                       producto?.ImagenesGenerales?.length > 0) && (
-                      <section className="relative w-full h-[200px]">
-                        <Image
-                          className="rounded-t-lg "
-                          fill
-                          src={
-                            producto?.ImagenesGenerales[0] ||
-                            producto?.Variantes[0]?.url ||
-                            ""
-                          }
-                          alt="imageCategoria"
-                          style={{
-                            objectFit: "contain",
-                          }}
-                        />
-                      </section>
+                      <>
+                        <section className="relative w-full h-[200px]">
+                          <Image
+                            className="rounded-t-lg "
+                            fill
+                            src={
+                              (producto?.ImagenesGenerales?.length > 0 &&
+                                producto?.ImagenesGenerales[0]) ||
+                              producto?.Variantes[0]?.url ||
+                              ""
+                            }
+                            alt="imageCategoria"
+                            style={{
+                              objectFit: "contain",
+                            }}
+                          />
+                        </section>
+                      </>
                     )}
 
                     <div className="py-2  px-5">
