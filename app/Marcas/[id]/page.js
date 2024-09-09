@@ -66,32 +66,36 @@ const MarcaId = async ({ params: { id } }) => {
             </h2>
           </div>
           <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-8 ">
-            {Productos?.map((producto) => (
-              <Link
-                href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
-                key={producto.id}
-                className="mx-auto  w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
-              >
-                <CarrouslProductosImagenes
-                  Variantes={
-                    producto?.ImagenesGenerales?.concat(producto?.Variantes) ||
-                    []
-                  }
-                />
+            {Productos?.map((producto) => {
+              const imagenes =
+                producto?.ImagenesGenerales?.concat(producto?.Variantes) || [];
 
-                <div className="p-4">
-                  <h2 className="mb-2 text-lg font-bold    text-gray-900 uppercase">
-                    {producto?.NombreProducto}
-                  </h2>
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: producto?.Description || "",
-                    }}
-                    className="mb-2 text-base  text-gray-700 line-clamp-3"
-                  ></div>
-                </div>
-              </Link>
-            ))}
+              const ImagenesFormated = imagenes.filter(
+                (imagen) => imagen.url || imagen.length > 0
+              );
+
+              return (
+                <Link
+                  href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
+                  key={producto.id}
+                  className="mx-auto  w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                  <CarrouslProductosImagenes Variantes={ImagenesFormated} />
+
+                  <div className="p-4">
+                    <h2 className="mb-2 text-lg font-bold    text-gray-900 uppercase">
+                      {producto?.NombreProducto}
+                    </h2>
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: producto?.Description || "",
+                      }}
+                      className="mb-2 text-base  text-gray-700 line-clamp-3"
+                    ></div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
 
           <Link href={`/Marcas/${id}/Productos`}>

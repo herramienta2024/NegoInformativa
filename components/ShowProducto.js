@@ -18,6 +18,13 @@ import {
 import Link from "next/link";
 import { Button } from "./ui/button";
 import { FileIcon, FileSearch, FilesIcon } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
   return (
@@ -62,8 +69,9 @@ const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
             className="w-full h-full  "
           >
             <CarouselContent className="  ">
-              {product?.ImagenesGenerales?.concat(product?.Variantes)?.map(
-                (image, i) => (
+              {product?.ImagenesGenerales?.concat(product?.Variantes)
+                ?.filter((item) => item.url || item.length > 0)
+                .map((image, i) => (
                   <CarouselItem key={i} className="">
                     <div className="p-1">
                       <div className="flex aspect-auto lg:aspect-square items-center justify-center p-2 relative">
@@ -81,8 +89,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
                       </div>
                     </div>
                   </CarouselItem>
-                )
-              )}
+                ))}
             </CarouselContent>
             <CarouselPrevious />
             <CarouselNext />
@@ -102,29 +109,52 @@ const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
           </div>
 
           {product?.Variantes?.length > 0 && (
-            <div className="space-y-2 overflow-auto w-full h-full ">
+            <div className="space-y-2  ">
               <h1 className="font-semibold text-xl">Variantes</h1>
               <div className="grid grid-flow-col auto-cols-max	 gap-4 ">
-                {product?.Variantes?.map((image, i) => (
-                  <div
-                    key={i}
-                    className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md "
-                  >
-                    <h1 className="capitalize  text-wrap">
-                      {image?.Nombre || ""}
-                    </h1>
-                    <Image
-                      src={image.url}
-                      alt={product.title}
-                      width={100}
-                      height={100}
-                      className="border rounded-sm hover:scale-105"
-                      style={{
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-                ))}
+                {/* {product?.Variantes?.map((image, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="w-full h-full p-2 cursor-pointer  rounded-md hover:shadow-md "
+                    >
+                      <h1 className="capitalize  text-wrap">
+                        {image?.Nombre || ""}
+                      </h1>
+
+                      {image?.url && (
+                        <Image
+                          src={image.url}
+                          alt={product.title}
+                          width={100}
+                          height={100}
+                          className="border rounded-sm hover:scale-105"
+                          style={{
+                            objectFit: "contain",
+                          }}
+                        />
+                      )}
+                    </div>
+                  );
+                })} */}
+
+                <Select
+                  onValueChange={(e) => {
+                    console.log(e);
+                  }}
+                  className="w-full"
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Lista de variantes" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {product?.Variantes.map((option, key) => (
+                      <SelectItem key={key} value={key}>
+                        {option.Nombre}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           )}
