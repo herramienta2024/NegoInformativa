@@ -27,10 +27,7 @@ const Contacto = () => {
   };
 
   return (
-    <div
-      className="-mt-[84px] md:-mt-[96px] g:-mt-[91.09px]
- bg-gray-50 w-full h-full"
-    >
+    <div className="-mt-[84px] md:-mt-[96px] g:-mt-[91.09px] bg-gray-50 w-full h-full">
       <TitleSection title={`Contacto`} image="/Banners/BannerContacto.webp" />
       <div>
         {/* component */}
