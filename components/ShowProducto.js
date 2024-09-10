@@ -111,7 +111,7 @@ const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
           {product?.Variantes?.length > 0 && (
             <div className="space-y-2  ">
               <h1 className="font-semibold text-xl">Variantes</h1>
-              <div className="grid grid-flow-col auto-cols-max	 gap-4 ">
+              <div className="">
                 {/* {product?.Variantes?.map((image, i) => {
                   return (
                     <div

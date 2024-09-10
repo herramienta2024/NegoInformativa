@@ -60,7 +60,7 @@ const Footer = () => {
                   </li>
 
                   <li className="hover:text-Secundario">
-                    <Link href={"/Nutricion"}>Garantía de productos</Link>
+                    <Link href={"/Garantia"}>Garantía de productos</Link>
                   </li>
                   <li className="hover:text-Secundario"></li>
                 </ul>
