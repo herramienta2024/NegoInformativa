@@ -66,9 +66,9 @@ const Producto = async ({
         <TitleSection title={`Productos`} image="/Banners/BannerMarcas.webp" />
 
         <section className=" bg-gray-50">
-          <div className="container px-6 py-8 mx-auto">
-            <div className="lg:flex lg:-mx-2">
-              <div className="mt-6 lg:mt-0 lg:px-2 lg:w-4/5 ">
+          <div className="container px-6 py-8 mx-auto w-full">
+            <div className="lg:flex lg:-mx-2 w-full">
+              <div className="mt-6 lg:mt-0 lg:px-2 w-full ">
                 <section className=" bg-gray-50">
                   <div className="container px-6 py-8 mx-auto">
                     <div className="lg:flex lg:-mx-2">

@@ -19,7 +19,6 @@ const HomePage = () => {
     },
   ];
 
-  // Variantes de animación para fade-in
   const fadeInVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
