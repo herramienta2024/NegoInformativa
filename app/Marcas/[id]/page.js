@@ -29,6 +29,8 @@ const MarcaId = async ({ params: { id } }) => {
 
   if (!marca) return notFound();
 
+  console.log("marca", marca);
+
   return (
     <main>
       <MenuPrincipalMarcas
@@ -48,6 +50,8 @@ const MarcaId = async ({ params: { id } }) => {
           ColorMarca={marca?.ColorContraste || marca?.ColorMarca}
           Slogan={marca?.Slogan}
           idMarca={id}
+          VideoCarrousel={marca?.VideoCarrousel || []}
+          TiempoVideo={marca?.TiempoVideo || 0}
         />
 
         <div

@@ -149,6 +149,8 @@ const Marcas = () => {
                                 id: Marca.id,
                                 NombreMarca: Marca?.NombreMarca || "",
                                 Carrousel: Marca?.Carrousel || [],
+                                VideoCarrousel: Marca?.VideoCarrousel,
+                                TiempoVideo: Marca?.TiempoVideo || 0,
                               },
                             });
                           }}
