@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import Link from "next/link";
@@ -12,16 +12,56 @@ function CarrouselComponent({
   ColorMarca,
   Slogan,
   idMarca,
+  VideoCarrousel,
+  TiempoVideo,
 }) {
+  const [isVideoPlaying, setIsVideoPlaying] = useState(!!VideoCarrousel);
+
+  useEffect(() => {
+    // Si hay un video y el tiempo del video está definido
+    if (VideoCarrousel && TiempoVideo) {
+      // Pausar el carrusel al inicio
+      setIsVideoPlaying(true);
+
+      // Reanudar el carrusel después del tiempo especificado
+      const timer = setTimeout(() => {
+        setIsVideoPlaying(false);
+      }, TiempoVideo * 1000); // TiempoVideo en segundos
+
+      // Limpiar el temporizador al desmontar el componente
+      return () => clearTimeout(timer);
+    }
+  }, [VideoCarrousel, TiempoVideo]);
+
   const fadeInVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1 },
   };
+
   return (
     <>
-      <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
+      <Carousel
+        infiniteLoop
+        autoPlay={!isVideoPlaying} // Reproducir automáticamente solo si el video no se está reproduciendo
+        showThumbs={false}
+        showStatus={false}
+        selectedItem={isVideoPlaying ? 0 : undefined} // Mostrar el video al inicio si está presente
+      >
+        {VideoCarrousel && (
+          <div className="relative w-full h-[95vh] sm:h-[95vh]">
+            <video
+              src={VideoCarrousel}
+              className="h-full w-full object-cover overflow-hidden"
+              autoPlay
+              muted
+              playsInline
+              loop={false} // No repetir el video
+            />
+          </div>
+        )}
+
         {Carrousel?.length ? (
-          Carrousel?.map((banner, index) => (
+          Carrousel.map((banner, index) => (
             <div key={index} className="relative w-full h-[95vh] sm:h-[95vh]">
               <img
                 src={banner?.Imagen || banner}
@@ -41,7 +81,7 @@ function CarrouselComponent({
               >
                 <div className="flex justify-start items-center max-w-[883px] h-full pl-2 sm:text-3xl sm:pl-20">
                   <div className="max-w-[40rem] space-y-1 sm:space-y-4">
-                    <div className="w-full max-w-[20rem]  ">
+                    <div className="w-full max-w-[20rem]">
                       <motion.h1
                         className="p-2 font-bold bg-Secundario border border-Secundario text-xl uppercase rounded-3xl rounded-br-none rounded-tl-none outline-none shadow-lg hover:shadow-xl hover:opacity-90 duration-200 text-black max-w-full text-center text-wrap"
                         initial="hidden"
@@ -88,13 +128,12 @@ function CarrouselComponent({
                         style={{
                           backgroundColor: ColorMarca,
                           borderColor: ColorMarca,
-                          // hover
                         }}
                       >
                         <strong className="font-bold uppercase">
                           Más información
                         </strong>
-                        <span className="absolute bg-white   bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
+                        <span className="absolute bg-white bottom-0 w-0 left-1/2 h-full -translate-x-1/2 transition-all ease-in-out duration-300 group-hover:w-[105%] -z-[1] group-focus:w-[105%]" />
                       </motion.div>
                     </Link>
                   </div>
