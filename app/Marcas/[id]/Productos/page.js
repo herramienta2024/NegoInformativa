@@ -95,19 +95,13 @@ const Producto = async ({
                       </div>
                       <div className="mt-6 lg:mt-0 lg:px-2 lg:w-4/5 ">
                         <div className="lg:flex items-center justify-around text-sm tracking-widest uppercase -z-10">
-                          <p className=" text-gray-900">
-                            {ProductosSee.length} Productos
-                          </p>
-                          <div className="pt-2 z-50 mx-auto text-gray-800">
-                            {/* <input
-                              className="border-2 border-sky-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-                              type="search"
-                              name="search"
-                              onChange={(e) => {
-                                e.preventDefault();
-                              }}
-                              placeholder="Buscar Productos"
-                            /> */}
+                          <div className="flex gap-2">
+                            <p className=" flex space text-gray-900">
+                              {ProductosSee.length}
+                            </p>
+                            <span>Productos</span>
+                          </div>
+                          <div className="pt-2 w-full h-full mx-auto text-gray-800">
                             <InputBuscarProducto Productos={Productos} />
                           </div>
                         </div>
