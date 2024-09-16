@@ -14,6 +14,8 @@ import { motion } from "framer-motion";
 const Contacto = () => {
   const [InputValues, setInputValues] = useState({});
 
+  console.log(InputValues);
+
   const HandlerChange = (e) => {
     setInputValues({
       ...InputValues,
@@ -42,7 +44,23 @@ const Contacto = () => {
                 if (!InputValues.Celular) {
                   return alert("Por favor ingrese un número de celular");
                 }
-                alert("Esta en desarrollo");
+                // la api es ("api/SendMailContacto") y se envia por post
+                fetch("/api/SendMailContacto", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(InputValues),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                    alert(data.body);
+                  })
+                  .catch((error) => {
+                    console.log(error);
+                    alert("Ocurrio un error");
+                  });
               }}
               className="w-full p-8 my-4 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mr-auto rounded-2xl shadow-2xl"
             >
