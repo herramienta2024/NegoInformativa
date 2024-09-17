@@ -42,10 +42,9 @@ export async function POST(req) {
       `,
     };
 
-    // Envía el correo electrónico
     // const Info = await transporter.sendMail(mensaje);
 
-    console.log("Info", Info);
+    // console.log("Info", Info);
     return NextResponse.json(
       {
         body: "Se envio con éxito",
