@@ -1,5 +1,5 @@
 "use client";
-import { MapPinCheckIcon, PhoneCallIcon } from "lucide-react";
+import { MapPinCheckIcon, PhoneCallIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
 import React, { useState } from "react";
 import InputBuscarProducto from "./InputBuscarProducto";
@@ -11,15 +11,11 @@ const IconsMenu = ({ setOpenModalSearch }) => {
   const [Productos, setProductos] = useState([]);
   const ruta = usePathname();
 
-  const IdMarca = ruta?.split("/")[2];
-  console.log("Ruta: ", ruta);
-  console.log("IdMarca: ", IdMarca);
+  console.log("Pro,Productos", Productos);
 
-  if (ruta?.includes("Marcas")) {
-    console.log("Es una marca");
-  } else {
-    console.log("No es una marca");
-  }
+  const IdMarca = ruta?.split("/")[2];
+
+  const IsMarca = ruta.includes("Marcas");
 
   const GetProductos = async () => {
     try {
@@ -40,13 +36,20 @@ const IconsMenu = ({ setOpenModalSearch }) => {
 
   return (
     <div className="hidden lg:flex justify-center items-center gap-x-4 ">
-      <div
-        className="bg-red-900"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-      >
-        <InputBuscarProducto Productos={Productos} IconoTop={true} />
+      <div>
+        {IsMarca && IdMarca ? (
+          <Link href={`/Marcas/${IdMarca}/Productos`}>
+            <SearchIcon className="h-7 w-7 text-white" />
+          </Link>
+        ) : (
+          <>
+            <InputBuscarProducto
+              Productos={Productos}
+              IconoTop={true}
+              GetProductos={GetProductos}
+            />
+          </>
+        )}
       </div>
       <MapPinCheckIcon
         onClick={(e) => {

@@ -11,12 +11,18 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import { useState } from "react";
 import Link from "next/link";
 
-export default function InputBuscarProducto({ Productos, IconoTop }) {
+export default function InputBuscarProducto({
+  Productos,
+  IconoTop,
+  GetProductos,
+}) {
   const [Visible, setVisible] = useState(false);
   const [ProductosVisible, setProductosVisible] = useState([]);
+
   const closeOpenModalMarcas = () => {
     setVisible(false);
   };
+
   return (
     <div>
       {IconoTop ? (
@@ -25,6 +31,7 @@ export default function InputBuscarProducto({ Productos, IconoTop }) {
             onClick={(e) => {
               e.preventDefault();
               setVisible(true);
+              GetProductos();
             }}
             className="h-7 w-7 text-white"
           />
