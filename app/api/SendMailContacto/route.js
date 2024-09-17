@@ -1,19 +1,18 @@
 import { NextResponse } from "next/server";
-import nodemailer from "nodemailer";
-import mailjetTransport from "nodemailer-mailjet-transport";
+
 export async function POST(req) {
   try {
     const { Celular, Asunto, CorreoElectronico, Descripcion, NombreCompleto } =
       await req?.json();
 
-    const transporter = nodemailer.createTransport(
-      mailjetTransport({
-        auth: {
-          apiKey: "ea8fe41951c8f281f5a68a692a224829",
-          apiSecret: "7f0422136ee5f3fe1642819c49cacf88",
-        },
-      })
-    );
+    // const transporter = nodemailer.createTransport(
+    //  {
+    //     auth: {
+    //       apiKey: "ea8fe41951c8f281f5a68a692a224829",
+    //       apiSecret: "7f0422136ee5f3fe1642819c49cacf88",
+    //     },
+    //   }
+    // );
 
     const mensaje = {
       from: "laherramienta48@gmail.com",
@@ -41,18 +40,11 @@ export async function POST(req) {
           </div>
         </div>
       `,
-      attachments: [
-        {
-          path: "data:text/plain;base64,aGVsbG8gd29ybGQ=",
-          cid: "cid:molo.txt",
-        },
-      ],
     };
 
-    // Envía el correo electrónico
-    const Info = await transporter.sendMail(mensaje);
+    // const Info = await transporter.sendMail(mensaje);
 
-    console.log("Info", Info);
+    // console.log("Info", Info);
     return NextResponse.json(
       {
         body: "Se envio con éxito",
