@@ -48,7 +48,7 @@ const HomePage = () => {
     <div className="-mt-[72px] md:-mt-[90px] lg:-mt-[72px] bg-white">
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {BannerInicio?.map((banner, index) => (
-          <div key={index} className="relative w-full h-[21rem] sm:h-screen">
+          <div key={index} className="relative w-full h-[95vh] sm:h-screen">
             <img
               src={banner.imagen}
               className="h-full w-full object-cover overflow-hidden"
@@ -74,7 +74,7 @@ const HomePage = () => {
                     Soluciones
                   </motion.section>
                   <motion.p
-                    className="text-start text-base sm:text-4xl font-extrabold"
+                    className="text-start text-lg sm:text-4xl font-extrabold"
                     initial="hidden"
                     animate="visible"
                     variants={fadeInVariants}
@@ -86,7 +86,7 @@ const HomePage = () => {
 
                   <Link href={"/QuienesSomos"} className="flex justify-start">
                     <motion.div
-                      className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-0 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent text-white border-Secundario hover:text-black hover:bg-Secundario"
+                      className="group font-medium tracking-wide select-none text-base relative inline-flex items-center justify-start cursor-pointer sm:h-12 border-2 border-solid py-1 px-6 rounded-md overflow-hidden z-10 transition-all duration-300 ease-in-out outline-0 bg-transparent text-white border-Secundario hover:text-black hover:bg-Secundario"
                       initial="hidden"
                       animate="visible"
                       variants={fadeInVariants}

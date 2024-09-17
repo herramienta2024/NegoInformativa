@@ -7,40 +7,57 @@
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { SearchIcon } from "lucide-react";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { Dialog, DialogContent } from "./ui/dialog";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
-export default function Component({ Productos }) {
+export default function InputBuscarProducto({
+  Productos,
+  IconoTop,
+  GetProductos,
+}) {
   const [Visible, setVisible] = useState(false);
-  const router = useRouter;
   const [ProductosVisible, setProductosVisible] = useState([]);
+
   const closeOpenModalMarcas = () => {
     setVisible(false);
   };
+
   return (
-    <div className="w-full max-w-lg mx-auto mt-4  ">
-      <div
-        className="relative"
-        onClick={(e) => {
-          e.preventDefault();
-          setVisible(true);
-        }}
-      >
-        <Input
-          type="text"
-          placeholder="Buscar Productos "
-          className="pl-4 pr-12 py-2 border rounded-full w-full"
-        />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute right-2 top-1/2 transform -translate-y-1/2"
+    <div>
+      {IconoTop ? (
+        <>
+          <SearchIcon
+            onClick={(e) => {
+              e.preventDefault();
+              setVisible(true);
+              GetProductos();
+            }}
+            className="h-7 w-7 text-white"
+          />
+        </>
+      ) : (
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            setVisible(true);
+          }}
+          className="relative w-full max-w-lg mx-auto mt-4 "
         >
-          <SearchIcon className="w-5 h-5 text-muted-foreground" />
-        </Button>
-      </div>
+          <Input
+            type="text"
+            placeholder="Buscar Productos "
+            className="pl-4 pr-12 py-2 border rounded-full w-full"
+          />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2"
+          >
+            <SearchIcon className="w-5 h-5 text-muted-foreground" />
+          </Button>
+        </div>
+      )}
 
       <Dialog open={Visible} onOpenChange={closeOpenModalMarcas}>
         <DialogContent>
@@ -53,8 +70,8 @@ export default function Component({ Productos }) {
                 }
                 const newPru = Productos.filter((producto) => {
                   // Comprar si el nombre del producto incluye el texto de busqueda fomatado a minusculas y sin espacios
-                  return producto?.NombreProducto.toLowerCase()
-                    .replace(/\s/g, "")
+                  return producto?.NombreProducto?.toLowerCase()
+                    ?.replace(/\s/g, "")
                     .includes(e.target.value.toLowerCase().replace(/\s/g, ""));
                 });
                 // limitar los productos a 5
@@ -82,22 +99,11 @@ export default function Component({ Productos }) {
                   key={producto.id}
                   className="flex items-center mt-2"
                 >
-                  <ClockIcon className="w-4 h-4 text-muted-foreground mr-2" />
-                  <span>{producto?.NombreProducto}</span>
+                  <SearchIcon className="w-4 h-4 text-muted-foreground mr-2" />
+                  <span className="uppercase">{producto?.NombreProducto}</span>
                 </Link>
               ))}
             </div>
-            {/* <div>
-              <h3 className="text-sm font-bold">Categorias</h3>
-              <div className="flex flex-wrap mt-2 gap-2">
-                <Badge variant="outline">way to celebrate disfraces</Badge>
-                <Badge variant="outline">parrilla de carbón</Badge>
-                <Badge variant="outline">bocadillos de queso</Badge>
-                <Button variant="ghost" size="icon" className="ml-auto">
-                  <ChevronRightIcon className="w-5 h-5 text-muted-foreground" />
-                </Button>
-              </div>
-            </div> */}
           </div>
         </DialogContent>
       </Dialog>

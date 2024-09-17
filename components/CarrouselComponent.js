@@ -29,11 +29,12 @@ function CarrouselComponent({
     <>
       <Carousel infiniteLoop autoPlay showThumbs={false} showStatus={false}>
         {/* Mapea los elementos combinados */}
-        {combinedItems.length > 0 ? (
-          combinedItems.map((item, index) => (
+        {combinedItems?.length > 0 ? (
+          combinedItems?.map((item, index) => (
             <div key={index} className="relative w-full h-[95vh] sm:h-[95vh]">
               {item.type === "video" ? (
                 // Renderiza el video
+
                 <video
                   className="h-full w-full object-cover"
                   autoPlay
@@ -78,7 +79,7 @@ function CarrouselComponent({
                               wordWrap: "break-word",
                             }}
                           >
-                            {item.src?.Titulo || "Seguridad y confianza"}
+                            {item?.src?.Titulo || "Seguridad y confianza"}
                           </motion.h1>
                         </div>
                         <motion.p

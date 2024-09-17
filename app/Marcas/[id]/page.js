@@ -29,8 +29,6 @@ const MarcaId = async ({ params: { id } }) => {
 
   if (!marca) return notFound();
 
-  console.log("marca", marca);
-
   return (
     <main>
       <MenuPrincipalMarcas
@@ -69,7 +67,7 @@ const MarcaId = async ({ params: { id } }) => {
               le gustan.{" "}
             </h2>
           </div>
-          <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-8 ">
+          <div className=" container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-8  gap-3 ">
             {Productos?.map((producto) => {
               const imagenes =
                 producto?.ImagenesGenerales?.concat(producto?.Variantes) || [];
@@ -82,7 +80,7 @@ const MarcaId = async ({ params: { id } }) => {
                 <Link
                   href={`/Marcas/${producto?.marcaId}/show?idProducto=${producto?.id}&idCategoria=${producto?.Categoria}`}
                   key={producto.id}
-                  className="mx-auto  w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
+                  className="mx-auto w-full  md:max-w-80 transform overflow-hidden rounded-lg bg-white shadow-md duration-300 hover:scale-105 hover:shadow-lg"
                 >
                   <CarrouslProductosImagenes Variantes={ImagenesFormated} />
 
