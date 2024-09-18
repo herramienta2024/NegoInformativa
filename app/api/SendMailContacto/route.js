@@ -44,8 +44,7 @@ export async function POST(req) {
 
     // const Info = await transporter.sendMail(mensaje);
 
-    // console.log("Info", Info);
-    return NextResponse.json(
+     return NextResponse.json(
       {
         body: "Se envio con éxito",
       },
