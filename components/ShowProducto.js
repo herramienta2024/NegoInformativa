@@ -26,7 +26,7 @@ import {
   SelectValue,
 } from "./ui/select";
 
-const ShowProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
+const ShowProducto = ({ product, CategoriaName, Empresa, idMarca, marca }) => {
   return (
     <div className="w-full h-full overflow-auto">
       <Breadcrumb>

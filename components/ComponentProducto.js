@@ -1,29 +1,25 @@
-"use client";
+import React from "react";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
+} from "./ui/dialog";
 import ShowProducto from "./ShowProducto";
-import { usePathname } from "next/navigation";
 
-const ShowInfoProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
-  const router = useRouter();
-  const pathname = usePathname();
+const ComponentProducto = ({
+  ShowModalProductos,
+  setShowModalProductos,
+  marca,
+}) => {
+  console.log("marca", marca);
 
-  function onDismiss() {
-    router.back();
-  }
   return (
     <Dialog
-      open={pathname.includes("show") ? true : false}
-      onOpenChange={(isOpen) => {
-        if (!isOpen) {
-          onDismiss();
-        }
+      open={ShowModalProductos?.Visible}
+      onOpenChange={() => {
+        setShowModalProductos({ Visible: false, Producto: {} });
       }}
     >
       <DialogContent className="max-w-7xl h-full max-h-[90%]">
@@ -32,14 +28,16 @@ const ShowInfoProducto = ({ product, CategoriaName, Empresa, idMarca }) => {
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <ShowProducto
-          product={product}
-          CategoriaName={CategoriaName}
-          Empresa={Empresa}
-          idMarca={idMarca}
+          product={ShowModalProductos?.Producto}
+          CategoriaName={
+            ShowModalProductos?.Producto?.Categoria?.NombreCategoria
+          }
+          Empresa={marca?.NombreMarca}
+          idMarca={ShowModalProductos?.Producto?.marcaId}
         />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default ShowInfoProducto;
+export default ComponentProducto;
