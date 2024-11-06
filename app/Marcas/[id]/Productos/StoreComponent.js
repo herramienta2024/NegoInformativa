@@ -47,12 +47,6 @@ export default function StoreComponent({ products, categories, marca }) {
   return (
     <div className="container mx-auto p-4">
       {ShowModalProductos?.Visible && (
-        // <ModalShowProducto
-        //   product={ShowModalProductos?.Producto}
-        //   ShowModalProductos={ShowModalProductos}
-        //   setShowModalProductos={setShowModalProductos}
-        // />
-
         <ComponentProducto
           ShowModalProductos={ShowModalProductos}
           setShowModalProductos={setShowModalProductos}
