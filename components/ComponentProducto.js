@@ -13,8 +13,6 @@ const ComponentProducto = ({
   setShowModalProductos,
   marca,
 }) => {
-  console.log("marca", marca);
-
   return (
     <Dialog
       open={ShowModalProductos?.Visible}
